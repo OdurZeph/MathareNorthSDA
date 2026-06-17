@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Mathare North SDA Church</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary-gold: #D4AF37;
+      --deep-blue: #0d1b2a;
+      --dark-bg: #0a0a0a;
+    }
+    body {
+      background-color: var(--dark-bg);
+      color: white;
+      font-family: 'Inter', sans-serif;
+    }
+    .sidebar {
+      background-color: var(--deep-blue);
+      min-height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      padding-top: 2rem;
+      transition: all 0.3s;
+    }
+    .sidebar .nav-link {
+      color: #aaa;
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      color: white;
+      background-color: rgba(212, 175, 55, 0.1);
+      border-left: 4px solid var(--primary-gold);
+    }
+    .main-content {
+      margin-left: 250px;
+      padding: 2rem;
+    }
+    .card {
+      background-color: #0d0d0d;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+    }
+    .btn-gold {
+      background-color: var(--primary-gold);
+      color: black;
+      border: none;
+    }
+    .btn-gold:hover {
+      background-color: #b38b2a;
+      color: black;
+    }
+    .btn-outline-gold {
+      border: 1px solid var(--primary-gold);
+      color: var(--primary-gold);
+      background: transparent;
+    }
+    .btn-outline-gold:hover {
+      background-color: var(--primary-gold);
+      color: black;
+    }
+    .table {
+      color: white;
+    }
+    .table thead {
+      color: var(--primary-gold);
+    }
+    .table tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    .badge-pending {
+      background-color: #ffc107;
+      color: black;
+    }
+    .badge-approved {
+      background-color: #28a745;
+      color: white;
+    }
+    .badge-rejected {
+      background-color: #dc3545;
+      color: white;
+    }
+    .top-nav {
+      background-color: var(--deep-blue);
+      padding: 1rem 2rem;
+      margin: -2rem -2rem 2rem -2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .main-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="loginScreen" class="d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card p-5" style="max-width: 400px; width: 100%;">
+      <h2 class="text-center mb-4" style="color: var(--primary-gold);">Admin Login</h2>
+      <form id="loginForm">
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" id="loginEmail" class="form-control bg-transparent text-white" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" id="loginPassword" class="form-control bg-transparent text-white" required>
+        </div>
+        <button type="submit" class="btn btn-gold w-100">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboardScreen" class="d-none">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="text-center mb-5 px-3">
+        <h5 style="color: var(--primary-gold);">Mathare North SDA</h5>
+        <p class="text-muted small">Admin Dashboard</p>
+      </div>
+      <nav class="nav flex-column">
+        <a href="#" class="nav-link active" data-page="dashboard">
+          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37c.21.112.362.242.465.402.27.42.618.734 1.009 1.009.16.103.29.255.402.465A7 7 0 1 0 8 1z"/><path d="M8 3a.5.5 0 0 0-.5.5v4.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1H8.5V3.5A.5.5 0 0 0 8 3z"/></svg>
+          Dashboard
+        </a>
+        <a href="#" class="nav-link" data-page="prayers">
+          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M11 2a3 3 0 0 1 3 3c0 1.987-.738 2.908-2.318 4.182C9.823 10.763 8 12.275 8 14.5c0-.624.098-1.245.278-1.838a2 2 0 0 1 1.665 1.296c.18.42.45.778.79.965.34.187.714.277 1.07.277h.003c.118 0 .236-.014.35-.043.113-.029.22-.074.32-.137.099-.063.19-.14.27-.229a.5.5 0 0 0 .146-.292.5.5 0 0 0-.085-.24c-.046-.056-.1-.11-.158-.164C11.904 13.082 11 12.058 11 10.5a2.5 2.5 0 1 1 5 0c0 1.558-.904 2.582-1.726 3.186-.058.054-.112.108-.158.164a.5.5 0 0 0-.085.24.5.5 0 0 0 .146.292c.08.09.171.166.27.229.1.063.207.108.32.137.114.029.232.043.35.043h.003c.356 0 .73-.09 1.07-.277.34-.187.61-.545.79-.965a2 2 0 0 1 1.665-1.296c.18.593.278 1.214.278 1.838 0-2.225-1.823-3.737-3.682-4.818C11.738 7.908 11 6.987 11 5a3 3 0 0 0-3-3z"/><path d="M7.5 14.5a5 5 0 0 0 5 5h-10a5 5 0 0 0 5-5v-.5a.5.5 0 0 1 1 0v.5z"/></svg>
+          Prayer Requests
+        </a>
+        <a href="#" class="nav-link" data-page="contacts">
+          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm1 1h12a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/></svg>
+          Contact Messages
+        </a>
+        <a href="#" class="nav-link" data-page="transfers">
+          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-3.732 14.883V16h1.536v-1.117A8 8 0 1 0 8 0zM5.5 6.5a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm5.5 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm-7 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
+          Membership Transfers
+        </a>
+        <a href="#" class="nav-link" data-page="dedications">
+          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M4.318 6.318a4.5 4.5 0 0 0 0 6.364L8 14.364l3.682-3.682a4.5 4.5 0 0 0-6.364-6.364L8 7.636l-1.318-1.318a4.5 4.5 0 0 0-2.364 0z"/></svg>
+          Child Dedications
+        </a>
+        <a href="#" class="nav-link" data-page="visits">
+          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+          Pastoral Visits
+        </a>
+        <a href="#" class="nav-link" data-page="donations">
+          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M0 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5zm1.5 0a.5.5 0 0 0 .5.5h12a.5.5 0 0 0 .5-.5v-.085a1 1 0 0 0-.553-.894l-5-2.5a1 1 0 0 0-.894 0l-5 2.5A1 1 0 0 0 1.5 4.915V5z"/></svg>
+          Donations
+        </a>
+        <a href="/admin/newsletter.html" class="nav-link">
+          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm5.684 2.388L16 11.8V4.697l-5.803 3.558z"/></svg>
+          Newsletter
+        </a>
+        <a href="#" class="nav-link text-danger" id="logoutBtn">
+          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M10 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M8 1a7 7 0 1 0 0 14h1a1 1 0 0 0 0-2H8a5 5 0 1 1 0-10h4a1 1 0 1 0 0-2H8z"/></svg>
+          Logout
+        </a>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="top-nav">
+        <h4 id="pageTitle">Dashboard</h4>
+        <div class="d-flex align-items-center gap-3">
+          <div id="adminName" class="text-muted"></div>
+        </div>
+      </div>
+
+      <!-- Dashboard Page -->
+      <div id="dashboardPage" class="page-content">
+        <div class="row mb-4">
+          <div class="col-md-4 mb-3">
+            <div class="card p-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <p class="text-muted mb-1">Prayer Requests</p>
+                  <h3 id="statPrayers">0</h3>
+                </div>
+                <div class="text-gold" style="font-size: 2rem; color: var(--primary-gold);">🙏</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="card p-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <p class="text-muted mb-1">Contact Messages</p>
+                  <h3 id="statContacts">0</h3>
+                </div>
+                <div class="text-gold" style="font-size: 2rem; color: var(--primary-gold);">✉️</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="card p-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <p class="text-muted mb-1">Total Donations</p>
+                  <h3 id="statDonations">KSh 0</h3>
+                </div>
+                <div class="text-gold" style="font-size: 2rem; color: var(--primary-gold);">💰</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card p-4">
+              <h5 class="mb-3">Requests per Month</h5>
+              <canvas id="requestsChart"></canvas>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card p-4">
+              <h5 class="mb-3">Donations per Month</h5>
+              <canvas id="donationsChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prayers Page -->
+      <div id="prayersPage" class="page-content d-none">
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5>Prayer Requests</h5>
+            <input type="text" id="searchPrayers" class="form-control w-25" placeholder="Search...">
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Message</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="prayersTable"></tbody>
+            </table>
+          </div>
+          <nav>
+            <ul class="pagination" id="prayersPagination"></ul>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Contacts Page -->
+      <div id="contactsPage" class="page-content d-none">
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5>Contact Messages</h5>
+            <input type="text" id="searchContacts" class="form-control w-25" placeholder="Search...">
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Message</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="contactsTable"></tbody>
+            </table>
+          </div>
+          <nav>
+            <ul class="pagination" id="contactsPagination"></ul>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Transfers Page -->
+      <div id="transfersPage" class="page-content d-none">
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5>Membership Transfers</h5>
+            <input type="text" id="searchTransfers" class="form-control w-25" placeholder="Search...">
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="transfersTable"></tbody>
+            </table>
+          </div>
+          <nav>
+            <ul class="pagination" id="transfersPagination"></ul>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Dedications Page -->
+      <div id="dedicationsPage" class="page-content d-none">
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5>Child Dedications</h5>
+            <input type="text" id="searchDedications" class="form-control w-25" placeholder="Search...">
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Parent Name</th>
+                  <th>Child Name</th>
+                  <th>Phone</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="dedicationsTable"></tbody>
+            </table>
+          </div>
+          <nav>
+            <ul class="pagination" id="dedicationsPagination"></ul>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Visits Page -->
+      <div id="visitsPage" class="page-content d-none">
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5>Pastoral Visits</h5>
+            <input type="text" id="searchVisits" class="form-control w-25" placeholder="Search...">
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Full Name</th>
+                  <th>Phone</th>
+                  <th>Assigned To</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="visitsTable"></tbody>
+            </table>
+          </div>
+          <nav>
+            <ul class="pagination" id="visitsPagination"></ul>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Donations Page -->
+      <div id="donationsPage" class="page-content d-none">
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5>Donations</h5>
+            <div class="d-flex gap-2">
+              <input type="text" id="searchDonations" class="form-control" placeholder="Search...">
+              <button id="addDonationBtn" class="btn btn-gold">Add Donation</button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Donor Name</th>
+                  <th>Amount</th>
+                  <th>Type</th>
+                  <th>Payment Method</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="donationsTable"></tbody>
+            </table>
+          </div>
+          <nav>
+            <ul class="pagination" id="donationsPagination"></ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = '/api';
+    let authToken = localStorage.getItem('authToken');
+    let currentAdmin = JSON.parse(localStorage.getItem('currentAdmin') || 'null');
+    let requestsChart, donationsChart;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      if (authToken && currentAdmin) {
+        showDashboard();
+      } else {
+        showLogin();
+      }
+
+      // Login form
+      document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+      // Navigation
+      document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const page = e.target.closest('.nav-link').dataset.page;
+          navigateTo(page);
+        });
+      });
+
+      // Logout
+      document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+
+      // Add Donation
+      document.getElementById('addDonationBtn')?.addEventListener('click', showAddDonationModal);
+    });
+
+    function showLogin() {
+      document.getElementById('loginScreen').classList.remove('d-none');
+      document.getElementById('dashboardScreen').classList.add('d-none');
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          authToken = data.token;
+          currentAdmin = data.admin;
+          localStorage.setItem('authToken', authToken);
+          localStorage.setItem('currentAdmin', JSON.stringify(currentAdmin));
+          showDashboard();
+        } else {
+          alert('Login failed: ' + data.message);
+        }
+      } catch (error) {
+        alert('Login failed: ' + error.message);
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('currentAdmin');
+      authToken = null;
+      currentAdmin = null;
+      showLogin();
+    }
+
+    function showDashboard() {
+      document.getElementById('loginScreen').classList.add('d-none');
+      document.getElementById('dashboardScreen').classList.remove('d-none');
+      document.getElementById('adminName').textContent = currentAdmin.username;
+      navigateTo('dashboard');
+    }
+
+    async function navigateTo(page) {
+      // Update nav
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.dataset.page === page) link.classList.add('active');
+      });
+
+      // Update page title
+      const titles = {
+        dashboard: 'Dashboard',
+        prayers: 'Prayer Requests',
+        contacts: 'Contact Messages',
+        transfers: 'Membership Transfers',
+        dedications: 'Child Dedications',
+        visits: 'Pastoral Visits',
+        donations: 'Donations'
+      };
+      document.getElementById('pageTitle').textContent = titles[page];
+
+      // Show page
+      document.querySelectorAll('.page-content').forEach(el => el.classList.add('d-none'));
+      document.getElementById(`${page}Page`).classList.remove('d-none');
+
+      // Load data
+      if (page === 'dashboard') await loadDashboard();
+      if (page === 'prayers') await loadPrayers();
+      if (page === 'contacts') await loadContacts();
+      if (page === 'transfers') await loadTransfers();
+      if (page === 'dedications') await loadDedications();
+      if (page === 'visits') await loadVisits();
+      if (page === 'donations') await loadDonations();
+    }
+
+    async function apiRequest(endpoint, options = {}) {
+      const headers = {
+        'Content-Type': 'application/json',
+        ...(authToken && { Authorization: `Bearer ${authToken}` }),
+        ...options.headers
+      };
+
+      const response = await fetch(`${API_BASE}${endpoint}`, {
+        ...options,
+        headers
+      });
+
+      return await response.json();
+    }
+
+    async function loadDashboard() {
+      const data = await apiRequest('/admin/dashboard');
+      if (data.success) {
+        document.getElementById('statPrayers').textContent = data.data.prayerRequests;
+        document.getElementById('statContacts').textContent = data.data.contactMessages;
+        document.getElementById('statDonations').textContent = `KSh ${data.data.totalDonations.toLocaleString()}`;
+
+        // Charts
+        const reqCtx = document.getElementById('requestsChart').getContext('2d');
+        if (requestsChart) requestsChart.destroy();
+        requestsChart = new Chart(reqCtx, {
+          type: 'line',
+          data: {
+            labels: data.data.requestsPerMonth.map(m => m.month),
+            datasets: [{
+              label: 'Requests',
+              data: data.data.requestsPerMonth.map(m => m.count),
+              borderColor: '#D4AF37',
+              backgroundColor: 'rgba(212,175,55,0.1)',
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { labels: { color: 'white' } } },
+            scales: {
+              x: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+              y: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+            }
+          }
+        });
+
+        const donCtx = document.getElementById('donationsChart').getContext('2d');
+        if (donationsChart) donationsChart.destroy();
+        donationsChart = new Chart(donCtx, {
+          type: 'bar',
+          data: {
+            labels: data.data.donationsPerMonth.map(m => m.month),
+            datasets: [{
+              label: 'Donations',
+              data: data.data.donationsPerMonth.map(m => m.total),
+              backgroundColor: '#D4AF37'
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { labels: { color: 'white' } } },
+            scales: {
+              x: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+              y: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+            }
+          }
+        });
+      }
+    }
+
+    async function loadPrayers(page = 1, search = '') {
+      const data = await apiRequest(`/admin/prayers?page=${page}&search=${search}`);
+      if (data.success) {
+        const tbody = document.getElementById('prayersTable');
+        tbody.innerHTML = data.data.requests.map(req => `
+          <tr>
+            <td>${req.name}</td>
+            <td>${req.email}</td>
+            <td>${req.message.substring(0, 100)}...</td>
+            <td>
+              <span class="badge ${req.is_prayed_for ? 'badge-approved' : 'badge-pending'}">
+                ${req.is_prayed_for ? 'Prayed' : 'Pending'}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline-gold" onclick="markPrayed(${req.id})">Mark Prayed</button>
+              <button class="btn btn-sm btn-danger" onclick="deletePrayer(${req.id})">Delete</button>
+            </td>
+          </tr>
+        `).join('');
+        renderPagination('prayers', data.data.totalPages, data.data.currentPage);
+      }
+    }
+
+    async function markPrayed(id) {
+      await apiRequest(`/admin/prayers/${id}/pray`, { method: 'PUT' });
+      loadPrayers();
+    }
+
+    async function deletePrayer(id) {
+      if (confirm('Delete this prayer request?')) {
+        await apiRequest(`/admin/prayers/${id}`, { method: 'DELETE' });
+        loadPrayers();
+      }
+    }
+
+    async function loadContacts(page = 1, search = '') {
+      const data = await apiRequest(`/admin/contacts?page=${page}&search=${search}`);
+      if (data.success) {
+        const tbody = document.getElementById('contactsTable');
+        tbody.innerHTML = data.data.messages.map(msg => `
+          <tr>
+            <td>${msg.name}</td>
+            <td>${msg.email}</td>
+            <td>${msg.message.substring(0, 100)}...</td>
+            <td>
+              <button class="btn btn-sm btn-danger" onclick="deleteContact(${msg.id})">Delete</button>
+            </td>
+          </tr>
+        `).join('');
+        renderPagination('contacts', data.data.totalPages, data.data.currentPage);
+      }
+    }
+
+    async function deleteContact(id) {
+      if (confirm('Delete this contact message?')) {
+        await apiRequest(`/admin/contacts/${id}`, { method: 'DELETE' });
+        loadContacts();
+      }
+    }
+
+    async function loadTransfers(page = 1, search = '') {
+      const data = await apiRequest(`/admin/transfers?page=${page}&search=${search}`);
+      if (data.success) {
+        const tbody = document.getElementById('transfersTable');
+        tbody.innerHTML = data.data.transfers.map(req => `
+          <tr>
+            <td>${req.full_name}</td>
+            <td>${req.email}</td>
+            <td>${req.phone}</td>
+            <td>
+              <span class="badge badge-${req.status}">${req.status}</span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline-gold" onclick="updateTransferStatus(${req.id}, 'Approved')">Approve</button>
+              <button class="btn btn-sm btn-danger" onclick="updateTransferStatus(${req.id}, 'Rejected')">Reject</button>
+            </td>
+          </tr>
+        `).join('');
+        renderPagination('transfers', data.data.totalPages, data.data.currentPage);
+      }
+    }
+
+    async function updateTransferStatus(id, status) {
+      if (confirm(`Mark as ${status}?`)) {
+        await apiRequest(`/admin/transfers/${id}/status`, {
+          method: 'PUT',
+          body: JSON.stringify({ status })
+        });
+        loadTransfers();
+      }
+    }
+
+    async function loadDedications(page = 1, search = '') {
+      const data = await apiRequest(`/admin/dedications?page=${page}&search=${search}`);
+      if (data.success) {
+        const tbody = document.getElementById('dedicationsTable');
+        tbody.innerHTML = data.data.dedications.map(req => `
+          <tr>
+            <td>${req.parent_guardian_name}</td>
+            <td>${req.child_full_name}</td>
+            <td>${req.phone}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-gold">View Details</button>
+            </td>
+          </tr>
+        `).join('');
+        renderPagination('dedications', data.data.totalPages, data.data.currentPage);
+      }
+    }
+
+    async function loadVisits(page = 1, search = '') {
+      const data = await apiRequest(`/admin/visits?page=${page}&search=${search}`);
+      if (data.success) {
+        const tbody = document.getElementById('visitsTable');
+        tbody.innerHTML = data.data.visits.map(req => `
+          <tr>
+            <td>${req.full_name}</td>
+            <td>${req.phone}</td>
+            <td>${req.assigned_to || '-'}</td>
+            <td>
+              <span class="badge ${req.is_completed ? 'badge-approved' : 'badge-pending'}">
+                ${req.is_completed ? 'Completed' : 'Pending'}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline-gold" onclick="assignVisit(${req.id})">Assign</button>
+              <button class="btn btn-sm btn-outline-gold" onclick="completeVisit(${req.id})">Complete</button>
+            </td>
+          </tr>
+        `).join('');
+        renderPagination('visits', data.data.totalPages, data.data.currentPage);
+      }
+    }
+
+    async function assignVisit(id) {
+      const person = prompt('Assign to:');
+      if (person) {
+        await apiRequest(`/admin/visits/${id}/assign`, {
+          method: 'PUT',
+          body: JSON.stringify({ assignedTo: person })
+        });
+        loadVisits();
+      }
+    }
+
+    async function completeVisit(id) {
+      if (confirm('Mark as completed?')) {
+        await apiRequest(`/admin/visits/${id}/complete`, { method: 'PUT' });
+        loadVisits();
+      }
+    }
+
+    async function loadDonations(page = 1, search = '') {
+      const data = await apiRequest(`/admin/donations?page=${page}&search=${search}`);
+      if (data.success) {
+        const tbody = document.getElementById('donationsTable');
+        tbody.innerHTML = data.data.donations.map(d => `
+          <tr>
+            <td>${d.donor_name}</td>
+            <td>KSh ${d.amount.toLocaleString()}</td>
+            <td>${d.donation_type}</td>
+            <td>${d.payment_method}</td>
+            <td>
+              <span class="badge badge-pending">${d.status}</span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline-gold" onclick="editDonation(${d.id})">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteDonation(${d.id})">Delete</button>
+            </td>
+          </tr>
+        `).join('');
+        renderPagination('donations', data.data.totalPages, data.data.currentPage);
+      }
+    }
+
+    async function showAddDonationModal() {
+      const name = prompt('Donor Name:');
+      const phone = prompt('Phone:');
+      const email = prompt('Email:');
+      const amount = parseFloat(prompt('Amount:'));
+      const types = ['Tithe', 'Offering', 'Thanksgiving', 'Building Fund', 'Welfare Fund', 'Camp Meeting', 'Special Projects', 'Other'];
+      const typeSelect = prompt(`Type (${types.join(', ')}):`);
+      const methods = ['M-Pesa', 'Cash', 'Bank Transfer'];
+      const methodSelect = prompt(`Payment Method (${methods.join(', ')}):`);
+      const transactionCode = prompt('Transaction Code (optional):');
+      const status = prompt('Status (Completed, Pending, etc.):');
+
+      if (name && phone && amount && typeSelect) {
+        await apiRequest('/admin/donations', {
+          method: 'POST',
+          body: JSON.stringify({
+            donorName: name,
+            phone,
+            email,
+            amount,
+            donationType: typeSelect,
+            paymentMethod: methodSelect,
+            transactionCode,
+            status
+          })
+        });
+        loadDonations();
+      }
+    }
+
+    async function deleteDonation(id) {
+      if (confirm('Delete this donation?')) {
+        await apiRequest(`/admin/donations/${id}`, { method: 'DELETE' });
+        loadDonations();
+      }
+    }
+
+    function renderPagination(type, totalPages, currentPage) {
+      const container = document.getElementById(`${type}Pagination`);
+      container.innerHTML = '';
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement('li');
+        li.className = 'page-item';
+        li.innerHTML = `<a class="page-link bg-transparent text-gold border-secondary" href="#">${i}</a>`;
+        container.appendChild(li);
+      }
+    }
+
+    // Search events
+    ['prayers', 'contacts', 'transfers', 'dedications', 'visits', 'donations'].forEach(type => {
+      const input = document.getElementById(`search${type.charAt(0).toUpperCase() + type.slice(1)}`);
+      if (input) {
+        input.addEventListener('input', () => {
+          window[`load${type.charAt(0).toUpperCase() + type.slice(1)}`](1, input.value);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

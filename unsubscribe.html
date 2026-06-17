@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsubscribe - Mathare North SDA Church</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#0a0a0a] text-white min-h-screen flex items-center justify-center px-4">
+    <div class="max-w-md w-full bg-[#0f0f0f] rounded-2xl p-8 shadow-2xl border border-gray-800">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-white mb-2">Unsubscribe from Newsletter</h1>
+            <p class="text-gray-400 text-base">We're sorry to see you go! Confirm your unsubscribe request.</p>
+        </div>
+
+        <div id="confirm-unsubscribe">
+            <p class="text-center text-gray-300 mb-8">Are you sure you want to unsubscribe from our newsletters? You won't receive updates anymore.</p>
+            <div class="flex flex-col gap-3">
+                <button id="confirm-btn" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition">
+                    Yes, Unsubscribe
+                </button>
+                <a href="index.html" class="w-full text-center bg-transparent border border-gray-600 hover:bg-white hover:text-black text-white font-semibold py-3 px-6 rounded-lg transition">
+                    No, Keep Me Subscribed
+                </a>
+            </div>
+        </div>
+
+        <div id="processing" class="hidden text-center py-12">
+            <div class="loader mx-auto mb-4 border-4 border-gray-700 border-t-[#D4AF37] rounded-full w-12 h-12 animate-spin"></div>
+            <p class="text-gray-400">Processing...</p>
+        </div>
+
+        <div id="success-unsubscribe" class="hidden text-center py-12">
+            <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-2">Unsubscribed Successfully!</h2>
+            <p class="text-gray-400 mb-8">You've been removed from our mailing list. We're sorry to see you go, but wish you all the best!</p>
+            <a href="index.html" class="inline-block bg-[#D4AF37] text-black px-8 py-3 rounded-lg font-semibold hover:bg-yellow-500 transition">
+                Back to Home Page
+            </a>
+        </div>
+
+        <div id="error-unsubscribe" class="hidden text-center py-12">
+            <div class="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-2">Something Went Wrong</h2>
+            <p class="text-gray-400 mb-8">We couldn't process your unsubscribe request. Please try again later.</p>
+            <a href="mailto:office@mnchurch.org" class="inline-block text-blue-400 hover:underline text-sm">
+                Contact Us
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const token = params.get('token');
+
+            if (!token) {
+                document.getElementById('confirm-unsubscribe').classList.add('hidden');
+                document.getElementById('error-unsubscribe').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('confirm-btn').addEventListener('click', async function() {
+                document.getElementById('confirm-unsubscribe').classList.add('hidden');
+                document.getElementById('processing').classList.remove('hidden');
+
+                try {
+                    const response = await fetch('/api/unsubscribe', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token })
+                    });
+
+                    const result = await response.json();
+
+                    document.getElementById('processing').classList.add('hidden');
+                    
+                    if (result.success) {
+                        document.getElementById('success-unsubscribe').classList.remove('hidden');
+                    } else {
+                        document.getElementById('error-unsubscribe').classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Unsubscribe error:', error);
+                    document.getElementById('processing').classList.add('hidden');
+                    document.getElementById('error-unsubscribe').classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

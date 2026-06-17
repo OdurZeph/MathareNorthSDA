@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>M-Pesa STK Push — Test</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 420px; margin: 2rem auto; padding: 0 1rem; }
+    label { display: block; margin-top: 1rem; font-weight: 600; }
+    input, select, button { width: 100%; padding: 0.6rem; margin-top: 0.35rem; box-sizing: border-box; }
+    button { margin-top: 1.25rem; background: #0a6b3a; color: #fff; border: none; cursor: pointer; }
+    pre { background: #f4f4f4; padding: 1rem; overflow: auto; font-size: 0.85rem; }
+    .hint { color: #555; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>Church giving — STK test</h1>
+  <p class="hint">Run the API with <code>npm run dev</code>, then submit. Use sandbox credentials and your phone.</p>
+
+  <label>Phone (2547XXXXXXXX)</label>
+  <input id="phone" type="tel" value="254712345678" />
+
+  <label>Amount (KES)</label>
+  <input id="amount" type="number" min="1" value="1" />
+
+  <label>Payment type</label>
+  <select id="paymentType">
+    <option value="tithe">Tithe</option>
+    <option value="offering">Offering</option>
+    <option value="donation">Donation</option>
+    <option value="test">Test</option>
+  </select>
+
+  <label>Mode</label>
+  <select id="mode">
+    <option value="development">Development (Till)</option>
+    <option value="production">Production (Paybill)</option>
+  </select>
+
+  <button type="button" id="payBtn">Send STK Push</button>
+
+  <h2>Response</h2>
+  <pre id="output">—</pre>
+
+  <script>
+    document.getElementById('payBtn').addEventListener('click', async () => {
+      const output = document.getElementById('output');
+      output.textContent = 'Sending…';
+
+      const body = {
+        phone: document.getElementById('phone').value.trim(),
+        amount: Number(document.getElementById('amount').value),
+        paymentType: document.getElementById('paymentType').value,
+        mode: document.getElementById('mode').value,
+      };
+
+      try {
+        const res = await fetch('/api/mpesa/stkpush', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        output.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        output.textContent = String(err);
+      }
+    });
+
+    // Example from requirements (console):
+    // fetch("/api/mpesa/stkpush", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     phone: "254712345678",
+    //     amount: 100,
+    //     paymentType: "tithe",
+    //     mode: "production"
+    //   })
+    // });
+  </script>
+</body>
+</html>

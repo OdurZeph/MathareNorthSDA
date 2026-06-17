@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Church Ministries in Nairobi | Join a Ministry | Mathare North SDA Church</title>
+    <meta name="description" content="Explore our church ministries in Nairobi, Kenya. From youth ministry to outreach and worship, discover where you belong and serve.">
+    <meta name="keywords" content="church ministries Nairobi, youth ministry Kenya, worship team Nairobi, outreach ministry Kenya, church involvement">
+    
+    <!-- Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Religious Ministries",
+      "provider": {
+        "@type": "Church",
+        "name": "Mathare North SDA Church"
+      },
+      "areaServed": "Nairobi, Kenya"
+    }
+    </script>
+    <!-- Resource Preconnects -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://unpkg.com">
+
+    <!-- Critical Asset Preloading -->
+    <link rel="preload" as="image" href="/images/WEB LOGO-01_result.webp">
+    <link rel="preload" as="image" href="/images/_MG_2003_result.webp">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/images/WEB LOGO-01_result.webp" type="image/webp" sizes="16x16 32x32 48x48 64x64 128x128 256x256">
+    <link rel="shortcut icon" href="/images/WEB LOGO-01_result.webp" type="image/webp">
+    <link rel="apple-touch-icon" href="/images/WEB LOGO-01_result.webp">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lenis Smooth Scroll (Deferred) -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <!-- GSAP for Cinematic Animations (Deferred) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        .reveal { opacity: 0; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .gold-text { color: #D4AF37; }
+        .gold-bg { background-color: #D4AF37; }
+        .rounded-2xl-custom { border-radius: 1.5rem; }
+    </style>
+</head>
+<body class="bg-[#0a0a0a] text-white antialiased">
+    <!-- New Capsule Navbar -->
+    <div class="nav-container">
+        <div class="nav-capsule">
+            <a href="index.html#home" class="nav-link-capsule">Home</a>
+            <a href="about.html" class="nav-link-capsule">About</a>
+            <a href="ministries.html" class="nav-link-capsule active">Ministries</a>
+            
+            <!-- Logo -->
+            <a href="index.html#home" class="shrink-0">
+                <img src="/images/WEB LOGO-01_result.webp" alt="Mathare North SDA Church Logo" class="nav-logo-capsule" id="nav-logo">
+            </a>
+
+            <a href="resources.html" class="nav-link-capsule">Resources</a>
+            
+            <div class="dropdown relative">
+                <button id="membership-dropdown-btn" class="nav-link-capsule flex items-center gap-1 focus:outline-none">
+                    Membership
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform" id="dropdown-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div id="membership-dropdown-content" class="dropdown-content">
+                    <a href="membership.html#transfer">Transfer Request</a>
+                    <a href="membership.html#requests">Child Dedication</a>
+                    <a href="membership.html#visitation">Pastoral Visitation</a>
+                </div>
+            </div>
+
+            <a href="contact.html" class="nav-link-capsule">Contact</a>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none p-2 ml-2">
+                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+                <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="mobile-menu-overlay">
+        <a href="index.html#home" class="mobile-link hover:text-amber-400 transition">Home</a>
+        <a href="about.html" class="mobile-link hover:text-amber-400 transition">About</a>
+        <a href="ministries.html" class="mobile-link text-amber-400 transition">Ministries</a>
+        <a href="resources.html" class="mobile-link hover:text-amber-400 transition">Resources</a>
+        
+        <div class="flex flex-col items-center gap-4 py-4 border-y border-white/10 w-full">
+            <a href="membership.html" class="mobile-link hover:text-amber-400 uppercase tracking-widest text-sm font-bold">Membership</a>
+            <a href="membership.html#transfer" class="mobile-link text-gray-400 text-xs uppercase tracking-widest hover:text-white transition">Transfer Request</a>
+            <a href="membership.html#requests" class="mobile-link text-gray-400 text-xs uppercase tracking-widest hover:text-white transition">Child Dedication</a>
+            <a href="membership.html#visitation" class="mobile-link text-gray-400 text-xs uppercase tracking-widest hover:text-white transition">Pastoral Visitation</a>
+        </div>
+
+        <a href="contact.html" class="mobile-link hover:text-amber-400 transition">Contact</a>
+    </div>
+
+    <!-- 1. Hero Section -->
+    <section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <img fetchpriority="high" decoding="async" src="/images/IMG_8588_result.webp" alt="Mathare North SDA Church Ministries" class="hero-bg-img animate-bgmove">
+        <div class="absolute inset-0 bg-black/60 bg-gradient-to-b from-transparent via-black/30 to-black"></div>
+        <div class="absolute inset-0 opacity-40 pointer-events-none" 
+            style="background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.2) 0%, transparent 70%);">
+        </div>
+        
+        <div class="relative z-10 text-center px-6 animate-slidein-up">
+            <h1 class="text-5xl md:text-7xl lg:text-[100px] font-bold tracking-tighter mb-6 uppercase text-[#e5e5e5] leading-[0.9]">
+                Serving God Through <br> <span class="text-[#D4AF37]">Ministries in Nairobi</span>
+            </h1>
+            <p class="text-xs md:text-sm text-gray-300 max-w-2xl mx-auto mb-12 tracking-[0.3em] uppercase leading-relaxed">
+                Discover your calling in our church ministries and Christian fellowship in Nairobi.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#categories" class="bg-[#D4AF37] text-black px-12 py-5 rounded-sm font-bold text-[10px] tracking-[0.4em] uppercase hover:bg-white transition-all shadow-2xl">Explore Ministries</a>
+                <a href="#cta" class="glass text-white px-12 py-5 rounded-sm font-bold text-[10px] tracking-[0.4em] uppercase hover:bg-white/10 transition-all">Join a Ministry</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Ministry Categories Overview -->
+    <section id="categories" class="bg-[#0a0a0a] py-32 px-6 md:px-12 lg:px-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-24 reveal">
+                <p class="text-[10px] uppercase tracking-[0.5em] text-amber-600 font-bold mb-6">/ OUR MINISTRIES</p>
+                <h2 class="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-8">Where You <br> Belong</h2>
+                <div class="w-24 h-[1px] bg-amber-600/30 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Worship Ministry -->
+                <div class="group bg-[#0f0f0f] p-10 rounded-2xl-custom border border-gray-900 transition-all duration-500 hover:border-amber-600/50 hover:-translate-y-2 reveal">
+                    <div class="mb-8 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 tracking-tight uppercase">Worship Ministry</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-10 uppercase tracking-wider">Leading the congregation into the presence of God through music and praise.</p>
+                    <a href="#cta" class="inline-block text-[9px] font-bold tracking-[0.3em] uppercase text-amber-600 border-b border-amber-600/30 pb-1 group-hover:text-white group-hover:border-white transition-all">Join Ministry</a>
+                </div>
+
+                <!-- Youth Ministry -->
+                <div class="group bg-[#0f0f0f] p-10 rounded-2xl-custom border border-gray-900 transition-all duration-500 hover:border-amber-600/50 hover:-translate-y-2 reveal" style="animation-delay: 0.1s">
+                    <div class="mb-8 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 tracking-tight uppercase">Youth Ministry</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-10 uppercase tracking-wider">Empowering the next generation to live boldly for Christ in today's world.</p>
+                    <a href="#cta" class="inline-block text-[9px] font-bold tracking-[0.3em] uppercase text-amber-600 border-b border-amber-600/30 pb-1 group-hover:text-white group-hover:border-white transition-all">Join Ministry</a>
+                </div>
+
+                <!-- Children Ministry -->
+                <div class="group bg-[#0f0f0f] p-10 rounded-2xl-custom border border-gray-900 transition-all duration-500 hover:border-amber-600/50 hover:-translate-y-2 reveal" style="animation-delay: 0.2s">
+                    <div class="mb-8 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 tracking-tight uppercase">Children Ministry</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-10 uppercase tracking-wider">Building a strong foundation of faith through engaging lessons and activities.</p>
+                    <a href="#cta" class="inline-block text-[9px] font-bold tracking-[0.3em] uppercase text-amber-600 border-b border-amber-600/30 pb-1 group-hover:text-white group-hover:border-white transition-all">Join Ministry</a>
+                </div>
+
+                <!-- Media & Technical -->
+                <div class="group bg-[#0f0f0f] p-10 rounded-2xl-custom border border-gray-900 transition-all duration-500 hover:border-amber-600/50 hover:-translate-y-2 reveal" style="animation-delay: 0.3s">
+                    <div class="mb-8 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 tracking-tight uppercase">Media & Technical</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-10 uppercase tracking-wider">Using technology to spread the gospel through high-quality production.</p>
+                    <a href="#cta" class="inline-block text-[9px] font-bold tracking-[0.3em] uppercase text-amber-600 border-b border-amber-600/30 pb-1 group-hover:text-white group-hover:border-white transition-all">Join Ministry</a>
+                </div>
+
+                <!-- Outreach & Evangelism -->
+                <div class="group bg-[#0f0f0f] p-10 rounded-2xl-custom border border-gray-900 transition-all duration-500 hover:border-amber-600/50 hover:-translate-y-2 reveal">
+                    <div class="mb-8 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 tracking-tight uppercase">Outreach</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-10 uppercase tracking-wider">Reaching out to our community with the love and message of Jesus.</p>
+                    <a href="#cta" class="inline-block text-[9px] font-bold tracking-[0.3em] uppercase text-amber-600 border-b border-amber-600/30 pb-1 group-hover:text-white group-hover:border-white transition-all">Join Ministry</a>
+                </div>
+
+                <!-- Prayer Ministry -->
+                <div class="group bg-[#0f0f0f] p-10 rounded-2xl-custom border border-gray-900 transition-all duration-500 hover:border-amber-600/50 hover:-translate-y-2 reveal" style="animation-delay: 0.1s">
+                    <div class="mb-8 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 tracking-tight uppercase">Prayer Ministry</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-10 uppercase tracking-wider">Standing in the gap for our church, community, and the world.</p>
+                    <a href="#cta" class="inline-block text-[9px] font-bold tracking-[0.3em] uppercase text-amber-600 border-b border-amber-600/30 pb-1 group-hover:text-white group-hover:border-white transition-all">Join Ministry</a>
+                </div>
+
+                <!-- Hospitality Ministry -->
+                <div class="group bg-[#0f0f0f] p-10 rounded-2xl-custom border border-gray-900 transition-all duration-500 hover:border-amber-600/50 hover:-translate-y-2 reveal" style="animation-delay: 0.2s">
+                    <div class="mb-8 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 tracking-tight uppercase">Hospitality</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-10 uppercase tracking-wider">Creating a warm and welcoming environment for every visitor.</p>
+                    <a href="#cta" class="inline-block text-[9px] font-bold tracking-[0.3em] uppercase text-amber-600 border-b border-amber-600/30 pb-1 group-hover:text-white group-hover:border-white transition-all">Join Ministry</a>
+                </div>
+
+                <!-- Discipleship & Teaching -->
+                <div class="group bg-[#0f0f0f] p-10 rounded-2xl-custom border border-gray-900 transition-all duration-500 hover:border-amber-600/50 hover:-translate-y-2 reveal" style="animation-delay: 0.3s">
+                    <div class="mb-8 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 tracking-tight uppercase">Discipleship</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-10 uppercase tracking-wider">Equipping believers through sound biblical teaching and mentorship.</p>
+                    <a href="#cta" class="inline-block text-[9px] font-bold tracking-[0.3em] uppercase text-amber-600 border-b border-amber-600/30 pb-1 group-hover:text-white group-hover:border-white transition-all">Join Ministry</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Featured Ministries Highlight Section -->
+    <section class="bg-black py-32 px-6 md:px-12 lg:px-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto space-y-40">
+            <!-- Worship Ministry -->
+            <div class="grid lg:grid-cols-2 gap-20 items-center reveal">
+                <div class="order-2 lg:order-1">
+                    <p class="text-[10px] uppercase tracking-[0.5em] text-amber-600 font-bold mb-6">/ FEATURED MINISTRY</p>
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-8">Worship Ministry <br> (Choir & Band)</h2>
+                    <p class="text-gray-400 text-sm md:text-base leading-relaxed mb-10 uppercase tracking-widest">Our worship team is more than just musicians; we are lead worshippers. Join us as we create an atmosphere for the Holy Spirit to move.</p>
+                    <a href="#cta" class="inline-block bg-[#D4AF37] text-black px-10 py-4 rounded-sm font-bold text-[9px] tracking-[0.4em] uppercase hover:bg-white transition-all">Learn More</a>
+                </div>
+                <div class="order-1 lg:order-2 aspect-[4/5] rounded-2xl-custom overflow-hidden shadow-2xl">
+                    <img loading="lazy" src="/images/_MG_6292_result_result.webp" alt="Worship Team" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <!-- Youth Ministry -->
+            <div class="grid lg:grid-cols-2 gap-20 items-center reveal">
+                <div class="aspect-[4/5] rounded-2xl-custom overflow-hidden shadow-2xl">
+                    <img loading="lazy" src="/images/IMG-20260119-WA0035_result.webp" alt="Youth Gathering" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <p class="text-[10px] uppercase tracking-[0.5em] text-amber-600 font-bold mb-6">/ EMPOWERING GENERATIONS</p>
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-8">Youth <br> Ministry</h2>
+                    <p class="text-gray-400 text-sm md:text-base leading-relaxed mb-10 uppercase tracking-widest">Creating a space where young people can find their identity in Christ and build lifelong friendships.</p>
+                    <a href="#cta" class="inline-block bg-[#D4AF37] text-black px-10 py-4 rounded-sm font-bold text-[9px] tracking-[0.4em] uppercase hover:bg-white transition-all">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Media & Production -->
+            <div class="grid lg:grid-cols-2 gap-20 items-center reveal">
+                <div class="order-2 lg:order-1">
+                    <p class="text-[10px] uppercase tracking-[0.5em] text-amber-600 font-bold mb-6">/ CREATIVE SERVICE</p>
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-8">Media & <br> Production</h2>
+                    <p class="text-gray-400 text-sm md:text-base leading-relaxed mb-10 uppercase tracking-widest">Behind every great service is a team dedicated to excellence in sound, light, and visual communication.</p>
+                    <a href="#cta" class="inline-block bg-[#D4AF37] text-black px-10 py-4 rounded-sm font-bold text-[9px] tracking-[0.4em] uppercase hover:bg-white transition-all">Learn More</a>
+                </div>
+                <div class="order-1 lg:order-2 aspect-[4/5] rounded-2xl-custom overflow-hidden shadow-2xl">
+                    <img loading="lazy" src="/images/IMG-20260119-WA0049_result.webp" alt="Media Team" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Why Join a Ministry Section -->
+    <section class="bg-[#0a0a0a] py-32 px-6 md:px-12 lg:px-20 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 pointer-events-none" 
+            style="background: radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 40%);">
+        </div>
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-24 reveal">
+                <p class="text-[10px] uppercase tracking-[0.5em] text-amber-600 font-bold mb-6">/ PURPOSE & GROWTH</p>
+                <h2 class="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-8">Why Serve With Us?</h2>
+                <div class="w-24 h-[1px] bg-amber-600/30 mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-10">
+                <div class="flex flex-col items-center text-center reveal">
+                    <div class="w-16 h-16 rounded-full glass flex items-center justify-center mb-6 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <p class="text-[11px] font-bold uppercase tracking-widest leading-relaxed">Grow Spiritually through Service</p>
+                </div>
+                <div class="flex flex-col items-center text-center reveal" style="animation-delay: 0.1s">
+                    <div class="w-16 h-16 rounded-full glass flex items-center justify-center mb-6 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <p class="text-[11px] font-bold uppercase tracking-widest leading-relaxed">Build Meaningful Relationships</p>
+                </div>
+                <div class="flex flex-col items-center text-center reveal" style="animation-delay: 0.2s">
+                    <div class="w-16 h-16 rounded-full glass flex items-center justify-center mb-6 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    </div>
+                    <p class="text-[11px] font-bold uppercase tracking-widest leading-relaxed">Discover Your Spiritual Gifts</p>
+                </div>
+                <div class="flex flex-col items-center text-center reveal" style="animation-delay: 0.3s">
+                    <div class="w-16 h-16 rounded-full glass flex items-center justify-center mb-6 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <p class="text-[11px] font-bold uppercase tracking-widest leading-relaxed">Impact the Community</p>
+                </div>
+                <div class="flex flex-col items-center text-center reveal" style="animation-delay: 0.4s">
+                    <div class="w-16 h-16 rounded-full glass flex items-center justify-center mb-6 text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <p class="text-[11px] font-bold uppercase tracking-widest leading-relaxed">Strengthen Your Faith Journey</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Call to Action Section -->
+    <section id="cta" class="relative py-48 px-6 text-center overflow-hidden border-t border-gray-900">
+        <div class="absolute inset-0 z-0">
+            <img loading="lazy" src="/images/IMG_8430_result.webp" class="w-full h-full object-cover brightness-[0.2]" alt="Church Community">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black"></div>
+        </div>
+        <div class="relative z-10 reveal">
+            <h2 class="text-4xl md:text-7xl font-bold tracking-tighter uppercase mb-6 leading-tight">Your gift belongs in the <br> <span class="text-[#D4AF37]">house of God.</span></h2>
+            <p class="text-xs text-gray-400 mb-12 tracking-[0.4em] uppercase">Join a ministry today and make an impact.</p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <a href="#" class="inline-block bg-[#D4AF37] text-black px-16 py-6 rounded-sm font-bold text-[10px] tracking-[0.5em] uppercase hover:bg-white transition-all shadow-2xl">Join a Ministry Today</a>
+                <a href="index.html#contact" class="inline-block glass text-white px-16 py-6 rounded-sm font-bold text-[10px] tracking-[0.5em] uppercase hover:bg-white/10 transition-all">Talk to a Leader</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer id="contact" class="relative bg-black text-white pt-24 pb-8 px-6 md:px-12 lg:px-20 overflow-visible border-t border-gray-900">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img loading="lazy" src="/images/IMG_8166_result.webp" class="h-full w-full object-cover opacity-20 grayscale contrast-125" alt="Church Background">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-20">
+                <div class="lg:col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <img loading="lazy" src="/images/WEB LOGO-01_result.webp" alt="Mathare North SDA Church" class="h-10 w-auto">
+                        <span class="text-xl font-bold tracking-[0.2em] uppercase">Mathare North SDA Church</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-8 max-w-sm uppercase tracking-wider text-[11px]">Mathare North SDA Church is a sanctuary where faith meets community. We are dedicated to creating an environment where everyone can experience the transformative power of God's love.</p>
+                    
+                    <!-- Newsletter Section moved here -->
+                    <div class="mt-12 max-w-md">
+                        <h3 class="font-bold mb-4 text-xs uppercase tracking-[0.3em] text-[#D4AF37]">Stay Updated</h3>
+                        <div class="relative flex items-center">
+                            <input type="email" placeholder="Enter your email" 
+                                class="w-full pl-6 pr-32 py-4 rounded-sm bg-white/5 border border-white/10 text-white placeholder:text-gray-600 focus:outline-none focus:bg-white/10 transition-all uppercase text-[10px] tracking-widest">
+                            <button class="absolute right-2 bg-[#D4AF37] text-black px-6 py-2.5 rounded-sm font-bold text-[10px] tracking-widest hover:bg-white transition-colors uppercase">
+                                Subscribe
+                            </button>
+                        </div>
+                        <p class="text-gray-600 text-[9px] mt-4 uppercase tracking-[0.2em]">Join our community to stay updated on our latest gatherings.</p>
+                    </div>
+
+                    <div class="flex gap-4 mt-12">
+                        <a href="#" class="w-10 h-10 rounded-sm border border-gray-800 flex items-center justify-center text-gray-500 hover:bg-white hover:text-black hover:border-white transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-sm border border-gray-800 flex items-center justify-center text-gray-500 hover:bg-white hover:text-black hover:border-white transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-sm border border-gray-800 flex items-center justify-center text-gray-500 hover:bg-white hover:text-black hover:border-white transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-6 text-xs uppercase tracking-[0.3em]">Church</h3>
+                    <ul class="space-y-4 text-[10px] uppercase tracking-widest text-gray-500">
+                        <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="ministries.html" class="hover:text-white transition-colors">Ministries</a></li>
+                        <li><a href="resources.html" class="hover:text-white transition-colors">Resources</a></li>
+                        <li><a href="membership.html" class="hover:text-white transition-colors">Membership</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-6 text-xs uppercase tracking-[0.3em]">Support</h3>
+                    <ul class="space-y-4 text-[10px] uppercase tracking-widest text-gray-500">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="contact.html#prayer-request" class="hover:text-white transition-colors">Prayer Request</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-6 text-xs uppercase tracking-[0.3em]">Contact Us</h3>
+                    <ul class="space-y-4 text-[10px] uppercase tracking-widest text-gray-500">
+                        <li class="flex items-center gap-3"><span>(123) 456-7890</span></li>
+                        <li class="flex items-center gap-3"><span>office@mnchurch.org</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <p class="text-[10px] text-gray-600 uppercase tracking-[0.2em]">© Copyright by Mathare North SDA Church. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Audio Player -->
+    <div id="floating-player" class="floating-player">
+        <div class="flex items-center gap-5">
+            <div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 shadow-lg">
+                <img id="player-img" src="/images/WEB LOGO-01_result.webp" alt="Current Track" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1 min-w-0">
+                <h5 id="player-title" class="text-[11px] font-bold uppercase tracking-widest text-white truncate">Select a Track</h5>
+                <p id="player-subtitle" class="text-gray-500 text-[9px] uppercase tracking-widest truncate">Church Media Library</p>
+            </div>
+            <button id="player-close" class="text-gray-500 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+
+        <div id="progress-container" class="player-progress-container">
+            <div id="progress-bar" class="player-progress-bar"></div>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button id="player-shuffle" class="text-gray-500 hover:text-white transition-colors relative" title="Shuffle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+                </button>
+                <button id="player-prev" class="text-gray-500 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+                </button>
+                <button id="player-play-pause" class="w-10 h-10 rounded-full bg-[#D4AF37] flex items-center justify-center text-black hover:bg-white transition-all shadow-md">
+                    <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                </button>
+                <button id="player-next" class="text-gray-500 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+                </button>
+                <button id="player-repeat" class="text-gray-500 hover:text-white transition-colors relative" title="Repeat">
+                    <svg id="repeat-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                    <span id="repeat-one-indicator" class="hidden text-[7px] font-bold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D4AF37] text-black w-3 h-3 rounded-full flex items-center justify-center pointer-events-none">1</span>
+                </button>
+            </div>
+            <div id="player-time" class="text-[9px] text-gray-500 font-mono tracking-widest">00:00 / 00:00</div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

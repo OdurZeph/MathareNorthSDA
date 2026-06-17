@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Membership | Mathare North SDA Church</title>
+  <meta name="description" content="Access membership services including transfer requests, child dedication, and pastoral visitation at Mathare North SDA Church.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/images/WEB LOGO-01_result.webp" type="image/webp" sizes="16x16 32x32 48x48 64x64 128x128 256x256">
+  <link rel="shortcut icon" href="/images/WEB LOGO-01_result.webp" type="image/webp">
+  <link rel="apple-touch-icon" href="/images/WEB LOGO-01_result.webp">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#0a0a0a] text-white font-[Inter] antialiased">
+  <!-- Navbar -->
+  <div class="nav-container">
+    <div class="nav-capsule">
+      <a href="index.html#home" class="nav-link-capsule">Home</a>
+      <a href="about.html" class="nav-link-capsule">About</a>
+      <a href="ministries.html" class="nav-link-capsule">Ministries</a>
+      <a href="index.html#home" class="shrink-0">
+        <img src="/images/WEB LOGO-01_result.webp" alt="Mathare North SDA Church Logo" class="nav-logo-capsule">
+      </a>
+      <a href="resources.html" class="nav-link-capsule">Resources</a>
+      <div class="dropdown relative">
+        <button id="membership-dropdown-btn" class="nav-link-capsule active" type="button">Membership</button>
+        <div id="membership-dropdown-content" class="dropdown-content">
+          <a href="#transfer">Transfer Request</a>
+          <a href="#dedication">Child Dedication</a>
+          <a href="#visitation">Pastoral Visitation</a>
+        </div>
+      </div>
+      <a href="contact.html" class="nav-link-capsule">Contact</a>
+      <button id="mobile-menu-btn" class="mobile-menu-button md:hidden" type="button" aria-label="Toggle menu">
+        <span id="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </span>
+        <span id="close-icon" class="hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="mobile-menu-overlay">
+    <a href="index.html#home" class="mobile-link">Home</a>
+    <a href="about.html" class="mobile-link">About</a>
+    <a href="ministries.html" class="mobile-link">Ministries</a>
+    <a href="resources.html" class="mobile-link">Resources</a>
+    <a href="membership.html" class="mobile-link text-[#D4AF37]">Membership</a>
+    <div class="mobile-sub-section">
+      <a href="#transfer" class="mobile-link text-gray-400 text-xs uppercase tracking-widest">Transfer Request</a>
+      <a href="#dedication" class="mobile-link text-gray-400 text-xs uppercase tracking-widest">Child Dedication</a>
+      <a href="#visitation" class="mobile-link text-gray-400 text-xs uppercase tracking-widest">Pastoral Visitation</a>
+    </div>
+    <a href="contact.html" class="mobile-link">Contact</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section hero-page relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+    <div class="hero-bg-wrap absolute inset-0">
+      <img fetchpriority="high" decoding="async" src="/images/IMG_7857_result.webp" alt="Church community" class="hero-bg-img w-full h-full object-cover animate-[bgmove_20s_ease-in-out_infinite_alternate]">
+      <div class="hero-overlay absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/90"></div>
+    </div>
+    <div class="hero-content relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <span class="eyebrow text-[#D4AF37] text-xs font-bold tracking-[0.35em] uppercase mb-4 inline-block reveal">Membership Services</span>
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 reveal" style="animation-delay: 0.1s;">Join Our Faith Community</h1>
+      <p class="text-gray-300 text-lg md:text-xl leading-relaxed mb-10 reveal" style="animation-delay: 0.2s;">Explore our membership services including transfer requests, child dedication, and pastoral visitation. We're here to support you on your spiritual journey.</p>
+      <div class="hero-actions flex flex-wrap justify-center gap-4 reveal" style="animation-delay: 0.3s;">
+        <a href="#services" class="btn btn-primary bg-gradient-to-r from-[#D4AF37] to-[#b38b2a] text-black font-bold px-8 py-4 rounded-full uppercase tracking-wider hover:scale-105 transition-transform">Explore Services</a>
+        <a href="contact.html" class="btn btn-secondary bg-white/10 border border-white/20 text-white font-bold px-8 py-4 rounded-full uppercase tracking-wider hover:bg-white/20 transition-all">Need Help?</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Tabs Section -->
+  <section id="services" class="py-24 px-6 md:px-12 lg:px-20 bg-[#0a0a0a]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-4">Our Services</p>
+        <h2 class="text-4xl md:text-5xl font-bold tracking-tighter mb-4">Membership Services</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">Choose a service below to get started. Each form is simple, secure, and will be processed by our ministry team.</p>
+      </div>
+
+      <!-- Tab Buttons -->
+      <div class="flex flex-wrap justify-center gap-3 mb-12 reveal" style="animation-delay: 0.1s;">
+        <button class="tab-btn active px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider transition-all bg-gradient-to-r from-[#D4AF37] to-[#b38b2a] text-black" data-tab="transfer">
+          <span class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+            Transfer Request
+          </span>
+        </button>
+        <button class="tab-btn px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider transition-all bg-white/10 border border-white/20 text-white hover:bg-white/20" data-tab="dedication">
+          <span class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            Child Dedication
+          </span>
+        </button>
+        <button class="tab-btn px-6 py-3 rounded-full text-sm font-bold uppercase tracking-wider transition-all bg-white/10 border border-white/20 text-white hover:bg-white/20" data-tab="visitation">
+          <span class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Pastoral Visitation
+          </span>
+        </button>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="tab-content-wrapper">
+        <!-- Transfer Request Form -->
+        <div id="transfer" class="tab-content active">
+          <div class="bg-[#0d0d0d] border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl reveal">
+            <div class="flex items-start gap-4 mb-8">
+              <div class="bg-[#D4AF37]/20 p-4 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-2xl md:text-3xl font-bold mb-2">Membership Transfer Request</h3>
+                <p class="text-gray-400">Request to transfer your membership from another church to Mathare North SDA Church.</p>
+              </div>
+            </div>
+            
+            <form id="transferForm" class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="field-group">
+                  <label for="transfer_full_name" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Full Name *</label>
+                  <input type="text" id="transfer_full_name" name="full_name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                  <div class="validation-message text-red-400 text-sm mt-1"></div>
+                </div>
+                <div class="field-group">
+                  <label for="transfer_phone" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Phone Number *</label>
+                  <input type="tel" id="transfer_phone" name="phone" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                  <div class="validation-message text-red-400 text-sm mt-1"></div>
+                </div>
+                <div class="field-group">
+                  <label for="transfer_email" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Email Address *</label>
+                  <input type="email" id="transfer_email" name="email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                  <div class="validation-message text-red-400 text-sm mt-1"></div>
+                </div>
+                <div class="field-group">
+                  <label for="transfer_current_church" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Current Church *</label>
+                  <input type="text" id="transfer_current_church" name="current_church" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                  <div class="validation-message text-red-400 text-sm mt-1"></div>
+                </div>
+                <div class="field-group">
+                  <label for="transfer_conference_region" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Conference/Region</label>
+                  <input type="text" id="transfer_conference_region" name="conference_region" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+                <div class="field-group">
+                  <label for="transfer_baptism_date" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Baptism Date</label>
+                  <input type="date" id="transfer_baptism_date" name="baptism_date" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+                <div class="field-group">
+                  <label for="transfer_membership_number" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Membership Number (Optional)</label>
+                  <input type="text" id="transfer_membership_number" name="membership_number" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+                <div class="field-group">
+                  <label for="transfer_reason" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Reason for Transfer</label>
+                  <input type="text" id="transfer_reason" name="reason_for_transfer" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+              </div>
+              <div class="field-group">
+                <label for="transfer_additional_notes" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Additional Notes</label>
+                <textarea id="transfer_additional_notes" name="additional_notes" rows="4" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all resize-vertical"></textarea>
+              </div>
+              <div class="form-actions flex justify-end">
+                <button type="submit" id="transferSubmitBtn" class="btn btn-primary bg-gradient-to-r from-[#D4AF37] to-[#b38b2a] text-black font-bold px-10 py-4 rounded-full uppercase tracking-wider hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                  <span id="transferBtnText">Submit Request</span>
+                  <span id="transferBtnLoading" class="hidden">
+                    <svg class="animate-spin h-5 w-5 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Child Dedication Form -->
+        <div id="dedication" class="tab-content hidden">
+          <div class="bg-[#0d0d0d] border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl reveal">
+            <div class="flex items-start gap-4 mb-8">
+              <div class="bg-[#D4AF37]/20 p-4 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-2xl md:text-3xl font-bold mb-2">Child Dedication Request</h3>
+                <p class="text-gray-400">Request a dedication service for your child at Mathare North SDA Church.</p>
+              </div>
+            </div>
+            
+            <form id="dedicationForm" class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="field-group">
+                  <label for="dedication_parent_name" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Parent/Guardian Name *</label>
+                  <input type="text" id="dedication_parent_name" name="parent_guardian_name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                  <div class="validation-message text-red-400 text-sm mt-1"></div>
+                </div>
+                <div class="field-group">
+                  <label for="dedication_phone" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Phone Number *</label>
+                  <input type="tel" id="dedication_phone" name="phone" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                  <div class="validation-message text-red-400 text-sm mt-1"></div>
+                </div>
+                <div class="field-group">
+                  <label for="dedication_email" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Email Address</label>
+                  <input type="email" id="dedication_email" name="email" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+                <div class="field-group">
+                  <label for="dedication_child_name" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Child's Full Name *</label>
+                  <input type="text" id="dedication_child_name" name="child_full_name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                  <div class="validation-message text-red-400 text-sm mt-1"></div>
+                </div>
+                <div class="field-group">
+                  <label for="dedication_child_dob" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Child's Date of Birth</label>
+                  <input type="date" id="dedication_child_dob" name="child_date_of_birth" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+                <div class="field-group">
+                  <label for="dedication_gender" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Gender</label>
+                  <select id="dedication_gender" name="gender" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="field-group md:col-span-2">
+                  <label for="dedication_preferred_date" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Preferred Dedication Date</label>
+                  <input type="date" id="dedication_preferred_date" name="preferred_dedication_date" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+              </div>
+              <div class="field-group">
+                <label for="dedication_additional_info" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Additional Information</label>
+                <textarea id="dedication_additional_info" name="additional_info" rows="4" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all resize-vertical"></textarea>
+              </div>
+              <div class="form-actions flex justify-end">
+                <button type="submit" id="dedicationSubmitBtn" class="btn btn-primary bg-gradient-to-r from-[#D4AF37] to-[#b38b2a] text-black font-bold px-10 py-4 rounded-full uppercase tracking-wider hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                  <span id="dedicationBtnText">Submit Request</span>
+                  <span id="dedicationBtnLoading" class="hidden">
+                    <svg class="animate-spin h-5 w-5 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Pastoral Visitation Form -->
+        <div id="visitation" class="tab-content hidden">
+          <div class="bg-[#0d0d0d] border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl reveal">
+            <div class="flex items-start gap-4 mb-8">
+              <div class="bg-[#D4AF37]/20 p-4 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-2xl md:text-3xl font-bold mb-2">Pastoral Visitation Request</h3>
+                <p class="text-gray-400">Request a pastoral visit for prayer, counseling, or support.</p>
+              </div>
+            </div>
+            
+            <form id="visitationForm" class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="field-group">
+                  <label for="visitation_full_name" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Full Name *</label>
+                  <input type="text" id="visitation_full_name" name="full_name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                  <div class="validation-message text-red-400 text-sm mt-1"></div>
+                </div>
+                <div class="field-group">
+                  <label for="visitation_phone" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Phone Number *</label>
+                  <input type="tel" id="visitation_phone" name="phone" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                  <div class="validation-message text-red-400 text-sm mt-1"></div>
+                </div>
+                <div class="field-group">
+                  <label for="visitation_email" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Email Address</label>
+                  <input type="email" id="visitation_email" name="email" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+                <div class="field-group">
+                  <label for="visitation_address" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Physical Address</label>
+                  <input type="text" id="visitation_address" name="physical_address" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+                <div class="field-group">
+                  <label for="visitation_type" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Type of Visit</label>
+                  <select id="visitation_type" name="type_of_visit" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                    <option value="">Select Type</option>
+                    <option value="home_visit">Home Visit</option>
+                    <option value="hospital_visit">Hospital Visit</option>
+                    <option value="prayer_visit">Prayer Visit</option>
+                    <option value="counseling">Counseling Session</option>
+                    <option value="family_visit">Family Visit</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="visitation_preferred_date" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Preferred Date</label>
+                  <input type="date" id="visitation_preferred_date" name="preferred_date" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+                <div class="field-group">
+                  <label for="visitation_preferred_time" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Preferred Time</label>
+                  <input type="time" id="visitation_preferred_time" name="preferred_time" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all">
+                </div>
+              </div>
+              <div class="field-group">
+                <label for="visitation_message" class="block text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Prayer Request / Message</label>
+                <textarea id="visitation_message" name="prayer_request_message" rows="4" class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all resize-vertical"></textarea>
+              </div>
+              <div class="form-actions flex justify-end">
+                <button type="submit" id="visitationSubmitBtn" class="btn btn-primary bg-gradient-to-r from-[#D4AF37] to-[#b38b2a] text-black font-bold px-10 py-4 rounded-full uppercase tracking-wider hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                  <span id="visitationBtnText">Submit Request</span>
+                  <span id="visitationBtnLoading" class="hidden">
+                    <svg class="animate-spin h-5 w-5 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-24 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-[#0a0a0a] to-[#050508]">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-4">FAQ</p>
+        <h2 class="text-4xl md:text-5xl font-bold tracking-tighter mb-4">Frequently Asked Questions</h2>
+        <p class="text-gray-400">Find answers to common questions about our membership services.</p>
+      </div>
+
+      <div class="space-y-4 reveal">
+        <div class="faq-item bg-[#0d0d0d] border border-white/10 rounded-2xl overflow-hidden">
+          <button class="faq-btn w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none">
+            <span class="text-lg font-semibold">How long does a membership transfer take?</span>
+            <svg class="faq-icon h-6 w-6 text-[#D4AF37] transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden px-8 pb-6 text-gray-400 leading-relaxed">
+            Membership transfers typically take 2-4 weeks to process, depending on the response time from your previous church. Our team will keep you updated throughout the process.
+          </div>
+        </div>
+
+        <div class="faq-item bg-[#0d0d0d] border border-white/10 rounded-2xl overflow-hidden">
+          <button class="faq-btn w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none">
+            <span class="text-lg font-semibold">What should I bring to a child dedication?</span>
+            <svg class="faq-icon h-6 w-6 text-[#D4AF37] transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden px-8 pb-6 text-gray-400 leading-relaxed">
+            For a child dedication, we recommend bringing family and friends to celebrate. There are no specific requirements other than your presence and commitment to raise your child in a Christian home.
+          </div>
+        </div>
+
+        <div class="faq-item bg-[#0d0d0d] border border-white/10 rounded-2xl overflow-hidden">
+          <button class="faq-btn w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none">
+            <span class="text-lg font-semibold">Can I request a pastoral visit for someone else?</span>
+            <svg class="faq-icon h-6 w-6 text-[#D4AF37] transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden px-8 pb-6 text-gray-400 leading-relaxed">
+            Yes! You can request a pastoral visit for a family member or friend. Please make sure they are aware and comfortable with the visit, and include their contact information in the request.
+          </div>
+        </div>
+
+        <div class="faq-item bg-[#0d0d0d] border border-white/10 rounded-2xl overflow-hidden">
+          <button class="faq-btn w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none">
+            <span class="text-lg font-semibold">Is my information kept confidential?</span>
+            <svg class="faq-icon h-6 w-6 text-[#D4AF37] transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden px-8 pb-6 text-gray-400 leading-relaxed">
+            Absolutely! All information you submit through our forms is kept strictly confidential and only accessible to authorized ministry staff.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Info Section -->
+  <section class="py-24 px-6 md:px-12 lg:px-20 bg-[#050508]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-4">Get in Touch</p>
+        <h2 class="text-4xl md:text-5xl font-bold tracking-tighter mb-4">Need Assistance?</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">If you have any questions or need help with any of our services, please don't hesitate to reach out.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 reveal">
+        <div class="bg-[#0d0d0d] border border-white/10 rounded-3xl p-8 text-center hover:border-[#D4AF37]/50 transition-all">
+          <div class="bg-[#D4AF37]/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Phone</h3>
+          <p class="text-gray-400 mb-2">Call us directly</p>
+          <a href="tel:+254700000000" class="text-[#D4AF37] font-semibold hover:underline">+254 700 000 000</a>
+        </div>
+
+        <div class="bg-[#0d0d0d] border border-white/10 rounded-3xl p-8 text-center hover:border-[#D4AF37]/50 transition-all">
+          <div class="bg-[#D4AF37]/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Email</h3>
+          <p class="text-gray-400 mb-2">Send us an email</p>
+          <a href="mailto:office@mnchurch.org" class="text-[#D4AF37] font-semibold hover:underline">office@mnchurch.org</a>
+        </div>
+
+        <div class="bg-[#0d0d0d] border border-white/10 rounded-3xl p-8 text-center hover:border-[#D4AF37]/50 transition-all">
+          <div class="bg-[#D4AF37]/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Visit Us</h3>
+          <p class="text-gray-400 mb-2">Come to our church</p>
+          <p class="text-[#D4AF37] font-semibold">Mathare North, Nairobi</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Image Section -->
+  <section class="py-24 px-6 md:px-12 lg:px-20 bg-[#0a0a0a]">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+      <div class="reveal">
+        <p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-4">Our Community</p>
+        <h2 class="text-3xl md:text-5xl font-bold tracking-tighter mb-6">Welcome to Our Church Family</h2>
+        <p class="text-gray-400 leading-relaxed mb-8">We are a vibrant community of believers dedicated to growing in faith, serving others, and sharing the love of Christ. Join us as we journey together in worship, fellowship, and service.</p>
+        <a href="about.html" class="inline-flex items-center gap-3 text-[#D4AF37] text-sm font-bold uppercase tracking-widest hover:text-white transition-colors">
+          Learn More
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="reveal" style="animation-delay: 0.2s;">
+        <img loading="lazy" src="/images/IMG-20250615-WA0014_result.webp" alt="Church Community" class="w-full h-[400px] md:h-[500px] object-cover rounded-sm shadow-2xl">
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative bg-[#0a0a0a] pt-24 pb-16 px-6 md:px-12 lg:px-20 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img loading="lazy" src="/images/IMG-20260119-WA0029_result.webp" class="h-full w-full object-cover opacity-20 grayscale contrast-125" alt="Church Background">
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-20">
+        <div class="lg:col-span-2">
+          <div class="flex items-center gap-3 mb-6">
+            <img loading="lazy" src="/images/WEB LOGO-01_result.webp" alt="Mathare North SDA Church" class="h-10 w-auto">
+            <span class="text-xl font-bold tracking-[0.2em] uppercase">Mathare North SDA Church</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-8 max-w-sm uppercase tracking-wider text-[11px]">Mathare North SDA Church is a sanctuary where faith meets community. We are dedicated to creating an environment where everyone can experience the transformative power of God's love.</p>
+          
+          <!-- Newsletter Section -->
+          <div class="mt-12 max-w-md">
+            <h3 class="font-bold mb-4 text-xs uppercase tracking-[0.3em] text-[#D4AF37]">Stay Updated</h3>
+            <div class="relative flex items-center">
+              <input type="email" placeholder="Enter your email" 
+                class="w-full pl-6 pr-32 py-4 rounded-sm bg-white/5 border border-white/10 text-white placeholder:text-gray-600 focus:outline-none focus:bg-white/10 transition-all uppercase text-[10px] tracking-widest">
+              <button class="absolute right-2 bg-[#D4AF37] text-black px-6 py-2.5 rounded-sm font-bold text-[10px] tracking-widest hover:bg-white transition-colors uppercase">
+                Subscribe
+              </button>
+            </div>
+            <p class="text-gray-600 text-[9px] mt-4 uppercase tracking-[0.2em]">Join our community to stay updated on our latest gatherings.</p>
+          </div>
+
+          <div class="flex gap-4 mt-12">
+            <a href="#" class="w-10 h-10 rounded-sm border border-gray-800 flex items-center justify-center text-gray-500 hover:bg-white hover:text-black hover:border-white transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-sm border border-gray-800 flex items-center justify-center text-gray-500 hover:bg-white hover:text-black hover:border-white transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-sm border border-gray-800 flex items-center justify-center text-gray-500 hover:bg-white hover:text-black hover:border-white transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-6 text-xs uppercase tracking-[0.3em]">Church</h3>
+          <ul class="space-y-4 text-[10px] uppercase tracking-widest text-gray-500">
+            <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+            <li><a href="ministries.html" class="hover:text-white transition-colors">Ministries</a></li>
+            <li><a href="resources.html" class="hover:text-white transition-colors">Resources</a></li>
+            <li><a href="membership.html" class="hover:text-white transition-colors">Membership</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold mb-6 text-xs uppercase tracking-[0.3em]">Support</h3>
+          <ul class="space-y-4 text-[10px] uppercase tracking-widest text-gray-500">
+            <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+            <li><a href="contact.html#prayer-request" class="hover:text-white transition-colors">Prayer Request</a></li>
+            <li><a href="contact.html" class="hover:text-white transition-colors">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold mb-6 text-xs uppercase tracking-[0.3em]">Contact Us</h3>
+          <ul class="space-y-4 text-[10px] uppercase tracking-widest text-gray-500">
+            <li class="flex items-center gap-3"><span>(123) 456-7890</span></li>
+            <li class="flex items-center gap-3"><span>office@mnchurch.org</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <p class="text-[10px] text-gray-600 uppercase tracking-[0.2em]">© Copyright by Mathare North SDA Church. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div id="modal" class="modal hidden fixed inset-0 z-50 flex items-center justify-center p-6">
+    <div class="absolute inset-0 bg-black/80" id="modalBackdrop"></div>
+    <div class="modal-card relative bg-[#0d0d0d] border border-white/10 rounded-3xl p-10 max-w-md w-full shadow-2xl">
+      <button id="modalClose" class="close-modal absolute top-6 right-6 text-gray-400 hover:text-white text-3xl" aria-label="Close dialog">&times;</button>
+      <div id="modalIcon" class="mx-auto mb-6"></div>
+      <h3 id="modalTitle" class="text-2xl font-bold text-center mb-4"></h3>
+      <p id="modalMessage" class="text-gray-400 text-center leading-relaxed"></p>
+      <div class="mt-8 text-center">
+        <button id="modalOkBtn" class="btn btn-primary bg-gradient-to-r from-[#D4AF37] to-[#b38b2a] text-black font-bold px-8 py-3 rounded-full uppercase tracking-wider">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+  <script>
+    // Tab functionality
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.dataset.tab;
+        
+        // Update active tab button styles
+        tabBtns.forEach(b => {
+          b.classList.remove('active', 'bg-gradient-to-r', 'from-[#D4AF37]', 'to-[#b38b2a]', 'text-black');
+          b.classList.add('bg-white/10', 'border', 'border-white/20', 'text-white');
+        });
+        btn.classList.add('active', 'bg-gradient-to-r', 'from-[#D4AF37]', 'to-[#b38b2a]', 'text-black');
+        btn.classList.remove('bg-white/10', 'border', 'border-white/20', 'text-white');
+
+        // Show active tab content
+        tabContents.forEach(content => {
+          content.classList.add('hidden');
+        });
+        document.getElementById(tabId).classList.remove('hidden');
+      });
+    });
+
+    // FAQ functionality
+    const faqBtns = document.querySelectorAll('.faq-btn');
+    faqBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector('.faq-icon');
+        
+        content.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
+        
+        // Close other FAQs
+        faqBtns.forEach(otherBtn => {
+          if (otherBtn !== btn) {
+            const otherContent = otherBtn.nextElementSibling;
+            const otherIcon = otherBtn.querySelector('.faq-icon');
+            otherContent.classList.add('hidden');
+            otherIcon.classList.remove('rotate-180');
+          }
+        });
+      });
+    });
+
+    // Modal functionality
+    const modal = document.getElementById('modal');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalClose = document.getElementById('modalClose');
+    const modalOkBtn = document.getElementById('modalOkBtn');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+
+    function showModal(success, title, message) {
+      if (success) {
+        modalIcon.innerHTML = `
+          <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+        `;
+      } else {
+        modalIcon.innerHTML = `
+          <div class="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+        `;
+      }
+      modalTitle.textContent = title;
+      modalMessage.textContent = message;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      if (window.siteScroll) window.siteScroll.stop();
+    }
+
+    function hideModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+      if (window.siteScroll) window.siteScroll.start();
+    }
+
+    modalClose.addEventListener('click', hideModal);
+    modalBackdrop.addEventListener('click', hideModal);
+    modalOkBtn.addEventListener('click', hideModal);
+
+    // Form validation and submission
+    function validateForm(form) {
+      let isValid = true;
+      form.querySelectorAll('[required]').forEach(input => {
+        const validationMessage = input.nextElementSibling?.classList.contains('validation-message') 
+          ? input.nextElementSibling 
+          : input.parentElement.querySelector('.validation-message');
+        
+        if (!input.value.trim()) {
+          input.classList.add('border-red-500');
+          if (validationMessage) {
+            validationMessage.textContent = 'This field is required.';
+          }
+          isValid = false;
+        } else {
+          input.classList.remove('border-red-500');
+          if (validationMessage) {
+            validationMessage.textContent = '';
+          }
+        }
+      });
+      return isValid;
+    }
+
+    async function submitForm(form, url, btnText, btnLoading) {
+      if (!validateForm(form)) {
+        return;
+      }
+
+      btnText.classList.add('hidden');
+      btnLoading.classList.remove('hidden');
+      form.querySelector('button[type="submit"]').disabled = true;
+
+      try {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+        
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showModal(true, 'Success!', result.message || 'Your request has been submitted successfully. We will contact you soon.');
+          form.reset();
+        } else {
+          showModal(false, 'Error', result.message || 'Something went wrong. Please try again later.');
+        }
+      } catch (error) {
+        console.error('Form submission error:', error);
+        showModal(false, 'Error', 'Something went wrong. Please check your internet connection and try again.');
+      } finally {
+        btnText.classList.remove('hidden');
+        btnLoading.classList.add('hidden');
+        form.querySelector('button[type="submit"]').disabled = false;
+      }
+    }
+
+    // Transfer form
+    document.getElementById('transferForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitForm(
+        e.target,
+        '/api/membership/transfer',
+        document.getElementById('transferBtnText'),
+        document.getElementById('transferBtnLoading')
+      );
+    });
+
+    // Dedication form
+    document.getElementById('dedicationForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitForm(
+        e.target,
+        '/api/child-dedication',
+        document.getElementById('dedicationBtnText'),
+        document.getElementById('dedicationBtnLoading')
+      );
+    });
+
+    // Visitation form
+    document.getElementById('visitationForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitForm(
+        e.target,
+        '/api/membership/visitation',
+        document.getElementById('visitationBtnText'),
+        document.getElementById('visitationBtnLoading')
+      );
+    });
+
+    // Hash navigation for tabs
+    function handleHash() {
+      const hash = window.location.hash.substring(1);
+      if (['transfer', 'dedication', 'visitation'].includes(hash)) {
+        const btn = document.querySelector(`.tab-btn[data-tab="${hash}"]`);
+        if (btn) btn.click();
+      }
+    }
+    window.addEventListener('load', handleHash);
+    window.addEventListener('hashchange', handleHash);
+  </script>
+</body>
+</html>
