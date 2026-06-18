@@ -50,8 +50,8 @@ async function stkPush(req, res) {
   if (!channel.shortcode) {
     const key =
       channel.channel === 'till'
-        ? 'TILL_SHORTCODE or MPESA_SHORTCODE'
-        : 'MPESA_SHORTCODE';
+        ? 'MPESA_TILL_NUMBER'
+        : 'MPESA_PAYBILL';
 
     return res.status(503).json({
       success: false,
@@ -66,7 +66,10 @@ async function stkPush(req, res) {
       shortcode: channel.shortcode,
       transactionType: channel.transactionType,
       paymentType: category,
-      accountReference: category.replace('_', '-').slice(0, 12),
+      // For paybill: use the configured account number; for till: use category label
+      accountReference:
+        channel.accountReference ||
+        category.replace(/_/g, '-').slice(0, 12),
     });
 
     const checkoutRequestID =

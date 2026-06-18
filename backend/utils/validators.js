@@ -1,6 +1,10 @@
 const DONATION_CATEGORIES = ['tithe', 'offering', 'missions', 'building_fund'];
-const LEGACY_PAYMENT_TYPES = ['donation', 'test'];
-const VALID_PAYMENT_TYPES = [...DONATION_CATEGORIES, ...LEGACY_PAYMENT_TYPES];
+const GENERAL_CATEGORIES = ['general', 'donation', 'church_support'];
+const BUILDING_CATEGORIES = ['building_fund', 'construction'];
+const LEGACY_PAYMENT_TYPES = ['test'];
+const VALID_PAYMENT_TYPES = [
+  ...new Set([...DONATION_CATEGORIES, ...GENERAL_CATEGORIES, ...LEGACY_PAYMENT_TYPES]),
+];
 const VALID_MODES = ['development', 'production'];
 
 /** Kenyan M-Pesa mobile format: 254 followed by 7 or 1 and 8 more digits. */
@@ -39,7 +43,15 @@ function normalizeCategory(value) {
 
   if (normalized === 'tithes') return 'tithe';
   if (normalized === 'mission' || normalized === 'missions_fund') return 'missions';
-  if (normalized === 'building' || normalized === 'buildingfund') return 'building_fund';
+  if (
+    normalized === 'building' ||
+    normalized === 'buildingfund' ||
+    normalized === 'building_fund' ||
+    normalized === 'construction'
+  ) return 'building_fund';
+  if (normalized === 'church_support' || normalized === 'churchsupport') return 'church_support';
+  if (normalized === 'donation') return 'donation';
+  if (normalized === 'general') return 'general';
 
   return normalized;
 }
@@ -71,9 +83,9 @@ function validateStkPushBody(body) {
 
   const paymentType = normalizeCategory(body.category || body.paymentType);
   if (!paymentType) {
-    errors.push('category is required (tithe, offering, missions, or building_fund)');
+    errors.push('category is required (e.g. general, donation, church_support, tithe, offering, missions, building_fund, construction)');
   } else if (!VALID_PAYMENT_TYPES.includes(paymentType)) {
-    errors.push(`paymentType must be one of: ${VALID_PAYMENT_TYPES.join(', ')}`);
+    errors.push(`category must be one of: ${VALID_PAYMENT_TYPES.join(', ')}`);
   }
 
   const mode = (body.mode || 'production').toLowerCase().trim();
@@ -97,31 +109,41 @@ function validateStkPushBody(body) {
 }
 
 /**
- * Till (dev/test) vs Paybill (production tithes/offerings).
+ * Route payment to Till or Paybill based on category:
+ *   - building_fund | construction  → Till (CustomerBuyGoodsOnline)
+ *   - everything else               → Paybill (CustomerPayBillOnline)
+ *
+ * The `mode` flag can still force till routing for development/test overrides.
  */
 function resolvePaymentChannel({ paymentType, mode }) {
   const useTill =
-    mode === 'development' || paymentType === 'test';
+    mode === 'development' ||
+    paymentType === 'test' ||
+    BUILDING_CATEGORIES.includes(paymentType);
 
   if (useTill) {
     return {
-      shortcode: process.env.TILL_SHORTCODE || process.env.MPESA_SHORTCODE,
+      shortcode: process.env.MPESA_TILL_NUMBER || process.env.TILL_SHORTCODE,
       transactionType: 'CustomerBuyGoodsOnline',
       channel: 'till',
       label: 'Till (Buy Goods)',
+      accountReference: null, // Till payments don't use an account number
     };
   }
 
   return {
-    shortcode: process.env.MPESA_SHORTCODE || process.env.PAYBILL_SHORTCODE,
+    shortcode: process.env.MPESA_PAYBILL || process.env.PAYBILL_SHORTCODE || process.env.MPESA_SHORTCODE,
     transactionType: 'CustomerPayBillOnline',
     channel: 'paybill',
     label: 'Paybill',
+    accountReference: process.env.MPESA_PAYBILL_ACCOUNT || '',
   };
 }
 
 module.exports = {
   DONATION_CATEGORIES,
+  GENERAL_CATEGORIES,
+  BUILDING_CATEGORIES,
   VALID_PAYMENT_TYPES,
   VALID_MODES,
   normalizePhone,

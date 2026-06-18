@@ -38,6 +38,8 @@ const ALLOWED_ORIGINS = [
   'http://127.0.0.1:3000',
   'https://mnchurch.org',
   'https://www.mnchurch.org',
+  'https://matharenorthsda.netlify.app',
+  'https://www.matharenorthsda.netlify.app',
 ];
 
 const extraOrigins = (process.env.ALLOWED_ORIGINS || '')

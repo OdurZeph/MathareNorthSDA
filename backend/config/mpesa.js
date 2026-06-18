@@ -15,14 +15,20 @@ const config = {
   baseUrl: BASE_URL,
   consumerKey: process.env.MPESA_CONSUMER_KEY || process.env.CONSUMER_KEY || '',
   consumerSecret: process.env.MPESA_CONSUMER_SECRET || process.env.CONSUMER_SECRET || '',
-  passkey: process.env.MPESA_PASSKEY || process.env.PASSKEY || '',
+  // Passkey — paybill passkey for paybill shortcode (till passkey defaults to same or separate)
+  passkey: process.env.MPESA_PAYBILL_PASSKEY || process.env.MPESA_PASSKEY || process.env.PASSKEY || '',
+  // Paybill (general, donation, church support, tithe, offering, missions)
+  paybillShortcode: process.env.MPESA_PAYBILL || process.env.PAYBILL_SHORTCODE || process.env.MPESA_SHORTCODE || '',
+  paybillAccount: process.env.MPESA_PAYBILL_ACCOUNT || '',
+  // Till (building fund, construction)
+  tillShortcode: process.env.MPESA_TILL_NUMBER || process.env.TILL_SHORTCODE || '',
+  // Fallback shortcode used for status queries (prefer paybill as default)
   shortcode:
+    process.env.MPESA_PAYBILL ||
     process.env.MPESA_SHORTCODE ||
     process.env.PAYBILL_SHORTCODE ||
     process.env.TILL_SHORTCODE ||
     '',
-  tillShortcode: process.env.TILL_SHORTCODE || '',
-  paybillShortcode: process.env.PAYBILL_SHORTCODE || process.env.MPESA_SHORTCODE || '',
   callbackUrl: process.env.MPESA_CALLBACK_URL || process.env.CALLBACK_URL || '',
   oauthUrl: `${BASE_URL}/oauth/v1/generate?grant_type=client_credentials`,
   stkPushUrl: `${BASE_URL}/mpesa/stkpush/v1/processrequest`,
@@ -58,8 +64,8 @@ function validateMpesaConfig() {
   const missing = [];
   if (!config.consumerKey) missing.push('MPESA_CONSUMER_KEY');
   if (!config.consumerSecret) missing.push('MPESA_CONSUMER_SECRET');
-  if (!config.passkey) missing.push('MPESA_PASSKEY');
-  if (!config.shortcode) missing.push('MPESA_SHORTCODE');
+  if (!config.passkey) missing.push('MPESA_PAYBILL_PASSKEY');
+  if (!config.paybillShortcode && !config.tillShortcode) missing.push('MPESA_PAYBILL or MPESA_TILL_NUMBER');
   if (!config.callbackUrl) missing.push('MPESA_CALLBACK_URL');
   return missing;
 }

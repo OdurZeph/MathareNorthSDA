@@ -23,13 +23,28 @@ function validateAmount(amount) {
 function normalizeDonationType(type) {
   const normalized = String(type || '').toLowerCase().replace(/[\s-]+/g, '_');
   const aliases = {
+    // Building fund → Till
     building_fund: 'building',
     building: 'building',
+    construction: 'building',
+    // General / donation / church support → Paybill
+    general: 'general',
+    donation: 'donation',
+    church_support: 'church_support',
+    churchsupport: 'church_support',
+    // Standard giving categories → Paybill
     tithe: 'tithe',
+    tithes: 'tithe',
     offering: 'offering',
     missions: 'missions',
+    mission: 'missions',
   };
   return aliases[normalized] || null;
+}
+
+/** Returns true if the normalized type is a building fund (routes to Till) */
+function isBuildingCategory(normalizedType) {
+  return normalizedType === 'building';
 }
 
 function validateDonationType(type) {
@@ -68,12 +83,12 @@ const stkPush = async (req, res) => {
     if (!validateDonationType(type || category)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid donation type. Must be one of: tithe, offering, missions, building_fund'
+        message: 'Invalid donation type. Must be one of: general, donation, church_support, tithe, offering, missions, building_fund, construction'
       });
     }
 
     const typeLower = normalizedType;
-    const useTill = typeLower === 'building';
+    const useTill = isBuildingCategory(typeLower);
     const finalCategory = useTill ? 'BUILDING' : typeLower.toUpperCase();
     const reference = finalCategory;
     const paymentMethod = useTill ? 'TILL' : 'PAYBILL';

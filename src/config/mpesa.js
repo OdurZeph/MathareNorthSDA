@@ -12,9 +12,11 @@ const config = {
   baseUrl: BASE_URL,
   consumerKey: process.env.MPESA_CONSUMER_KEY || process.env.CONSUMER_KEY || '',
   consumerSecret: process.env.MPESA_CONSUMER_SECRET || process.env.CONSUMER_SECRET || '',
-  paybill: process.env.MPESA_PAYBILL || process.env.PAYBILL_SHORTCODE || '174379',
+  paybill: process.env.MPESA_PAYBILL || process.env.PAYBILL_SHORTCODE || '',
+  paybillAccount: process.env.MPESA_PAYBILL_ACCOUNT || '',
   paybillPasskey: process.env.MPESA_PAYBILL_PASSKEY || process.env.PASSKEY || '',
-  till: process.env.MPESA_TILL || process.env.TILL_SHORTCODE || '',
+  // Support both MPESA_TILL_NUMBER (new) and MPESA_TILL (legacy)
+  till: process.env.MPESA_TILL_NUMBER || process.env.MPESA_TILL || process.env.TILL_SHORTCODE || '',
   callbackUrl: process.env.MPESA_CALLBACK_URL || process.env.CALLBACK_URL || '',
   oauthUrl: `${BASE_URL}/oauth/v1/generate?grant_type=client_credentials`,
   stkPushUrl: `${BASE_URL}/mpesa/stkpush/v1/processrequest`,
@@ -155,6 +157,7 @@ async function initiateStkPush({ phone, amount, reference, useTill = false, cate
 
   const payload = useTill
     ? {
+        // Till (Buy Goods): no Password field
         BusinessShortCode: shortcode,
         Timestamp: timestamp,
         TransactionType: transactionType,
@@ -167,6 +170,7 @@ async function initiateStkPush({ phone, amount, reference, useTill = false, cate
         TransactionDesc: `Church Donation - ${category}`,
       }
     : {
+        // Paybill: Password required; AccountReference = paybill account number
         BusinessShortCode: shortcode,
         Password: password,
         Timestamp: timestamp,
@@ -176,7 +180,7 @@ async function initiateStkPush({ phone, amount, reference, useTill = false, cate
         PartyB: shortcode,
         PhoneNumber: phone,
         CallBackURL: config.callbackUrl,
-        AccountReference: reference,
+        AccountReference: config.paybillAccount || reference,
         TransactionDesc: `Church Donation - ${category}`,
       };
 
