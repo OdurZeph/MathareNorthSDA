@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Playlist Data
     const categoryPlaylists = {
         'Church Choir': {
-            img: '/images/_MG_6631_result.webp',
+            img: 'images/_MG_6631_result.webp',
             tracks: [
                 { title: 'LAODIKIA', src: 'Audio/Church Choir/LAODIKIA - MATHARE NORTH EVANGELISTIC CHOIR.mp3' },
                 { title: 'AMENIGUSA NINAONA', src: 'Audio/Church Choir/AMENIGUSA  NINAONA-MATHARE NORTH EVANGELISTIC CHOIR LIVE DURING THE CAMPMEETING 2021.mp3' },
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         },
         'Young Adults': {
-            img: '/images/_MG_6328_result.webp',
+            img: 'images/_MG_6328_result.webp',
             tracks: [
                 { title: 'TUNAKUTUKUZA', src: 'Audio/Young Adults/TUNAKUTUKUZA OFFICIAL VIDEO BY MATHARE NORTH AY.mp3' },
                 { title: 'KUNA WOKOVU', src: 'Audio/Young Adults/KUNA WOKOVU OFFICAL VIDEO FT MATHARE NORTH AY.mp3' },
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         },
         'Ambassadors': {
-            img: '/images/ambassadors_result.webp',
+            img: 'images/ambassadors_result.webp',
             tracks: [
                 { title: 'Unikuze Mipaka Yangu', src: 'Audio/Ambassadors/Unikuze Mipaka Yangu.mp3' },
                 { title: 'Bandari', src: 'Audio/Ambassadors/Bandari.mp3' },
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         },
         'AMO': {
-            img: '/images/_MG_6647_result.webp',
+            img: 'images/_MG_6647_result.webp',
             tracks: [
                 { title: 'WACHORE', src: 'Audio/AMO/WACHORE 4K II MATHARE NORTH SDA AMM CHOIR.mp3' },
                 { title: 'CHAGUA', src: 'Audio/AMO/CHAGUA 4K II MATHARE NORTH SDA AMM CHOIR.mp3' },
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         },
         'Pathfinders': {
-            img: '/images/pathfinder_result.webp',
+            img: 'images/pathfinder_result.webp',
             tracks: [
                 { title: 'TUMRUDIE MUNGU', src: 'Audio/Golden doves/TUMRUDIE MUNGU MATHARE NORTH PATHFINDERS.mp3' },
                 { title: 'JINA LAKO', src: 'Audio/Golden doves/JINA LAKO-MATHARE NORTH PATHFINDERS.mp3' },
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         },
         'Adventurers': {
-            img: '/images/adventures background_result.webp',
+            img: 'images/adventures background_result.webp',
             tracks: [
                 { title: 'Tunamshukuru', src: 'Audio/Royal lamps/Tunamshukuru  Royal Lambs Adventurers Club  Official Video.mp3' },
                 { title: 'Deeper Trailer', src: 'Audio/Royal lamps/Deeper TrailerRoyal Lambs Adventurers Mathare North.mp3' },
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updatePlayerUI(track) {
-        if (playerImg) playerImg.src = track.img || '/images/WEB LOGO-01_result.webp';
+        if (playerImg) playerImg.src = track.img || 'images/WEB LOGO-01_result.webp';
         if (playerTitle) playerTitle.textContent = track.title;
         if (playerSubtitle) playerSubtitle.textContent = track.subtitle || track.category || 'Church Ministry';
         
