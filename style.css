@@ -101,7 +101,13 @@
     opacity: 0;
 }
 
-/* Hero Slider Styles */
+/* Hero Section with Fixed Background */
+#home {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
 .hero-slide {
     position: absolute;
     inset: 0;
@@ -112,12 +118,14 @@
 }
 
 .hero-slide-image {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     object-fit: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     z-index: -1;
     transition: transform 20s ease-out, opacity 1.5s ease !important;
     will-change: transform;
@@ -598,7 +606,7 @@
     transform: scale(1.5);
 }
 
-/* Ministry Section Hover Styles */
+/* Ministry Section Styles with Fixed/Parallax Background */
 .ministry-block {
     cursor: pointer;
     transition: all 0.5s ease;
@@ -620,24 +628,33 @@
     transition: opacity 0.8s ease, filter 0.8s ease;
 }
 
+#ministries {
+    position: relative;
+    height: 120vh;
+    width: 100%;
+    overflow: hidden;
+}
+
 .ministry-bg-container {
-    position: absolute;
+    position: fixed;
     inset: 0;
     z-index: 0;
-    clip-path: inset(0 0 0 0); /* Important for fixed positioning within parent */
+    overflow: hidden;
 }
 
 .ministry-bg-fixed-img {
-    position: fixed; /* Fixed background effect */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     object-fit: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     opacity: 0;
     transition: opacity 1s ease-in-out;
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
     will-change: opacity;
 }
 
@@ -888,6 +905,25 @@ img {
 /* Hero images — contain paint so offscreen images don't block render */
 .hero-slide {
     contain: paint layout;
+}
+
+/* Mobile Fallback for Fixed Backgrounds */
+@media (max-width: 768px) {
+    .hero-slide-image,
+    .ministry-bg-fixed-img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    
+    #ministries {
+        height: auto;
+        min-height: 100vh;
+    }
+    
+    .ministry-bg-container {
+        position: absolute;
+    }
 }
 
 /* ── Mobile Menu Overlay ──────────────────────────────────────────────────── */

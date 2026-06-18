@@ -743,6 +743,102 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Ministry background image observer ---
+    const ministrySection = document.getElementById('ministries');
+    const ministryCards = document.querySelectorAll('.ministry-card');
+    const ministryBgImages = document.querySelectorAll('.ministry-bg-fixed-img');
+    const ministryBgContainer = document.querySelector('.ministry-bg-container');
+
+    if (ministrySection && ministryCards.length > 0 && ministryBgImages.length > 0 && ministryBgContainer) {
+        // Observe the entire ministry section to show/hide container
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    ministryBgContainer.style.opacity = '1';
+                    ministryBgContainer.style.pointerEvents = 'none';
+                } else {
+                    ministryBgContainer.style.opacity = '0';
+                }
+            });
+        }, { threshold: 0 });
+
+        sectionObserver.observe(ministrySection);
+
+        // Observe individual cards to switch background images
+        const ministryBgObserver = new IntersectionObserver((entries) => {
+            let anyIntersecting = false;
+            
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    anyIntersecting = true;
+                    const cardIndex = entry.target.dataset.bgIndex;
+                    if (cardIndex) {
+                        // Remove active from all
+                        ministryBgImages.forEach(img => img.classList.remove('active'));
+                        // Add active to corresponding image
+                        const targetImg = document.querySelector(`.ministry-bg-fixed-img[data-bg-index="${cardIndex}"]`);
+                        if (targetImg) {
+                            targetImg.classList.add('active');
+                        }
+                    }
+                }
+            });
+
+            // If no cards intersecting, show default
+            if (!anyIntersecting) {
+                ministryBgImages.forEach(img => img.classList.remove('active'));
+                const defaultImg = document.querySelector('.ministry-bg-fixed-img[data-bg-index="default"]');
+                if (defaultImg) defaultImg.classList.add('active');
+            }
+        }, {
+            threshold: 0.5,
+            rootMargin: '0px'
+        });
+
+        ministryCards.forEach(card => ministryBgObserver.observe(card));
+        
+        // Activate default initially
+        const defaultImg = document.querySelector('.ministry-bg-fixed-img[data-bg-index="default"]');
+        if (defaultImg) defaultImg.classList.add('active');
+    }
+
+    // --- Ministry background hover functions ---
+    window.changeBg = function(type) {
+        const allBgs = document.querySelectorAll('.ministry-bg-fixed-img');
+        allBgs.forEach(img => img.classList.remove('active'));
+        const targetBg = document.querySelector(`.ministry-bg-fixed-img[data-bg-index="${type}"]`);
+        if (targetBg) targetBg.classList.add('active');
+    };
+
+    window.resetBg = function() {
+        // Find which card is most in viewport and use that
+        const cards = document.querySelectorAll('.ministry-card');
+        let mostVisible = null;
+        let maxIntersection = 0;
+        
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const intersection = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+            if (intersection > maxIntersection) {
+                maxIntersection = intersection;
+                mostVisible = card;
+            }
+        });
+
+        if (mostVisible) {
+            const allBgs = document.querySelectorAll('.ministry-bg-fixed-img');
+            allBgs.forEach(img => img.classList.remove('active'));
+            const targetBg = document.querySelector(`.ministry-bg-fixed-img[data-bg-index="${mostVisible.dataset.bgIndex}"]`);
+            if (targetBg) targetBg.classList.add('active');
+        } else {
+            // Fallback to default
+            const allBgs = document.querySelectorAll('.ministry-bg-fixed-img');
+            allBgs.forEach(img => img.classList.remove('active'));
+            const defaultBg = document.querySelector('.ministry-bg-fixed-img[data-bg-index="default"]');
+            if (defaultBg) defaultBg.classList.add('active');
+        }
+    };
+
     // Mobile Menu — uses .is-open CSS class to avoid hidden/flex Tailwind conflict
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -792,9 +888,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdownChevron = document.getElementById('dropdown-chevron');
     if (dropdownBtn && dropdownContent) {
         dropdownBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdownContent.classList.toggle('show');
-            if (dropdownChevron) dropdownChevron.classList.toggle('rotate-180');
+            // If clicking the chevron or icon, toggle dropdown
+            // Otherwise, let the link navigate normally
+            const isChevron = e.target.closest('svg');
+            if (isChevron) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropdownContent.classList.toggle('show');
+                if (dropdownChevron) dropdownChevron.classList.toggle('rotate-180');
+            } else {
+                // If clicking text, close dropdown and let navigation happen
+                dropdownContent.classList.remove('show');
+                if (dropdownChevron) dropdownChevron.classList.remove('rotate-180');
+            }
         });
         window.addEventListener('click', () => {
             dropdownContent.classList.remove('show');

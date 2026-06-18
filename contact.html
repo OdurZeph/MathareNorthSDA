@@ -34,6 +34,7 @@
 
     <!-- Critical Asset Preloading -->
     <link rel="preload" as="image" href="images/WEB LOGO-01_result.webp">
+    <link rel="preload" as="image" href="images/IMG_7522_result.webp" fetchpriority="high">
     
     <!-- Favicon -->
     <link rel="icon" href="images/WEB LOGO-01_result.webp" type="image/webp" sizes="16x16 32x32 48x48 64x64 128x128 256x256">
@@ -73,68 +74,68 @@
     </style>
 </head>
 <body class="bg-[#0a0a0a] text-white antialiased">
-    <!-- New Capsule Navbar -->
-    <div class="nav-container">
-        <div class="nav-capsule">
-            <a href="index.html#home" class="nav-link-capsule">Home</a>
-            <a href="about.html" class="nav-link-capsule">About</a>
-            <a href="ministries.html" class="nav-link-capsule">Ministries</a>
-            
-            <!-- Logo -->
-            <a href="index.html#home" class="shrink-0">
-                <img src="images/WEB LOGO-01_result.webp" alt="Mathare North SDA Church Logo" class="nav-logo-capsule" id="nav-logo">
-            </a>
+        <!-- New Capsule Navbar -->
+        <div class="nav-container">
+            <div class="nav-capsule">
+                <a href="index.html#home" class="nav-link-capsule">Home</a>
+                <a href="about.html" class="nav-link-capsule">About</a>
+                <a href="ministries.html" class="nav-link-capsule">Ministries</a>
+                
+                <!-- Logo -->
+                <a href="index.html#home" class="shrink-0">
+                    <img loading="eager" decoding="async" src="images/WEB LOGO-01_result.webp" alt="Mathare North SDA Church Logo" class="nav-logo-capsule" id="nav-logo" width="86" height="80">
+                </a>
 
-            <a href="resources.html" class="nav-link-capsule">Resources</a>
-            
-            <div class="dropdown relative">
-                <button id="membership-dropdown-btn" class="nav-link-capsule flex items-center gap-1 focus:outline-none">
-                    Membership
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform" id="dropdown-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                <a href="resources.html" class="nav-link-capsule">Resources</a>
+                
+                <div class="dropdown relative">
+                    <a href="membership.html" id="membership-dropdown-btn" class="nav-link-capsule flex items-center gap-1 focus:outline-none">
+                        Membership
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform" id="dropdown-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </a>
+                    <div id="membership-dropdown-content" class="dropdown-content">
+                        <a href="membership.html#transfer">Transfer Request</a>
+                        <a href="membership.html#requests">Child Dedication</a>
+                        <a href="membership.html#visitation">Pastoral Visitation</a>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="nav-link-capsule active">Contact</a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none p-2 ml-2" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                    <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-                <div id="membership-dropdown-content" class="dropdown-content">
-                    <a href="membership.html#transfer">Transfer Request</a>
-                    <a href="membership.html#requests">Child Dedication</a>
-                    <a href="membership.html#visitation">Pastoral Visitation</a>
-                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="mobile-menu-overlay" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+            <a href="index.html#home" class="mobile-link hover:text-amber-400 transition">Home</a>
+            <a href="about.html" class="mobile-link hover:text-amber-400 transition">About</a>
+            <a href="ministries.html" class="mobile-link hover:text-amber-400 transition">Ministries</a>
+            <a href="resources.html" class="mobile-link hover:text-amber-400 transition">Resources</a>
+            
+            <div class="flex flex-col items-center gap-4 py-4 border-y border-white/10 w-full">
+                <a href="membership.html" class="mobile-link text-amber-400 uppercase tracking-widest text-sm font-bold">Membership</a>
+                <a href="membership.html#transfer" class="mobile-link text-gray-400 text-xs uppercase tracking-widest hover:text-white transition">Transfer Request</a>
+                <a href="membership.html#requests" class="mobile-link text-gray-400 text-xs uppercase tracking-widest hover:text-white transition">Child Dedication</a>
+                <a href="membership.html#visitation" class="mobile-link text-gray-400 text-xs uppercase tracking-widest hover:text-white transition">Pastoral Visitation</a>
             </div>
 
-            <a href="contact.html" class="nav-link-capsule active">Contact</a>
-
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none p-2 ml-2" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-menu">
-                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-                <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
+            <a href="contact.html" class="mobile-link hover:text-amber-400 transition">Contact</a>
         </div>
-    </div>
-
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="mobile-menu-overlay" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-        <a href="index.html#home" class="mobile-link hover:text-amber-400 transition">Home</a>
-        <a href="about.html" class="mobile-link hover:text-amber-400 transition">About</a>
-        <a href="ministries.html" class="mobile-link hover:text-amber-400 transition">Ministries</a>
-        <a href="resources.html" class="mobile-link hover:text-amber-400 transition">Resources</a>
-        
-        <div class="flex flex-col items-center gap-4 py-4 border-y border-white/10 w-full">
-            <a href="membership.html" class="mobile-link hover:text-amber-400 uppercase tracking-widest text-sm font-bold">Membership</a>
-            <a href="membership.html#transfer" class="mobile-link text-gray-400 text-xs uppercase tracking-widest hover:text-white transition">Transfer Request</a>
-            <a href="membership.html#requests" class="mobile-link text-gray-400 text-xs uppercase tracking-widest hover:text-white transition">Child Dedication</a>
-            <a href="membership.html#visitation" class="mobile-link text-gray-400 text-xs uppercase tracking-widest hover:text-white transition">Pastoral Visitation</a>
-        </div>
-
-        <a href="contact.html" class="mobile-link text-amber-400 transition">Contact</a>
-    </div>
 
     <!-- 1. Hero Section -->
     <section class="relative h-[70vh] w-full flex items-center justify-center overflow-hidden">
-        <img fetchpriority="high" decoding="async" src="images/IMG_7522_result.webp" alt="Contact Mathare North SDA Church" class="hero-bg-img animate-bgmove">
+        <img fetchpriority="high" decoding="async" src="images/IMG_7522_result.webp" alt="Contact Mathare North SDA Church" class="hero-bg-img animate-bgmove" width="1000" height="667">
         <div class="absolute inset-0 bg-black/60 bg-gradient-to-b from-transparent via-black/30 to-black"></div>
         <div class="absolute inset-0 opacity-40 pointer-events-none" 
             style="background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.2) 0%, transparent 70%);">
@@ -393,7 +394,7 @@
     <!-- 7. Closing CTA Section -->
     <section class="relative py-48 px-6 text-center overflow-hidden border-t border-gray-900">
         <div class="absolute inset-0 z-0">
-            <img loading="lazy" src="images/IMG_4910_result.webp" class="w-full h-full object-cover brightness-[0.2]" alt="Church Atmosphere">
+            <img loading="lazy" decoding="async" src="images/IMG_4910_result.webp" class="w-full h-full object-cover brightness-[0.2]" alt="Church Atmosphere" width="1000" height="667">
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black"></div>
         </div>
         <div class="relative z-10 reveal">
@@ -414,7 +415,7 @@
     <!-- Footer Section -->
     <footer id="contact" class="relative bg-black text-white pt-24 pb-8 px-6 md:px-12 lg:px-20 overflow-visible border-t border-gray-900">
         <div class="absolute inset-0 z-0">
-            <img loading="lazy" src="images/IMG_8430_result.webp" class="h-full w-full object-cover opacity-20 grayscale contrast-125" alt="Church Background">
+            <img loading="lazy" decoding="async" src="images/IMG_8430_result.webp" class="h-full w-full object-cover opacity-20 grayscale contrast-125" alt="Church Background" width="1000" height="667">
             <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
         </div>
 
@@ -422,7 +423,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-20">
                 <div class="lg:col-span-2">
                     <div class="flex items-center gap-3 mb-6">
-                        <img loading="lazy" src="images/WEB LOGO-01_result.webp" alt="Mathare North SDA Church" class="h-10 w-auto">
+                        <img loading="lazy" decoding="async" src="images/WEB LOGO-01_result.webp" alt="Mathare North SDA Church" class="h-10 w-auto" width="86" height="80">
                         <span class="text-xl font-bold tracking-[0.2em] uppercase">Mathare North SDA Church</span>
                     </div>
                     <p class="text-gray-400 text-sm leading-relaxed mb-8 max-w-sm uppercase tracking-wider text-[11px]">Mathare North SDA Church is a sanctuary where faith meets community. We are dedicated to creating an environment where everyone can experience the transformative power of God's love.</p>
@@ -480,7 +481,7 @@
     <div id="floating-player" class="floating-player">
         <div class="flex items-center gap-5">
             <div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 shadow-lg">
-                <img id="player-img" src="images/WEB LOGO-01_result.webp" alt="Current Track" class="w-full h-full object-cover">
+                <img loading="lazy" decoding="async" id="player-img" src="images/WEB LOGO-01_result.webp" alt="Current Track" class="w-full h-full object-cover" width="86" height="80">
             </div>
             <div class="flex-1 min-w-0">
                 <h5 id="player-title" class="text-[11px] font-bold uppercase tracking-widest text-white truncate">Select a Track</h5>
@@ -519,7 +520,6 @@
         </div>
     </div>
 
-    <script src="main.js"></script>
     <script>
     /* ── Contact.html Form Submissions ──────────────────────────────────── */
     (function () {
