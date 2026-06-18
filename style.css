@@ -481,70 +481,7 @@
     transform: scale(1.05);
 }
 
-/* ── Mobile Menu Overlay ────────────────────────────────────────────────────
-   Replaces the broken hidden + flex Tailwind class combination.
-   Controlled by .is-open toggled in main.js.
-   ──────────────────────────────────────────────────────────────────────── */
-.mobile-menu-overlay {
-    display: none;                   /* hidden by default */
-    position: fixed;
-    inset: 0;
-    z-index: 1100;                   /* above nav capsule (z-1000) */
-    background: rgba(0, 0, 0, 0.97);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    overflow-y: auto;
-    padding-top: 80px;
-    padding-bottom: 40px;
-}
 
-.mobile-menu-overlay.is-open {
-    display: flex;
-}
-
-/* Nav links inside the mobile overlay */
-.mobile-menu-overlay .mobile-link {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: white;
-    text-decoration: none;
-    transition: color 0.2s ease;
-    letter-spacing: 0.05em;
-}
-
-.mobile-menu-overlay .mobile-link:hover {
-    color: #D4AF37;
-}
-
-/* Membership sub-links */
-.mobile-menu-overlay .mobile-sub-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 0;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    width: 100%;
-}
-
-/* Mobile menu open — animate in smoothly */
-@keyframes mobileMenuIn {
-    from { opacity: 0; transform: translateY(-12px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-.mobile-menu-overlay.is-open {
-    animation: mobileMenuIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .mobile-menu-overlay.is-open { animation: none; }
-}
 
 /* ── Mobile Adjustments for Capsule ─────────────────────────────────────── */
 @media (max-width: 768px) {
