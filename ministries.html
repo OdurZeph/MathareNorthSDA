@@ -35,15 +35,24 @@
     <link rel="shortcut icon" href="/images/WEB LOGO-01_result.webp" type="image/webp">
     <link rel="apple-touch-icon" href="/images/WEB LOGO-01_result.webp">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Preload critical font -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Tailwind (defer non-critical CSS) -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Lenis Smooth Scroll (Deferred) -->
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
-    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css" media="print" onload="this.media='all'">
+    
     <!-- GSAP for Cinematic Animations (Deferred) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    
+    <!-- Main JS with defer -->
+    <script src="main.js" defer></script>
     <style>
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; }
@@ -86,11 +95,11 @@
             <a href="contact.html" class="nav-link-capsule">Contact</a>
 
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none p-2 ml-2">
-                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none p-2 ml-2" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-menu">
+                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
-                <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
@@ -98,7 +107,7 @@
     </div>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="mobile-menu-overlay">
+    <div id="mobile-menu" class="mobile-menu-overlay" role="dialog" aria-modal="true" aria-label="Mobile navigation">
         <a href="index.html#home" class="mobile-link hover:text-amber-400 transition">Home</a>
         <a href="about.html" class="mobile-link hover:text-amber-400 transition">About</a>
         <a href="ministries.html" class="mobile-link text-amber-400 transition">Ministries</a>
@@ -357,7 +366,7 @@
                     <div class="mt-12 max-w-md">
                         <h3 class="font-bold mb-4 text-xs uppercase tracking-[0.3em] text-[#D4AF37]">Stay Updated</h3>
                         <div class="relative flex items-center">
-                            <input type="email" placeholder="Enter your email" 
+                            <input type="email" id="newsletter-email-ministries" name="email" placeholder="Enter your email"
                                 class="w-full pl-6 pr-32 py-4 rounded-sm bg-white/5 border border-white/10 text-white placeholder:text-gray-600 focus:outline-none focus:bg-white/10 transition-all uppercase text-[10px] tracking-widest">
                             <button class="absolute right-2 bg-[#D4AF37] text-black px-6 py-2.5 rounded-sm font-bold text-[10px] tracking-widest hover:bg-white transition-colors uppercase">
                                 Subscribe
@@ -405,6 +414,12 @@
             </div>
             <div class="border-t border-gray-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
                 <p class="text-[10px] text-gray-600 uppercase tracking-[0.2em]">© Copyright by Mathare North SDA Church. All rights reserved.</p>
+                <div class="flex flex-wrap justify-center gap-6 text-[10px] text-gray-600 uppercase tracking-widest">
+                    <a href="privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="terms-of-use.html" class="hover:text-white transition-colors">Terms of Use</a>
+                    <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                </div>
             </div>
         </div>
     </footer>

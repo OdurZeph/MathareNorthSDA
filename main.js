@@ -3,7 +3,71 @@
  * Handles persistent audio player, navigation, and common UI effects.
  */
 
+// CMS Data Loading Functions
+async function loadCMSData() {
+    try {
+        // Load all CMS data in parallel (faster)
+        const [settingsRes, sermonsRes, eventsRes, announcementsRes, ministriesRes, leadershipRes] = await Promise.all([
+            fetch('/api/public/settings'),
+            fetch('/api/public/sermons'),
+            fetch('/api/public/events'),
+            fetch('/api/public/announcements'),
+            fetch('/api/public/ministries'),
+            fetch('/api/public/leadership')
+        ]);
+
+        // Process each response as it comes in
+        if (settingsRes.ok && window.updatePageSettings) {
+            const settingsData = await settingsRes.json();
+            if (settingsData.success && settingsData.data) {
+                updatePageSettings(settingsData.data);
+            }
+        }
+
+        if (sermonsRes.ok && window.renderSermons) {
+            const sermonsData = await sermonsRes.json();
+            if (sermonsData.success && sermonsData.data) {
+                renderSermons(sermonsData.data);
+            }
+        }
+
+        if (eventsRes.ok && window.renderEvents) {
+            const eventsData = await eventsRes.json();
+            if (eventsData.success && eventsData.data) {
+                renderEvents(eventsData.data);
+            }
+        }
+
+        if (announcementsRes.ok && window.renderAnnouncements) {
+            const announcementsData = await announcementsRes.json();
+            if (announcementsData.success && announcementsData.data) {
+                renderAnnouncements(announcementsData.data);
+            }
+        }
+
+        if (ministriesRes.ok && window.renderMinistries) {
+            const ministriesData = await ministriesRes.json();
+            if (ministriesData.success && ministriesData.data) {
+                renderMinistries(ministriesData.data);
+            }
+        }
+
+        if (leadershipRes.ok && window.renderLeadership) {
+            const leadershipData = await leadershipRes.json();
+            if (leadershipData.success && leadershipData.data) {
+                renderLeadership(leadershipData.data);
+            }
+        }
+
+        console.log('CMS data loaded successfully');
+    } catch (err) {
+        console.warn('Failed to load CMS data:', err);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Load CMS data after DOM is ready
+    loadCMSData();
     // --- 1. Audio Player Persistence & Logic ---
     const floatingPlayer = document.getElementById('floating-player');
     const playerImg = document.getElementById('player-img');
@@ -691,6 +755,7 @@ document.addEventListener('DOMContentLoaded', () => {
             menuIcon.classList.add('hidden');
             closeIcon.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
             // Pause Lenis so the page body doesn't scroll behind the overlay
             if (window.siteScroll) window.siteScroll.stop();
         }
@@ -699,6 +764,7 @@ document.addEventListener('DOMContentLoaded', () => {
             menuIcon.classList.remove('hidden');
             closeIcon.classList.add('hidden');
             document.body.style.overflow = '';
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
             if (window.siteScroll) window.siteScroll.start();
         }
         function toggleMenu() {

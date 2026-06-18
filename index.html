@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -43,15 +43,20 @@
 
     <!-- Critical Asset Preloading -->
     <link rel="preload" as="image" href="/images/WEB LOGO-01_result.webp">
+    <link rel="preload" as="image" href="/images/IMG_7857_result.webp" fetchpriority="high">
     
     <!-- Favicon -->
     <link rel="icon" href="/images/WEB LOGO-01_result.webp" type="image/webp" sizes="16x16 32x32 48x48 64x64 128x128 256x256">
     <link rel="shortcut icon" href="/images/WEB LOGO-01_result.webp" type="image/webp">
     <link rel="apple-touch-icon" href="/images/WEB LOGO-01_result.webp">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Preload critical font -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Tailwind (defer non-critical CSS) -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* Critical CSS for hero section - eliminates render-blocking */
@@ -70,11 +75,14 @@
     
     <!-- Lenis Smooth Scroll (Deferred) -->
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
-    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css" media="print" onload="this.media='all'">
     
     <!-- GSAP for Cinematic Animations (Deferred) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    
+    <!-- Main JS with defer -->
+    <script src="main.js" defer></script>
     <style>
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; }
@@ -115,11 +123,11 @@
                 <a href="contact.html" class="nav-link-capsule">Contact</a>
 
                 <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none p-2 ml-2">
-                    <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none p-2 ml-2" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                     </svg>
-                    <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
@@ -127,7 +135,7 @@
         </div>
 
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="mobile-menu-overlay">
+        <div id="mobile-menu" class="mobile-menu-overlay" role="dialog" aria-modal="true" aria-label="Mobile navigation">
             <a href="#home" class="mobile-link hover:text-amber-400 transition">Home</a>
             <a href="about.html" class="mobile-link hover:text-amber-400 transition">About</a>
             <a href="ministries.html" class="mobile-link hover:text-amber-400 transition">Ministries</a>
@@ -201,14 +209,14 @@
         
         <!-- Social Sidebar -->
         <div class="hero-social-sidebar">
-            <a href="#" class="hero-social-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            <a href="#" class="hero-social-link" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             </a>
-            <a href="#" class="hero-social-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+            <a href="#" class="hero-social-link" aria-label="Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
             </a>
-            <a href="#" class="hero-social-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            <a href="#" class="hero-social-link" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             </a>
         </div>
 
@@ -242,11 +250,11 @@
         <div class="hero-pagination-container">
             <div class="hero-pagination-text">01 <span>/ 06</span></div>
             <div class="hero-nav-arrows">
-                <button class="hero-nav-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                <button class="hero-nav-arrow" aria-label="Previous slide">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
-                <button class="hero-nav-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                <button class="hero-nav-arrow" aria-label="Next slide">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
             </div>
         </div>
@@ -784,7 +792,7 @@
                     <div class="mt-12 max-w-md">
                         <h3 class="font-bold mb-4 text-xs uppercase tracking-[0.3em] text-[#D4AF37]">Stay Updated</h3>
                         <div class="relative flex items-center">
-                            <input type="email" placeholder="Enter your email" 
+                            <input type="email" id="newsletter-email-index" name="email" placeholder="Enter your email" 
                                 class="w-full pl-6 pr-32 py-4 rounded-sm bg-white/5 border border-white/10 text-white placeholder:text-gray-600 focus:outline-none focus:bg-white/10 transition-all uppercase text-[10px] tracking-widest">
                             <button class="absolute right-2 bg-[#D4AF37] text-black px-6 py-2.5 rounded-sm font-bold text-[10px] tracking-widest hover:bg-white transition-colors uppercase">
                                 Subscribe
@@ -832,6 +840,12 @@
             </div>
             <div class="border-t border-gray-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
                 <p class="text-[10px] text-gray-600 uppercase tracking-[0.2em]">© Copyright by Mathare North SDA Church. All rights reserved.</p>
+                <div class="flex flex-wrap justify-center gap-6 text-[10px] text-gray-600 uppercase tracking-widest">
+                    <a href="privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="terms-of-use.html" class="hover:text-white transition-colors">Terms of Use</a>
+                    <a href="contact.html" class="hover:text-white transition-colors">Contact</a>
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                </div>
             </div>
         </div>
     </footer>

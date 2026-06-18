@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const newsletterController = require('../controllers/newsletter.controller');
+const subscriptionController = require('../controllers/subscription.controller');
 const authMiddleware = require('../middleware/auth.middleware');
 
 // Admin routes
-router.get('/subscribers', authMiddleware, newsletterController.getSubscribers);
-router.delete('/subscribers/:id', authMiddleware, newsletterController.deleteSubscriber);
-router.post('/subscribers/:id/reactivate', authMiddleware, newsletterController.reactivateSubscriber);
+router.get('/subscribers', authMiddleware, subscriptionController.getSubscribers);
+router.delete('/subscribers/:id', authMiddleware, subscriptionController.deleteSubscriber);
+router.post('/subscribers/:id/reactivate', authMiddleware, subscriptionController.reactivateSubscriber);
 router.get('/subscribers/export', authMiddleware, newsletterController.exportToCSV);
 
 router.post('/send-newsletter', authMiddleware, newsletterController.sendNewsletter);

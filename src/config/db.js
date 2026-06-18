@@ -21,10 +21,9 @@ function getPool() {
   return pool;
 }
 
-// Convenience: execute a prepared statement through the pool
+// Returns [rows, fields] — same shape as mysql2 pool.execute()
 async function execute(sql, params = []) {
-  const [rows] = await getPool().execute(sql, params);
-  return rows;
+  return getPool().execute(sql, params);
 }
 
 // Health-check used by server.js startup log

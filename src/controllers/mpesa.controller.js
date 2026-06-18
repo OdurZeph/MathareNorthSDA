@@ -20,9 +20,20 @@ function validateAmount(amount) {
   return !isNaN(num) && num > 0;
 }
 
+function normalizeDonationType(type) {
+  const normalized = String(type || '').toLowerCase().replace(/[\s-]+/g, '_');
+  const aliases = {
+    building_fund: 'building',
+    building: 'building',
+    tithe: 'tithe',
+    offering: 'offering',
+    missions: 'missions',
+  };
+  return aliases[normalized] || null;
+}
+
 function validateDonationType(type) {
-  const validTypes = ['tithe', 'offering', 'missions', 'building'];
-  return validTypes.includes(type?.toLowerCase());
+  return normalizeDonationType(type) !== null;
 }
 
 const stkPush = async (req, res) => {
@@ -37,7 +48,7 @@ const stkPush = async (req, res) => {
     } = req.body;
 
     const usePhone = phone || phoneNumber;
-    const useType = type || category;
+    const normalizedType = normalizeDonationType(type || category);
 
     const validPhone = validateKenyanPhone(usePhone);
     if (!validPhone) {
@@ -54,15 +65,15 @@ const stkPush = async (req, res) => {
       });
     }
 
-    if (!validateDonationType(useType)) {
+    if (!validateDonationType(type || category)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid donation type. Must be one of: tithe, offering, missions, building'
+        message: 'Invalid donation type. Must be one of: tithe, offering, missions, building_fund'
       });
     }
 
-    const typeLower = useType.toLowerCase();
-    const useTill = typeLower === 'building' || typeLower === 'building_fund';
+    const typeLower = normalizedType;
+    const useTill = typeLower === 'building';
     const finalCategory = useTill ? 'BUILDING' : typeLower.toUpperCase();
     const reference = finalCategory;
     const paymentMethod = useTill ? 'TILL' : 'PAYBILL';
@@ -78,15 +89,20 @@ const stkPush = async (req, res) => {
     const checkoutRequestID = mpesaResponse.CheckoutRequestID || mpesaResponse.checkoutRequestID;
     const merchantRequestID = mpesaResponse.MerchantRequestID || mpesaResponse.merchantRequestID;
 
-    await donationModel.insertDonation({
-      phone: validPhone,
-      amount: Number(amount),
-      reference,
-      category: finalCategory,
-      paymentMethod,
-      checkoutRequestID,
-      status: 'Pending'
-    });
+    try {
+      await donationModel.insertDonation({
+        phone: validPhone,
+        amount: Number(amount),
+        reference,
+        category: finalCategory,
+        paymentMethod,
+        checkoutRequestID,
+        status: 'Pending',
+        donorName: req.body.donorName?.trim() || null,
+      });
+    } catch (dbErr) {
+      console.error('[mpesa] DB save failed (STK still sent):', dbErr.message);
+    }
 
     return res.status(200).json({
       success: true,

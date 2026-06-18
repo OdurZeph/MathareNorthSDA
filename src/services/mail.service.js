@@ -1,15 +1,22 @@
 const nodemailer = require('nodemailer');
 
 const DEFAULT_RECEIVER = 'zephoduor14@gmail.com';
+const MAX_ATTEMPTS = 3;
+const RETRY_DELAY_MS = 1500;
 
 let transporter = null;
 
 function getMailConfig() {
   return {
     user: (process.env.EMAIL_USER || process.env.SMTP_USER || '').trim(),
-    pass: (process.env.EMAIL_PASS || process.env.SMTP_PASS || '').trim(),
-    host: (process.env.SMTP_HOST || 'smtp.gmail.com').trim(),
-    port: parseInt(process.env.SMTP_PORT || '465', 10),
+    pass: (
+      process.env.EMAIL_PASS ||
+      process.env.EMAIL_PASSWORD ||
+      process.env.SMTP_PASS ||
+      ''
+    ).trim(),
+    host: (process.env.SMTP_HOST || process.env.EMAIL_HOST || 'smtp.gmail.com').trim(),
+    port: parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || '465', 10),
     secure: process.env.SMTP_SECURE !== 'false',
     to: (
       process.env.EMAIL_TO ||
@@ -39,9 +46,6 @@ function isMailConfigured() {
   return Boolean(cfg.user && cfg.pass && cfg.to);
 }
 
-/**
- * Log mail config status on server start (never logs credentials).
- */
 function logMailStatus() {
   const cfg = getMailConfig();
   const configured = Boolean(cfg.user && cfg.pass);
@@ -55,9 +59,26 @@ function logMailStatus() {
   console.log(`  Email configured → ${cfg.to} (via ${cfg.host}:${cfg.port})\n`);
 }
 
-/**
- * Send a notification email to church administration.
- */
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function sendWithRetry(sendFn) {
+  let lastErr;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      return await sendFn();
+    } catch (err) {
+      lastErr = err;
+      console.warn(`[mail] attempt ${attempt}/${MAX_ATTEMPTS} failed: ${err.message}`);
+      if (attempt < MAX_ATTEMPTS) {
+        await sleep(RETRY_DELAY_MS * attempt);
+      }
+    }
+  }
+  throw lastErr;
+}
+
 async function sendChurchEmail({ subject, html, formType = 'form' }) {
   const cfg = getMailConfig();
 
@@ -78,18 +99,20 @@ async function sendChurchEmail({ subject, html, formType = 'form' }) {
   console.log(`[mail:${formType}] sending → ${cfg.to} | subject: ${subject}`);
 
   try {
-    const info = await getTransporter().sendMail({
-      from: `"Mathare North SDA Church" <${cfg.user}>`,
-      to: cfg.to,
-      replyTo: cfg.user,
-      subject,
-      html,
-    });
+    const info = await sendWithRetry(() =>
+      getTransporter().sendMail({
+        from: `"Mathare North SDA Church" <${cfg.user}>`,
+        to: cfg.to,
+        replyTo: cfg.user,
+        subject,
+        html,
+      })
+    );
 
     console.log(`[mail:${formType}] success | messageId=${info.messageId}`);
     return info;
   } catch (err) {
-    console.error(`[mail:${formType}] failed | ${err.message}`);
+    console.error(`[mail:${formType}] failed after ${MAX_ATTEMPTS} attempts | ${err.message}`);
     const mailErr = new Error(`Failed to send email: ${err.message}`);
     mailErr.code = 'EMAIL_SEND';
     throw mailErr;

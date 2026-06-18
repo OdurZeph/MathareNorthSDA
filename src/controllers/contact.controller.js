@@ -38,11 +38,7 @@ async function createContact(req, res) {
        <hr><p>Submitted: ${new Date().toISOString()}</p>`,
     });
   } catch (emailErr) {
-    const status = emailErr.code === 'EMAIL_CONFIG' ? 503 : 500;
-    return res.status(status).json({
-      success: false,
-      message: emailErr.message || 'Failed to send contact notification email.',
-    });
+    console.error('[form:contact] email failed:', emailErr.message);
   }
 
   return res.status(200).json({

@@ -1,29 +1,32 @@
-require('dotenv').config();
 const bcrypt = require('bcrypt');
 const db = require('./src/config/db');
 
 async function seedAdmin() {
   try {
-    const username = 'admin';
-    const email = 'admin@mnchurch.org';
-    const password = 'admin123';
-    const role = 'Super Admin';
+    // Check if admin already exists
+    const [existing] = await db.execute('SELECT * FROM admins WHERE email = ?', ['admin@mnsdachurch.org']);
+    if (existing.length > 0) {
+      console.log('Admin already exists!');
+      process.exit(0);
+    }
 
+    // Hash password
+    const password = 'admin123'; // Default password (change later!)
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Create admin
     await db.execute(
-      `INSERT INTO admins (username, email, password, role) VALUES (?, ?, ?, ?)
-       ON DUPLICATE KEY UPDATE username = username`,
-      [username, email, hashedPassword, role]
+      'INSERT INTO admins (username, email, password, role) VALUES (?, ?, ?, ?)',
+      ['admin', 'admin@mnsdachurch.org', hashedPassword, 'admin']
     );
 
-    console.log('✅ Admin user created successfully!');
-    console.log(`Email: ${email}`);
-    console.log(`Password: ${password}`);
-
+    console.log('Admin created successfully!');
+    console.log('Email: admin@mnsdachurch.org');
+    console.log('Password: admin123');
+    console.log('IMPORTANT: Please change this password immediately after logging in!');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding admin:', error);
+    console.error('Error seeding admin:', error);
     process.exit(1);
   }
 }

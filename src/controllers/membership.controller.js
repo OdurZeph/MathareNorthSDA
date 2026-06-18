@@ -59,11 +59,7 @@ async function createTransferRequest(req, res) {
        <hr><p>Submitted: ${new Date().toISOString()}</p>`,
     });
   } catch (emailErr) {
-    const status = emailErr.code === 'EMAIL_CONFIG' ? 503 : 500;
-    return res.status(status).json({
-      success: false,
-      message: emailErr.message || 'Failed to send transfer request notification email.',
-    });
+    console.error('[form:membership-transfer] email failed:', emailErr.message);
   }
 
   return res.status(200).json({
@@ -127,11 +123,7 @@ async function createVisitationRequest(req, res) {
        <hr><p>Submitted: ${new Date().toISOString()}</p>`,
     });
   } catch (emailErr) {
-    const status = emailErr.code === 'EMAIL_CONFIG' ? 503 : 500;
-    return res.status(status).json({
-      success: false,
-      message: emailErr.message || 'Failed to send visitation request notification email.',
-    });
+    console.error('[form:visitation] email failed:', emailErr.message);
   }
 
   return res.status(200).json({

@@ -1,826 +1,2792 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard | Mathare North SDA Church</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    :root {
-      --primary-gold: #D4AF37;
-      --deep-blue: #0d1b2a;
-      --dark-bg: #0a0a0a;
-    }
-    body {
-      background-color: var(--dark-bg);
-      color: white;
-      font-family: 'Inter', sans-serif;
-    }
-    .sidebar {
-      background-color: var(--deep-blue);
-      min-height: 100vh;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 250px;
-      padding-top: 2rem;
-      transition: all 0.3s;
-    }
-    .sidebar .nav-link {
-      color: #aaa;
-      padding: 0.8rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .sidebar .nav-link:hover,
-    .sidebar .nav-link.active {
-      color: white;
-      background-color: rgba(212, 175, 55, 0.1);
-      border-left: 4px solid var(--primary-gold);
-    }
-    .main-content {
-      margin-left: 250px;
-      padding: 2rem;
-    }
-    .card {
-      background-color: #0d0d0d;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 0.5rem;
-    }
-    .btn-gold {
-      background-color: var(--primary-gold);
-      color: black;
-      border: none;
-    }
-    .btn-gold:hover {
-      background-color: #b38b2a;
-      color: black;
-    }
-    .btn-outline-gold {
-      border: 1px solid var(--primary-gold);
-      color: var(--primary-gold);
-      background: transparent;
-    }
-    .btn-outline-gold:hover {
-      background-color: var(--primary-gold);
-      color: black;
-    }
-    .table {
-      color: white;
-    }
-    .table thead {
-      color: var(--primary-gold);
-    }
-    .table tbody tr:hover {
-      background-color: rgba(255, 255, 255, 0.05);
-    }
-    .badge-pending {
-      background-color: #ffc107;
-      color: black;
-    }
-    .badge-approved {
-      background-color: #28a745;
-      color: white;
-    }
-    .badge-rejected {
-      background-color: #dc3545;
-      color: white;
-    }
-    .top-nav {
-      background-color: var(--deep-blue);
-      padding: 1rem 2rem;
-      margin: -2rem -2rem 2rem -2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    @media (max-width: 992px) {
-      .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-      }
-      .main-content {
-        margin-left: 0;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Mathare North SDA</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #a5b4fc;
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-hover: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --border: #334155;
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            padding: 28px 20px;
+            border-right: 1px solid var(--border);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+        }
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-light);
+            margin-bottom: 36px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo span {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+            margin-bottom: 4px;
+            font-weight: 500;
+            font-size: 0.9375rem;
+        }
+        .menu-item:hover {
+            background: rgba(99,102,241,0.1);
+            color: var(--primary-light);
+            transform: translateX(4px);
+        }
+        .menu-item.active {
+            background: linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(79,70,229,0.1) 100%);
+            color: var(--primary-light);
+            border-left: 3px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(99,102,241,0.1);
+        }
+        .menu-item:last-of-type {
+            margin-top: auto;
+            color: var(--danger);
+        }
+        .menu-item:last-of-type:hover {
+            background: rgba(239,68,68,0.1);
+            color: #fca5a5;
+        }
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 32px 40px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 36px;
+        }
+        .header h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 36px;
+        }
+        .stat-card {
+            background: linear-gradient(145deg, var(--bg-card) 0%, #1a2332 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+        }
+        .stat-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(99,102,241,0.4);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+        }
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+        }
+        .stat-title {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 28px;
+        }
+        .card {
+            background: linear-gradient(145deg, var(--bg-card) 0%, #1a2332 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card h3::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 2px;
+        }
+        .activity-item {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 16px;
+            transition: all 0.2s;
+        }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-item:hover {
+            background: rgba(99,102,241,0.05);
+            padding-left: 8px;
+            border-radius: 8px;
+        }
+        .activity-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(16,185,129,0.15) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.25rem;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background: linear-gradient(90deg, rgba(99,102,241,0.1) 0%, rgba(16,185,129,0.1) 100%);
+        }
+        th, td {
+            text-align: left;
+            padding: 16px 20px;
+        }
+        th {
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        tr {
+            transition: all 0.2s;
+        }
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+        }
+        tbody tr:hover {
+            background: rgba(99,102,241,0.05);
+        }
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #4338ca 100%);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: white;
+        }
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            color: white;
+        }
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+        .btn-secondary {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        .badge-pending {
+            background: rgba(245,158,11,0.15);
+            color: #fbbf24;
+        }
+        .badge-approved {
+            background: rgba(16,185,129,0.15);
+            color: #34d399;
+        }
+        .badge-rejected {
+            background: rgba(239,68,68,0.15);
+            color: #f87171;
+        }
+        .search-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .search-input, .select {
+            flex: 1;
+            min-width: 240px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.2s;
+            font-size: 0.9375rem;
+        }
+        .search-input:focus, .select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+        }
+        .select {
+            flex: 0 1 auto;
+            cursor: pointer;
+        }
+        .page-content { display: none; }
+        .page-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chart-container {
+            width: 100%;
+            height: 320px;
+            position: relative;
+            padding: 8px;
+        }
+        .hidden { display: none; }
+        #loading {
+            text-align: center;
+            padding: 40px;
+        }
+        .spinner {
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15,23,42,0.85);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-card);
+            padding: 32px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-content h3 {
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .modal-content p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        .modal-content input, .modal-content textarea, .modal-content select {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            outline: none;
+            transition: all 0.2s;
+            font-size: 0.9375rem;
+        }
+        .modal-content input:focus, .modal-content textarea:focus, .modal-content select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        form > div {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-  <!-- Login Screen -->
-  <div id="loginScreen" class="d-flex align-items-center justify-content-center min-vh-100">
-    <div class="card p-5" style="max-width: 400px; width: 100%;">
-      <h2 class="text-center mb-4" style="color: var(--primary-gold);">Admin Login</h2>
-      <form id="loginForm">
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input type="email" id="loginEmail" class="form-control bg-transparent text-white" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Password</label>
-          <input type="password" id="loginPassword" class="form-control bg-transparent text-white" required>
-        </div>
-        <button type="submit" class="btn btn-gold w-100">Login</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Dashboard -->
-  <div id="dashboardScreen" class="d-none">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="text-center mb-5 px-3">
-        <h5 style="color: var(--primary-gold);">Mathare North SDA</h5>
-        <p class="text-muted small">Admin Dashboard</p>
-      </div>
-      <nav class="nav flex-column">
-        <a href="#" class="nav-link active" data-page="dashboard">
-          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37c.21.112.362.242.465.402.27.42.618.734 1.009 1.009.16.103.29.255.402.465A7 7 0 1 0 8 1z"/><path d="M8 3a.5.5 0 0 0-.5.5v4.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1H8.5V3.5A.5.5 0 0 0 8 3z"/></svg>
-          Dashboard
-        </a>
-        <a href="#" class="nav-link" data-page="prayers">
-          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M11 2a3 3 0 0 1 3 3c0 1.987-.738 2.908-2.318 4.182C9.823 10.763 8 12.275 8 14.5c0-.624.098-1.245.278-1.838a2 2 0 0 1 1.665 1.296c.18.42.45.778.79.965.34.187.714.277 1.07.277h.003c.118 0 .236-.014.35-.043.113-.029.22-.074.32-.137.099-.063.19-.14.27-.229a.5.5 0 0 0 .146-.292.5.5 0 0 0-.085-.24c-.046-.056-.1-.11-.158-.164C11.904 13.082 11 12.058 11 10.5a2.5 2.5 0 1 1 5 0c0 1.558-.904 2.582-1.726 3.186-.058.054-.112.108-.158.164a.5.5 0 0 0-.085.24.5.5 0 0 0 .146.292c.08.09.171.166.27.229.1.063.207.108.32.137.114.029.232.043.35.043h.003c.356 0 .73-.09 1.07-.277.34-.187.61-.545.79-.965a2 2 0 0 1 1.665-1.296c.18.593.278 1.214.278 1.838 0-2.225-1.823-3.737-3.682-4.818C11.738 7.908 11 6.987 11 5a3 3 0 0 0-3-3z"/><path d="M7.5 14.5a5 5 0 0 0 5 5h-10a5 5 0 0 0 5-5v-.5a.5.5 0 0 1 1 0v.5z"/></svg>
-          Prayer Requests
-        </a>
-        <a href="#" class="nav-link" data-page="contacts">
-          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm1 1h12a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/></svg>
-          Contact Messages
-        </a>
-        <a href="#" class="nav-link" data-page="transfers">
-          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-3.732 14.883V16h1.536v-1.117A8 8 0 1 0 8 0zM5.5 6.5a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm5.5 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm-7 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
-          Membership Transfers
-        </a>
-        <a href="#" class="nav-link" data-page="dedications">
-          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M4.318 6.318a4.5 4.5 0 0 0 0 6.364L8 14.364l3.682-3.682a4.5 4.5 0 0 0-6.364-6.364L8 7.636l-1.318-1.318a4.5 4.5 0 0 0-2.364 0z"/></svg>
-          Child Dedications
-        </a>
-        <a href="#" class="nav-link" data-page="visits">
-          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
-          Pastoral Visits
-        </a>
-        <a href="#" class="nav-link" data-page="donations">
-          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M0 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5zm1.5 0a.5.5 0 0 0 .5.5h12a.5.5 0 0 0 .5-.5v-.085a1 1 0 0 0-.553-.894l-5-2.5a1 1 0 0 0-.894 0l-5 2.5A1 1 0 0 0 1.5 4.915V5z"/></svg>
-          Donations
-        </a>
-        <a href="/admin/newsletter.html" class="nav-link">
-          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm5.684 2.388L16 11.8V4.697l-5.803 3.558z"/></svg>
-          Newsletter
-        </a>
-        <a href="#" class="nav-link text-danger" id="logoutBtn">
-          <svg class="bi" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M10 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M8 1a7 7 0 1 0 0 14h1a1 1 0 0 0 0-2H8a5 5 0 1 1 0-10h4a1 1 0 1 0 0-2H8z"/></svg>
-          Logout
-        </a>
-      </nav>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-      <div class="top-nav">
-        <h4 id="pageTitle">Dashboard</h4>
-        <div class="d-flex align-items-center gap-3">
-          <div id="adminName" class="text-muted"></div>
-        </div>
-      </div>
-
-      <!-- Dashboard Page -->
-      <div id="dashboardPage" class="page-content">
-        <div class="row mb-4">
-          <div class="col-md-4 mb-3">
-            <div class="card p-4">
-              <div class="d-flex justify-content-between align-items-center">
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <span>✝️</span>
                 <div>
-                  <p class="text-muted mb-1">Prayer Requests</p>
-                  <h3 id="statPrayers">0</h3>
+                    <div style="font-size: 1.125rem; font-weight: 800;">MNSDA</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 500;">Admin Panel</div>
                 </div>
-                <div class="text-gold" style="font-size: 2rem; color: var(--primary-gold);">🙏</div>
-              </div>
             </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="card p-4">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <p class="text-muted mb-1">Contact Messages</p>
-                  <h3 id="statContacts">0</h3>
+            <div class="menu-item active" onclick="showPage('dashboard')">📊 Dashboard</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); padding: 1rem 1rem 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">Website Management</div>
+            <div class="menu-item" onclick="showPage('settings')">⚙️ Website Settings</div>
+            <div class="menu-item" onclick="showPage('sermons')">🎤 Sermons</div>
+            <div class="menu-item" onclick="showPage('events')">📅 Events</div>
+            <div class="menu-item" onclick="showPage('announcements')">📢 Announcements</div>
+            <div class="menu-item" onclick="showPage('gallery')">🖼️ Gallery</div>
+            <div class="menu-item" onclick="showPage('leadership')">👥 Leadership</div>
+            <div class="menu-item" onclick="showPage('ministries')">🙌 Ministries</div>
+            <div class="menu-item" onclick="showPage('media')">📁 Media</div>
+            <div class="menu-item" onclick="showPage('pages')">📄 Page Builder</div>
+            <div class="menu-item" onclick="showPage('seo')">🔍 SEO</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); padding: 1rem 1rem 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">Church Operations</div>
+            <div class="menu-item" onclick="showPage('prayers')">🙏 Prayer Requests</div>
+            <div class="menu-item" onclick="showPage('contacts')">📧 Contact Messages</div>
+            <div class="menu-item" onclick="showPage('transfers')">🔄 Membership Transfers</div>
+            <div class="menu-item" onclick="showPage('dedications')">👶 Child Dedications</div>
+            <div class="menu-item" onclick="showPage('visits')">🏠 Pastoral Visits</div>
+            <div class="menu-item" onclick="showPage('donations')">💰 Donations</div>
+            <div class="menu-item" onclick="showPage('subscribers')">📧 Subscribers</div>
+            <div class="menu-item" onclick="showPage('newsletter')">📝 Newsletter</div>
+            <div class="menu-item" onclick="showPage('audit-logs')">📜 Audit Logs</div>
+            <div class="menu-item" onclick="logout()">🚪 Logout</div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1 id="pageTitle">Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="exportData()">📤 Export</button>
                 </div>
-                <div class="text-gold" style="font-size: 2rem; color: var(--primary-gold);">✉️</div>
-              </div>
             </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="card p-4">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <p class="text-muted mb-1">Total Donations</p>
-                  <h3 id="statDonations">KSh 0</h3>
+
+            <!-- Dashboard Page -->
+            <div class="page-content active" id="dashboard-page">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🙏</div>
+                        <div class="stat-title">Prayer Requests</div>
+                        <div class="stat-value" id="stat-prayers">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📧</div>
+                        <div class="stat-title">Contact Messages</div>
+                        <div class="stat-value" id="stat-contacts">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-title">Total Donations</div>
+                        <div class="stat-value" id="stat-donations">KES 0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-title">Active Subscribers</div>
+                        <div class="stat-value" id="stat-subscribers">0</div>
+                    </div>
                 </div>
-                <div class="text-gold" style="font-size: 2rem; color: var(--primary-gold);">💰</div>
-              </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Donations Overview</h3>
+                        <div class="chart-container">
+                            <canvas id="donationsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Recent Activity</h3>
+                        <div id="recent-activity">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 28px;">
+                    <h3>Donations by Category</h3>
+                    <div class="chart-container" style="height: 280px;">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card p-4">
-              <h5 class="mb-3">Requests per Month</h5>
-              <canvas id="requestsChart"></canvas>
+
+            <!-- Prayers Page -->
+            <div class="page-content" id="prayers-page">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="search-prayers" placeholder="Search prayer requests..." oninput="loadPrayers()">
+                </div>
+                <div class="card">
+                    <div id="prayers-table">Loading...</div>
+                </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card p-4">
-              <h5 class="mb-3">Donations per Month</h5>
-              <canvas id="donationsChart"></canvas>
+
+            <!-- Contacts Page -->
+            <div class="page-content" id="contacts-page">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="search-contacts" placeholder="Search messages..." oninput="loadContacts()">
+                </div>
+                <div class="card">
+                    <div id="contacts-table">Loading...</div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Prayers Page -->
-      <div id="prayersPage" class="page-content d-none">
-        <div class="card p-4">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5>Prayer Requests</h5>
-            <input type="text" id="searchPrayers" class="form-control w-25" placeholder="Search...">
-          </div>
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Message</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="prayersTable"></tbody>
-            </table>
-          </div>
-          <nav>
-            <ul class="pagination" id="prayersPagination"></ul>
-          </nav>
-        </div>
-      </div>
-
-      <!-- Contacts Page -->
-      <div id="contactsPage" class="page-content d-none">
-        <div class="card p-4">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5>Contact Messages</h5>
-            <input type="text" id="searchContacts" class="form-control w-25" placeholder="Search...">
-          </div>
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Message</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="contactsTable"></tbody>
-            </table>
-          </div>
-          <nav>
-            <ul class="pagination" id="contactsPagination"></ul>
-          </nav>
-        </div>
-      </div>
-
-      <!-- Transfers Page -->
-      <div id="transfersPage" class="page-content d-none">
-        <div class="card p-4">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5>Membership Transfers</h5>
-            <input type="text" id="searchTransfers" class="form-control w-25" placeholder="Search...">
-          </div>
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Full Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="transfersTable"></tbody>
-            </table>
-          </div>
-          <nav>
-            <ul class="pagination" id="transfersPagination"></ul>
-          </nav>
-        </div>
-      </div>
-
-      <!-- Dedications Page -->
-      <div id="dedicationsPage" class="page-content d-none">
-        <div class="card p-4">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5>Child Dedications</h5>
-            <input type="text" id="searchDedications" class="form-control w-25" placeholder="Search...">
-          </div>
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Parent Name</th>
-                  <th>Child Name</th>
-                  <th>Phone</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="dedicationsTable"></tbody>
-            </table>
-          </div>
-          <nav>
-            <ul class="pagination" id="dedicationsPagination"></ul>
-          </nav>
-        </div>
-      </div>
-
-      <!-- Visits Page -->
-      <div id="visitsPage" class="page-content d-none">
-        <div class="card p-4">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5>Pastoral Visits</h5>
-            <input type="text" id="searchVisits" class="form-control w-25" placeholder="Search...">
-          </div>
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Full Name</th>
-                  <th>Phone</th>
-                  <th>Assigned To</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="visitsTable"></tbody>
-            </table>
-          </div>
-          <nav>
-            <ul class="pagination" id="visitsPagination"></ul>
-          </nav>
-        </div>
-      </div>
-
-      <!-- Donations Page -->
-      <div id="donationsPage" class="page-content d-none">
-        <div class="card p-4">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5>Donations</h5>
-            <div class="d-flex gap-2">
-              <input type="text" id="searchDonations" class="form-control" placeholder="Search...">
-              <button id="addDonationBtn" class="btn btn-gold">Add Donation</button>
+            <!-- Transfers Page -->
+            <div class="page-content" id="transfers-page">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="search-transfers" placeholder="Search transfers..." oninput="loadTransfers()">
+                </div>
+                <div class="card">
+                    <div id="transfers-table">Loading...</div>
+                </div>
             </div>
-          </div>
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Donor Name</th>
-                  <th>Amount</th>
-                  <th>Type</th>
-                  <th>Payment Method</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="donationsTable"></tbody>
-            </table>
-          </div>
-          <nav>
-            <ul class="pagination" id="donationsPagination"></ul>
-          </nav>
+
+            <!-- Dedications Page -->
+            <div class="page-content" id="dedications-page">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="search-dedications" placeholder="Search dedications..." oninput="loadDedications()">
+                </div>
+                <div class="card">
+                    <div id="dedications-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Visits Page -->
+            <div class="page-content" id="visits-page">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="search-visits" placeholder="Search visits..." oninput="loadVisits()">
+                </div>
+                <div class="card">
+                    <div id="visits-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Donations Page -->
+            <div class="page-content" id="donations-page">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="search-donations" placeholder="Search donations..." oninput="loadDonations()">
+                    <select class="select" id="filter-donation-category" onchange="loadDonations()">
+                        <option value="">All Categories</option>
+                        <option value="TITHE">Tithe</option>
+                        <option value="OFFERING">Offering</option>
+                        <option value="BUILDING">Building Fund</option>
+                        <option value="MISSIONS">Missions</option>
+                    </select>
+                </div>
+                <div class="card" style="margin-bottom: 28px;">
+                    <h3>Donations Summary</h3>
+                    <div id="donations-summary">Loading...</div>
+                </div>
+                <div class="card">
+                    <div id="donations-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Subscribers Page -->
+            <div class="page-content" id="subscribers-page">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="search-subscribers" placeholder="Search subscribers..." oninput="loadSubscribers()">
+                </div>
+                <div class="card">
+                    <div id="subscribers-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Website Settings Page -->
+            <div class="page-content" id="settings-page">
+                <div class="card">
+                    <h3>Website Settings</h3>
+                    <form id="settings-form">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Hero Title</label>
+                                <input type="text" id="hero-title" placeholder="Enter hero title">
+                            </div>
+                            <div>
+                                <label>Hero Subtitle</label>
+                                <input type="text" id="hero-subtitle" placeholder="Enter hero subtitle">
+                            </div>
+                            <div>
+                                <label>Welcome Message</label>
+                                <textarea id="welcome-message" rows="3" placeholder="Enter welcome message"></textarea>
+                            </div>
+                            <div>
+                                <label>Mission Statement</label>
+                                <textarea id="mission-statement" rows="3" placeholder="Enter mission statement"></textarea>
+                            </div>
+                            <div>
+                                <label>Vision Statement</label>
+                                <textarea id="vision-statement" rows="3" placeholder="Enter vision statement"></textarea>
+                            </div>
+                            <div>
+                                <label>Pastor's Message</label>
+                                <textarea id="pastors-message" rows="3" placeholder="Enter pastor's message"></textarea>
+                            </div>
+                            <div>
+                                <label>Footer Text</label>
+                                <input type="text" id="footer-text" placeholder="Enter footer text">
+                            </div>
+                            <div>
+                                <label>Phone</label>
+                                <input type="text" id="church-phone" placeholder="Enter church phone">
+                            </div>
+                            <div>
+                                <label>Email</label>
+                                <input type="email" id="church-email" placeholder="Enter church email">
+                            </div>
+                            <div>
+                                <label>Address</label>
+                                <textarea id="church-address" rows="2" placeholder="Enter church address"></textarea>
+                            </div>
+                            <div>
+                                <label>Google Maps Embed Code</label>
+                                <textarea id="google-maps-embed" rows="2" placeholder="Enter Google Maps embed code"></textarea>
+                            </div>
+                            <div>
+                                <label>Facebook Link</label>
+                                <input type="url" id="facebook-link" placeholder="Enter Facebook link">
+                            </div>
+                            <div>
+                                <label>Twitter Link</label>
+                                <input type="url" id="twitter-link" placeholder="Enter Twitter link">
+                            </div>
+                            <div>
+                                <label>Instagram Link</label>
+                                <input type="url" id="instagram-link" placeholder="Enter Instagram link">
+                            </div>
+                            <div>
+                                <label>YouTube Link</label>
+                                <input type="url" id="youtube-link" placeholder="Enter YouTube link">
+                            </div>
+                            <div>
+                                <label>Paybill Number</label>
+                                <input type="text" id="paybill-number" placeholder="Enter paybill number">
+                            </div>
+                            <div>
+                                <label>Till Number</label>
+                                <input type="text" id="till-number" placeholder="Enter till number">
+                            </div>
+                            <div>
+                                <label>Account Names</label>
+                                <input type="text" id="account-names" placeholder="Enter account names">
+                            </div>
+                            <div>
+                                <label>Donation Categories (comma-separated)</label>
+                                <input type="text" id="donation-categories" placeholder="Tithes, Offerings, Building Fund">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="saveSettings()" style="margin-top: 24px;">💾 Save Settings</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sermons Page -->
+            <div class="page-content" id="sermons-page">
+                <div class="card" style="margin-bottom: 28px;">
+                    <h3>Add/Edit Sermon</h3>
+                    <form id="sermon-form">
+                        <input type="hidden" id="sermon-id">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Title</label>
+                                <input type="text" id="sermon-title" placeholder="Enter sermon title" required>
+                            </div>
+                            <div>
+                                <label>Speaker</label>
+                                <input type="text" id="sermon-speaker" placeholder="Enter speaker name">
+                            </div>
+                            <div>
+                                <label>Date</label>
+                                <input type="date" id="sermon-date">
+                            </div>
+                            <div>
+                                <label>YouTube URL</label>
+                                <input type="url" id="sermon-youtube" placeholder="Enter YouTube URL">
+                            </div>
+                            <div>
+                                <label>Image</label>
+                                <input type="file" id="sermon-image" accept="image/*">
+                            </div>
+                            <div>
+                                <label>Published</label>
+                                <input type="checkbox" id="sermon-published" checked>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <label>Description</label>
+                            <textarea id="sermon-description" rows="4" placeholder="Enter sermon description"></textarea>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button type="button" class="btn btn-primary" onclick="saveSermon()">💾 Save Sermon</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetSermonForm()">🆕 New Sermon</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>Sermons</h3>
+                    <div id="sermons-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Events Page -->
+            <div class="page-content" id="events-page">
+                <div class="card" style="margin-bottom: 28px;">
+                    <h3>Add/Edit Event</h3>
+                    <form id="event-form">
+                        <input type="hidden" id="event-id">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Title</label>
+                                <input type="text" id="event-title" placeholder="Enter event title" required>
+                            </div>
+                            <div>
+                                <label>Date & Time</label>
+                                <input type="datetime-local" id="event-date">
+                            </div>
+                            <div>
+                                <label>Location</label>
+                                <input type="text" id="event-location" placeholder="Enter event location">
+                            </div>
+                            <div>
+                                <label>Registration Link</label>
+                                <input type="url" id="event-registration" placeholder="Enter registration link">
+                            </div>
+                            <div>
+                                <label>Image</label>
+                                <input type="file" id="event-image" accept="image/*">
+                            </div>
+                            <div>
+                                <label>Published</label>
+                                <input type="checkbox" id="event-published" checked>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <label>Description</label>
+                            <textarea id="event-description" rows="4" placeholder="Enter event description"></textarea>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button type="button" class="btn btn-primary" onclick="saveEvent()">💾 Save Event</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetEventForm()">🆕 New Event</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>Events</h3>
+                    <div id="events-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Announcements Page -->
+            <div class="page-content" id="announcements-page">
+                <div class="card" style="margin-bottom: 28px;">
+                    <h3>Add/Edit Announcement</h3>
+                    <form id="announcement-form">
+                        <input type="hidden" id="announcement-id">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Title</label>
+                                <input type="text" id="announcement-title" placeholder="Enter announcement title" required>
+                            </div>
+                            <div>
+                                <label>Category</label>
+                                <input type="text" id="announcement-category" placeholder="Enter category">
+                            </div>
+                            <div>
+                                <label>Publish Date</label>
+                                <input type="date" id="announcement-date">
+                            </div>
+                            <div>
+                                <label>Archived</label>
+                                <input type="checkbox" id="announcement-archived">
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <label>Body</label>
+                            <textarea id="announcement-body" rows="4" placeholder="Enter announcement body"></textarea>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button type="button" class="btn btn-primary" onclick="saveAnnouncement()">💾 Save Announcement</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetAnnouncementForm()">🆕 New Announcement</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>Announcements</h3>
+                    <div id="announcements-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Gallery Page -->
+            <div class="page-content" id="gallery-page">
+                <div class="card" style="margin-bottom: 28px;">
+                    <h3>Upload Image</h3>
+                    <form id="gallery-form">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Album</label>
+                                <select id="gallery-album">
+                                    <option value="Worship">Worship</option>
+                                    <option value="Youth Ministry">Youth Ministry</option>
+                                    <option value="Pathfinder">Pathfinder</option>
+                                    <option value="Evangelism">Evangelism</option>
+                                    <option value="Events">Events</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Image</label>
+                                <input type="file" id="gallery-image" accept="image/*" required>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="uploadGalleryImage()" style="margin-top: 20px;">⬆️ Upload</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3>Gallery</h3>
+                        <select id="gallery-album-filter" onchange="loadGalleryImages()">
+                            <option value="">All Albums</option>
+                            <option value="Worship">Worship</option>
+                            <option value="Youth Ministry">Youth Ministry</option>
+                            <option value="Pathfinder">Pathfinder</option>
+                            <option value="Evangelism">Evangelism</option>
+                            <option value="Events">Events</option>
+                        </select>
+                    </div>
+                    <div id="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Leadership Page -->
+            <div class="page-content" id="leadership-page">
+                <div class="card" style="margin-bottom: 28px;">
+                    <h3>Add/Edit Leader</h3>
+                    <form id="leader-form">
+                        <input type="hidden" id="leader-id">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Name</label>
+                                <input type="text" id="leader-name" placeholder="Enter name" required>
+                            </div>
+                            <div>
+                                <label>Title</label>
+                                <input type="text" id="leader-title" placeholder="Enter title">
+                            </div>
+                            <div>
+                                <label>Role</label>
+                                <select id="leader-role">
+                                    <option value="Pastor">Pastor</option>
+                                    <option value="Elder">Elder</option>
+                                    <option value="Deacon">Deacon</option>
+                                    <option value="Ministry Leader">Ministry Leader</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Phone</label>
+                                <input type="text" id="leader-phone" placeholder="Enter phone">
+                            </div>
+                            <div>
+                                <label>Email</label>
+                                <input type="email" id="leader-email" placeholder="Enter email">
+                            </div>
+                            <div>
+                                <label>Image</label>
+                                <input type="file" id="leader-image" accept="image/*">
+                            </div>
+                            <div>
+                                <label>Sort Order</label>
+                                <input type="number" id="leader-sort" placeholder="0" value="0">
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <label>Biography</label>
+                            <textarea id="leader-bio" rows="4" placeholder="Enter biography"></textarea>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button type="button" class="btn btn-primary" onclick="saveLeader()">💾 Save Leader</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetLeaderForm()">🆕 New Leader</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>Leadership</h3>
+                    <div id="leadership-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Ministries Page -->
+            <div class="page-content" id="ministries-page">
+                <div class="card" style="margin-bottom: 28px;">
+                    <h3>Add/Edit Ministry</h3>
+                    <form id="ministry-form">
+                        <input type="hidden" id="ministry-id">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Title</label>
+                                <input type="text" id="ministry-title" placeholder="Enter ministry title" required>
+                            </div>
+                            <div>
+                                <label>Slug</label>
+                                <input type="text" id="ministry-slug" placeholder="youth-ministry">
+                            </div>
+                            <div>
+                                <label>Image</label>
+                                <input type="file" id="ministry-image" accept="image/*">
+                            </div>
+                            <div>
+                                <label>Sort Order</label>
+                                <input type="number" id="ministry-sort" placeholder="0" value="0">
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <label>Description</label>
+                            <textarea id="ministry-description" rows="4" placeholder="Enter ministry description"></textarea>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button type="button" class="btn btn-primary" onclick="saveMinistry()">💾 Save Ministry</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetMinistryForm()">🆕 New Ministry</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>Ministries</h3>
+                    <div id="ministries-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Media Page -->
+            <div class="page-content" id="media-page">
+                <div class="card" style="margin-bottom: 28px;">
+                    <h3>Upload Media</h3>
+                    <form id="media-form">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Type</label>
+                                <select id="media-type">
+                                    <option value="pdf">PDF</option>
+                                    <option value="sermon-notes">Sermon Notes</option>
+                                    <option value="bulletin">Bulletin</option>
+                                    <option value="poster">Poster</option>
+                                    <option value="audio">Audio</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Title</label>
+                                <input type="text" id="media-title" placeholder="Enter title">
+                            </div>
+                            <div>
+                                <label>File</label>
+                                <input type="file" id="media-file" accept="application/pdf,audio/*,image/*" required>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <label>Description</label>
+                            <textarea id="media-description" rows="2" placeholder="Enter description"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="uploadMedia()" style="margin-top: 20px;">⬆️ Upload</button>
+                    </form>
+                </div>
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3>Media</h3>
+                        <select id="media-type-filter" onchange="loadMedia()">
+                            <option value="">All Types</option>
+                            <option value="pdf">PDF</option>
+                            <option value="sermon-notes">Sermon Notes</option>
+                            <option value="bulletin">Bulletin</option>
+                            <option value="poster">Poster</option>
+                            <option value="audio">Audio</option>
+                        </select>
+                    </div>
+                    <div id="media-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Page Builder Page -->
+            <div class="page-content" id="pages-page">
+                <div class="card" style="margin-bottom: 28px;">
+                    <h3>Add/Edit Page Section</h3>
+                    <form id="page-section-form">
+                        <input type="hidden" id="section-id">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Page</label>
+                                <select id="section-page">
+                                    <option value="home">Home</option>
+                                    <option value="about">About</option>
+                                    <option value="ministries">Ministries</option>
+                                    <option value="contact">Contact</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Section Key</label>
+                                <input type="text" id="section-key" placeholder="hero-section">
+                            </div>
+                            <div>
+                                <label>Sort Order</label>
+                                <input type="number" id="section-sort" placeholder="0" value="0">
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <label>Title</label>
+                            <input type="text" id="section-title" placeholder="Enter section title">
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <label>Content (supports HTML)</label>
+                            <textarea id="section-content" rows="6" placeholder="Enter section content"></textarea>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button type="button" class="btn btn-primary" onclick="savePageSection()">💾 Save Section</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetPageSectionForm()">🆕 New Section</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3>Page Sections</h3>
+                        <select id="page-filter" onchange="loadPageSections()">
+                            <option value="">All Pages</option>
+                            <option value="home">Home</option>
+                            <option value="about">About</option>
+                            <option value="ministries">Ministries</option>
+                            <option value="contact">Contact</option>
+                        </select>
+                    </div>
+                    <div id="page-sections-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- SEO Page -->
+            <div class="page-content" id="seo-page">
+                <div class="card">
+                    <h3>SEO Settings</h3>
+                    <div style="margin-bottom: 24px;">
+                        <label>Page</label>
+                        <select id="seo-page" onchange="loadSEO()">
+                            <option value="home">Home</option>
+                            <option value="about">About</option>
+                            <option value="ministries">Ministries</option>
+                            <option value="contact">Contact</option>
+                        </select>
+                    </div>
+                    <form id="seo-form">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                            <div>
+                                <label>Page Title</label>
+                                <input type="text" id="seo-title" placeholder="Enter page title">
+                            </div>
+                            <div>
+                                <label>Meta Description</label>
+                                <textarea id="seo-description" rows="3" placeholder="Enter meta description"></textarea>
+                            </div>
+                            <div>
+                                <label>Keywords</label>
+                                <input type="text" id="seo-keywords" placeholder="church, faith, community">
+                            </div>
+                            <div>
+                                <label>Favicon</label>
+                                <input type="text" id="seo-favicon" placeholder="/images/favicon.ico">
+                            </div>
+                            <div>
+                                <label>OG Title</label>
+                                <input type="text" id="seo-og-title" placeholder="Enter Open Graph title">
+                            </div>
+                            <div>
+                                <label>OG Description</label>
+                                <textarea id="seo-og-description" rows="2" placeholder="Enter Open Graph description"></textarea>
+                            </div>
+                            <div>
+                                <label>OG Image</label>
+                                <input type="text" id="seo-og-image" placeholder="/images/og-image.jpg">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="saveSEO()" style="margin-top: 24px;">💾 Save SEO Settings</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Audit Logs Page -->
+            <div class="page-content" id="audit-logs-page">
+                <div class="card">
+                    <h3>Audit Logs</h3>
+                    <div id="audit-logs-table">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Newsletter Page -->
+            <div class="page-content" id="newsletter-page">
+                <div class="card">
+                    <h3>Send Newsletter</h3>
+                    <form id="newsletter-form">
+                        <div>
+                            <label>Subject</label>
+                            <input type="text" id="newsletter-subject" placeholder="Enter newsletter subject">
+                        </div>
+                        <div>
+                            <label>Category</label>
+                            <select id="newsletter-category">
+                                <option value="Church Announcements">Church Announcements</option>
+                                <option value="Prayer Updates">Prayer Updates</option>
+                                <option value="Events and Seminars">Events and Seminars</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Content</label>
+                            <textarea id="newsletter-content" rows="8" placeholder="Write your newsletter content here..."></textarea>
+                        </div>
+                        <div style="display: flex; gap: 12px;">
+                            <button type="button" class="btn btn-primary" onclick="sendNewsletter()">📨 Send Now</button>
+                            <button type="button" class="btn btn-secondary" onclick="saveDraft()">💾 Save Draft</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card" style="margin-top: 28px;">
+                    <h3>Email Logs</h3>
+                    <div id="email-logs">Loading...</div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <script>
-    const API_BASE = '/api';
-    let authToken = localStorage.getItem('authToken');
-    let currentAdmin = JSON.parse(localStorage.getItem('currentAdmin') || 'null');
-    let requestsChart, donationsChart;
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Confirm Action</h3>
+            <p id="modal-message">Are you sure you want to do this?</p>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-danger" id="modal-confirm" onclick="confirmModal()">Confirm</button>
+            </div>
+        </div>
+    </div>
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      if (authToken && currentAdmin) {
-        showDashboard();
-      } else {
-        showLogin();
-      }
+    <script>
+        let token = localStorage.getItem('adminToken');
+        let confirmCallback = null;
 
-      // Login form
-      document.getElementById('loginForm').addEventListener('submit', handleLogin);
-
-      // Navigation
-      document.querySelectorAll('.nav-link[data-page]').forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const page = e.target.closest('.nav-link').dataset.page;
-          navigateTo(page);
-        });
-      });
-
-      // Logout
-      document.getElementById('logoutBtn').addEventListener('click', handleLogout);
-
-      // Add Donation
-      document.getElementById('addDonationBtn')?.addEventListener('click', showAddDonationModal);
-    });
-
-    function showLogin() {
-      document.getElementById('loginScreen').classList.remove('d-none');
-      document.getElementById('dashboardScreen').classList.add('d-none');
-    }
-
-    async function handleLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-
-      try {
-        const response = await fetch(`${API_BASE}/auth/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-          authToken = data.token;
-          currentAdmin = data.admin;
-          localStorage.setItem('authToken', authToken);
-          localStorage.setItem('currentAdmin', JSON.stringify(currentAdmin));
-          showDashboard();
-        } else {
-          alert('Login failed: ' + data.message);
+        async function checkAuth() {
+            if (!token) {
+                window.location.href = '/admin/login.html';
+                return false;
+            }
+            return true;
         }
-      } catch (error) {
-        alert('Login failed: ' + error.message);
-      }
-    }
 
-    function handleLogout() {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('currentAdmin');
-      authToken = null;
-      currentAdmin = null;
-      showLogin();
-    }
+        function logout() {
+            localStorage.removeItem('adminToken');
+            window.location.href = '/admin/login.html';
+        }
 
-    function showDashboard() {
-      document.getElementById('loginScreen').classList.add('d-none');
-      document.getElementById('dashboardScreen').classList.remove('d-none');
-      document.getElementById('adminName').textContent = currentAdmin.username;
-      navigateTo('dashboard');
-    }
-
-    async function navigateTo(page) {
-      // Update nav
-      document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-        if (link.dataset.page === page) link.classList.add('active');
-      });
-
-      // Update page title
-      const titles = {
-        dashboard: 'Dashboard',
-        prayers: 'Prayer Requests',
-        contacts: 'Contact Messages',
-        transfers: 'Membership Transfers',
-        dedications: 'Child Dedications',
-        visits: 'Pastoral Visits',
-        donations: 'Donations'
-      };
-      document.getElementById('pageTitle').textContent = titles[page];
-
-      // Show page
-      document.querySelectorAll('.page-content').forEach(el => el.classList.add('d-none'));
-      document.getElementById(`${page}Page`).classList.remove('d-none');
-
-      // Load data
-      if (page === 'dashboard') await loadDashboard();
-      if (page === 'prayers') await loadPrayers();
-      if (page === 'contacts') await loadContacts();
-      if (page === 'transfers') await loadTransfers();
-      if (page === 'dedications') await loadDedications();
-      if (page === 'visits') await loadVisits();
-      if (page === 'donations') await loadDonations();
-    }
-
-    async function apiRequest(endpoint, options = {}) {
-      const headers = {
-        'Content-Type': 'application/json',
-        ...(authToken && { Authorization: `Bearer ${authToken}` }),
-        ...options.headers
-      };
-
-      const response = await fetch(`${API_BASE}${endpoint}`, {
-        ...options,
-        headers
-      });
-
-      return await response.json();
-    }
-
-    async function loadDashboard() {
-      const data = await apiRequest('/admin/dashboard');
-      if (data.success) {
-        document.getElementById('statPrayers').textContent = data.data.prayerRequests;
-        document.getElementById('statContacts').textContent = data.data.contactMessages;
-        document.getElementById('statDonations').textContent = `KSh ${data.data.totalDonations.toLocaleString()}`;
-
-        // Charts
-        const reqCtx = document.getElementById('requestsChart').getContext('2d');
-        if (requestsChart) requestsChart.destroy();
-        requestsChart = new Chart(reqCtx, {
-          type: 'line',
-          data: {
-            labels: data.data.requestsPerMonth.map(m => m.month),
-            datasets: [{
-              label: 'Requests',
-              data: data.data.requestsPerMonth.map(m => m.count),
-              borderColor: '#D4AF37',
-              backgroundColor: 'rgba(212,175,55,0.1)',
-              tension: 0.4
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: { legend: { labels: { color: 'white' } } },
-            scales: {
-              x: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-              y: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+        async function fetchAPI(endpoint, options = {}) {
+            const headers = {
+                'Content-Type': 'application/json',
+                ...options.headers
+            };
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
             }
-          }
-        });
-
-        const donCtx = document.getElementById('donationsChart').getContext('2d');
-        if (donationsChart) donationsChart.destroy();
-        donationsChart = new Chart(donCtx, {
-          type: 'bar',
-          data: {
-            labels: data.data.donationsPerMonth.map(m => m.month),
-            datasets: [{
-              label: 'Donations',
-              data: data.data.donationsPerMonth.map(m => m.total),
-              backgroundColor: '#D4AF37'
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: { legend: { labels: { color: 'white' } } },
-            scales: {
-              x: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-              y: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+            try {
+                const response = await fetch(`/api/admin${endpoint}`, {
+                    ...options,
+                    headers
+                });
+                if (response.status === 401) {
+                    logout();
+                    return null;
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                return { success: false, message: 'Network error' };
             }
-          }
+        }
+
+        async function showPage(pageName) {
+            await checkAuth();
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            
+            document.getElementById(`${pageName}-page`).classList.add('active');
+            const menuItem = document.querySelector(`[onclick="showPage('${pageName}')"]`);
+            if (menuItem) menuItem.classList.add('active');
+            
+            const titles = {
+                dashboard: 'Dashboard',
+                settings: 'Website Settings',
+                sermons: 'Sermons',
+                events: 'Events',
+                announcements: 'Announcements',
+                gallery: 'Gallery',
+                leadership: 'Leadership',
+                ministries: 'Ministries',
+                media: 'Media',
+                pages: 'Page Builder',
+                seo: 'SEO Settings',
+                prayers: 'Prayer Requests',
+                contacts: 'Contact Messages',
+                transfers: 'Membership Transfers',
+                dedications: 'Child Dedications',
+                visits: 'Pastoral Visits',
+                donations: 'Donations',
+                subscribers: 'Subscribers',
+                newsletter: 'Newsletter',
+                'audit-logs': 'Audit Logs'
+            };
+            document.getElementById('pageTitle').textContent = titles[pageName];
+            
+            if (pageName === 'dashboard') await loadDashboard();
+            else if (pageName === 'settings') await loadSettings();
+            else if (pageName === 'sermons') await loadSermons();
+            else if (pageName === 'events') await loadEvents();
+            else if (pageName === 'announcements') await loadAnnouncements();
+            else if (pageName === 'gallery') await loadGalleryImages();
+            else if (pageName === 'leadership') await loadLeadership();
+            else if (pageName === 'ministries') await loadMinistries();
+            else if (pageName === 'media') await loadMedia();
+            else if (pageName === 'pages') await loadPageSections();
+            else if (pageName === 'seo') await loadSEO();
+            else if (pageName === 'audit-logs') await loadAuditLogs();
+            else if (pageName === 'prayers') await loadPrayers();
+            else if (pageName === 'contacts') await loadContacts();
+            else if (pageName === 'transfers') await loadTransfers();
+            else if (pageName === 'dedications') await loadDedications();
+            else if (pageName === 'visits') await loadVisits();
+            else if (pageName === 'donations') await loadDonations();
+            else if (pageName === 'subscribers') await loadSubscribers();
+            else if (pageName === 'newsletter') await loadEmailLogs();
+        }
+
+        // --- CMS Functions ---
+        async function loadSettings() {
+            const data = await fetchAPI('/settings');
+            if (data && data.success && data.data) {
+                const s = data.data;
+                document.getElementById('hero-title').value = s.hero_title || '';
+                document.getElementById('hero-subtitle').value = s.hero_subtitle || '';
+                document.getElementById('welcome-message').value = s.welcome_message || '';
+                document.getElementById('mission-statement').value = s.mission_statement || '';
+                document.getElementById('vision-statement').value = s.vision_statement || '';
+                document.getElementById('pastors-message').value = s.pastors_message || '';
+                document.getElementById('footer-text').value = s.footer_text || '';
+                document.getElementById('church-phone').value = s.phone || '';
+                document.getElementById('church-email').value = s.email || '';
+                document.getElementById('church-address').value = s.address || '';
+                document.getElementById('google-maps-embed').value = s.google_maps_embed || '';
+                document.getElementById('facebook-link').value = s.facebook_link || '';
+                document.getElementById('twitter-link').value = s.twitter_link || '';
+                document.getElementById('instagram-link').value = s.instagram_link || '';
+                document.getElementById('youtube-link').value = s.youtube_link || '';
+                document.getElementById('paybill-number').value = s.paybill_number || '';
+                document.getElementById('till-number').value = s.till_number || '';
+                document.getElementById('account-names').value = s.account_names || '';
+                document.getElementById('donation-categories').value = s.donation_categories || '';
+            }
+        }
+
+        async function saveSettings() {
+            const data = {
+                hero_title: document.getElementById('hero-title').value,
+                hero_subtitle: document.getElementById('hero-subtitle').value,
+                welcome_message: document.getElementById('welcome-message').value,
+                mission_statement: document.getElementById('mission-statement').value,
+                vision_statement: document.getElementById('vision-statement').value,
+                pastors_message: document.getElementById('pastors-message').value,
+                footer_text: document.getElementById('footer-text').value,
+                phone: document.getElementById('church-phone').value,
+                email: document.getElementById('church-email').value,
+                address: document.getElementById('church-address').value,
+                google_maps_embed: document.getElementById('google-maps-embed').value,
+                facebook_link: document.getElementById('facebook-link').value,
+                twitter_link: document.getElementById('twitter-link').value,
+                instagram_link: document.getElementById('instagram-link').value,
+                youtube_link: document.getElementById('youtube-link').value,
+                paybill_number: document.getElementById('paybill-number').value,
+                till_number: document.getElementById('till-number').value,
+                account_names: document.getElementById('account-names').value,
+                donation_categories: document.getElementById('donation-categories').value
+            };
+            const result = await fetchAPI('/settings', {
+                method: 'PUT',
+                body: JSON.stringify(data)
+            });
+            if (result && result.success) {
+                alert('Settings saved successfully!');
+            } else {
+                alert('Failed to save settings');
+            }
+        }
+
+        async function loadSermons() {
+            const data = await fetchAPI('/sermons?includeUnpublished=true');
+            if (data && data.success) {
+                const container = document.getElementById('sermons-table');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No sermons found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Speaker</th>
+                                    <th>Date</th>
+                                    <th>Published</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.map(sermon => `
+                                    <tr>
+                                        <td>${sermon.title}</td>
+                                        <td>${sermon.speaker || ''}</td>
+                                        <td>${sermon.date || ''}</td>
+                                        <td>${sermon.is_published ? 'Yes' : 'No'}</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="editSermon(${sermon.id})">✏️ Edit</button>
+                                            <button class="btn btn-danger" onclick="deleteSermon(${sermon.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function saveSermon() {
+            const id = document.getElementById('sermon-id').value;
+            const formData = new FormData();
+            formData.append('title', document.getElementById('sermon-title').value);
+            formData.append('speaker', document.getElementById('sermon-speaker').value);
+            formData.append('date', document.getElementById('sermon-date').value);
+            formData.append('description', document.getElementById('sermon-description').value);
+            formData.append('youtube_url', document.getElementById('sermon-youtube').value);
+            formData.append('is_published', document.getElementById('sermon-published').checked);
+            const imageFile = document.getElementById('sermon-image').files[0];
+            if (imageFile) formData.append('image', imageFile);
+
+            const url = id ? `/sermons/${id}` : '/sermons';
+            const method = id ? 'PUT' : 'POST';
+            const result = await fetch(`/api/admin${url}`, {
+                method,
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+            if (result.ok) {
+                alert('Sermon saved successfully!');
+                resetSermonForm();
+                loadSermons();
+            } else {
+                alert('Failed to save sermon');
+            }
+        }
+
+        function resetSermonForm() {
+            document.getElementById('sermon-id').value = '';
+            document.getElementById('sermon-title').value = '';
+            document.getElementById('sermon-speaker').value = '';
+            document.getElementById('sermon-date').value = '';
+            document.getElementById('sermon-description').value = '';
+            document.getElementById('sermon-youtube').value = '';
+            document.getElementById('sermon-published').checked = true;
+            document.getElementById('sermon-image').value = '';
+        }
+
+        async function editSermon(id) {
+            const data = await fetchAPI(`/sermons/${id}?includeUnpublished=true`);
+            if (data && data.success && data.data) {
+                const s = data.data;
+                document.getElementById('sermon-id').value = s.id;
+                document.getElementById('sermon-title').value = s.title;
+                document.getElementById('sermon-speaker').value = s.speaker || '';
+                document.getElementById('sermon-date').value = s.date || '';
+                document.getElementById('sermon-description').value = s.description || '';
+                document.getElementById('sermon-youtube').value = s.youtube_url || '';
+                document.getElementById('sermon-published').checked = s.is_published;
+            }
+        }
+
+        async function deleteSermon(id) {
+            showModal('Delete Sermon', 'Are you sure you want to delete this sermon?', async () => {
+                await fetchAPI(`/sermons/${id}`, { method: 'DELETE' });
+                loadSermons();
+            });
+        }
+
+        // --- Events ---
+        async function loadEvents() {
+            const data = await fetchAPI('/events?includeUnpublished=true');
+            if (data && data.success) {
+                const container = document.getElementById('events-table');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No events found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Published</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.map(event => `
+                                    <tr>
+                                        <td>${event.title}</td>
+                                        <td>${event.date || ''}</td>
+                                        <td>${event.location || ''}</td>
+                                        <td>${event.is_published ? 'Yes' : 'No'}</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="editEvent(${event.id})">✏️ Edit</button>
+                                            <button class="btn btn-danger" onclick="deleteEvent(${event.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function saveEvent() {
+            const id = document.getElementById('event-id').value;
+            const formData = new FormData();
+            formData.append('title', document.getElementById('event-title').value);
+            formData.append('date', document.getElementById('event-date').value);
+            formData.append('location', document.getElementById('event-location').value);
+            formData.append('registration_link', document.getElementById('event-registration').value);
+            formData.append('description', document.getElementById('event-description').value);
+            formData.append('is_published', document.getElementById('event-published').checked);
+            const imageFile = document.getElementById('event-image').files[0];
+            if (imageFile) formData.append('image', imageFile);
+
+            const url = id ? `/events/${id}` : '/events';
+            const method = id ? 'PUT' : 'POST';
+            const result = await fetch(`/api/admin${url}`, {
+                method,
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+            if (result.ok) {
+                alert('Event saved successfully!');
+                resetEventForm();
+                loadEvents();
+            } else {
+                alert('Failed to save event');
+            }
+        }
+
+        function resetEventForm() {
+            document.getElementById('event-id').value = '';
+            document.getElementById('event-title').value = '';
+            document.getElementById('event-date').value = '';
+            document.getElementById('event-location').value = '';
+            document.getElementById('event-registration').value = '';
+            document.getElementById('event-description').value = '';
+            document.getElementById('event-published').checked = true;
+            document.getElementById('event-image').value = '';
+        }
+
+        async function editEvent(id) {
+            const data = await fetchAPI(`/events/${id}?includeUnpublished=true`);
+            if (data && data.success && data.data) {
+                const e = data.data;
+                document.getElementById('event-id').value = e.id;
+                document.getElementById('event-title').value = e.title;
+                document.getElementById('event-date').value = e.date || '';
+                document.getElementById('event-location').value = e.location || '';
+                document.getElementById('event-registration').value = e.registration_link || '';
+                document.getElementById('event-description').value = e.description || '';
+                document.getElementById('event-published').checked = e.is_published;
+            }
+        }
+
+        async function deleteEvent(id) {
+            showModal('Delete Event', 'Are you sure you want to delete this event?', async () => {
+                await fetchAPI(`/events/${id}`, { method: 'DELETE' });
+                loadEvents();
+            });
+        }
+
+        // --- Announcements ---
+        async function loadAnnouncements() {
+            const data = await fetchAPI('/announcements?includeArchived=true');
+            if (data && data.success) {
+                const container = document.getElementById('announcements-table');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No announcements found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Archived</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.map(announcement => `
+                                    <tr>
+                                        <td>${announcement.title}</td>
+                                        <td>${announcement.category || ''}</td>
+                                        <td>${announcement.publish_date || ''}</td>
+                                        <td>${announcement.is_archived ? 'Yes' : 'No'}</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="editAnnouncement(${announcement.id})">✏️ Edit</button>
+                                            <button class="btn btn-danger" onclick="deleteAnnouncement(${announcement.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function saveAnnouncement() {
+            const id = document.getElementById('announcement-id').value;
+            const data = {
+                title: document.getElementById('announcement-title').value,
+                category: document.getElementById('announcement-category').value,
+                publish_date: document.getElementById('announcement-date').value,
+                body: document.getElementById('announcement-body').value,
+                is_archived: document.getElementById('announcement-archived').checked
+            };
+
+            const url = id ? `/announcements/${id}` : '/announcements';
+            const method = id ? 'PUT' : 'POST';
+            const result = await fetchAPI(url, {
+                method,
+                body: JSON.stringify(data)
+            });
+            if (result && result.success) {
+                alert('Announcement saved successfully!');
+                resetAnnouncementForm();
+                loadAnnouncements();
+            } else {
+                alert('Failed to save announcement');
+            }
+        }
+
+        function resetAnnouncementForm() {
+            document.getElementById('announcement-id').value = '';
+            document.getElementById('announcement-title').value = '';
+            document.getElementById('announcement-category').value = '';
+            document.getElementById('announcement-date').value = '';
+            document.getElementById('announcement-body').value = '';
+            document.getElementById('announcement-archived').checked = false;
+        }
+
+        async function editAnnouncement(id) {
+            const data = await fetchAPI(`/announcements/${id}`);
+            if (data && data.success && data.data) {
+                const a = data.data;
+                document.getElementById('announcement-id').value = a.id;
+                document.getElementById('announcement-title').value = a.title;
+                document.getElementById('announcement-category').value = a.category || '';
+                document.getElementById('announcement-date').value = a.publish_date || '';
+                document.getElementById('announcement-body').value = a.body || '';
+                document.getElementById('announcement-archived').checked = a.is_archived;
+            }
+        }
+
+        async function deleteAnnouncement(id) {
+            showModal('Delete Announcement', 'Are you sure you want to delete this announcement?', async () => {
+                await fetchAPI(`/announcements/${id}`, { method: 'DELETE' });
+                loadAnnouncements();
+            });
+        }
+
+        // --- Gallery ---
+        async function loadGalleryImages() {
+            const album = document.getElementById('gallery-album-filter')?.value || '';
+            let url = '/gallery/images';
+            if (album) url += `?album=${encodeURIComponent(album)}`;
+            const data = await fetchAPI(url);
+            if (data && data.success) {
+                const container = document.getElementById('gallery-grid');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No images found.</p>';
+                    return;
+                }
+                container.innerHTML = data.data.map(img => `
+                    <div style="position: relative; border-radius: 12px; overflow: hidden;">
+                        <img src="${img.image_path}" alt="Gallery image" style="width:100%; height:200px; object-fit:cover;">
+                        <button class="btn btn-danger" style="position:absolute; top:8px; right:8px;" onclick="deleteGalleryImage(${img.id})">🗑️</button>
+                        <div style="padding:8px; background: rgba(30,41,59,0.9); font-size:0.75rem;">${img.album}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function uploadGalleryImage() {
+            const album = document.getElementById('gallery-album').value;
+            const file = document.getElementById('gallery-image').files[0];
+            if (!file) {
+                alert('Please select an image');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('album', album);
+            formData.append('image', file);
+
+            const result = await fetch('/api/admin/gallery/images', {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+            if (result.ok) {
+                alert('Image uploaded successfully!');
+                document.getElementById('gallery-image').value = '';
+                loadGalleryImages();
+            } else {
+                alert('Failed to upload image');
+            }
+        }
+
+        async function deleteGalleryImage(id) {
+            showModal('Delete Image', 'Are you sure you want to delete this image?', async () => {
+                await fetchAPI(`/gallery/images/${id}`, { method: 'DELETE' });
+                loadGalleryImages();
+            });
+        }
+
+        // --- Leadership ---
+        async function loadLeadership() {
+            const data = await fetchAPI('/leadership');
+            if (data && data.success) {
+                const container = document.getElementById('leadership-table');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No leaders found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.map(leader => `
+                                    <tr>
+                                        <td>${leader.name}</td>
+                                        <td>${leader.role || ''}</td>
+                                        <td>${leader.phone || ''}</td>
+                                        <td>${leader.email || ''}</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="editLeader(${leader.id})">✏️ Edit</button>
+                                            <button class="btn btn-danger" onclick="deleteLeader(${leader.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function saveLeader() {
+            const id = document.getElementById('leader-id').value;
+            const formData = new FormData();
+            formData.append('name', document.getElementById('leader-name').value);
+            formData.append('title', document.getElementById('leader-title').value);
+            formData.append('role', document.getElementById('leader-role').value);
+            formData.append('phone', document.getElementById('leader-phone').value);
+            formData.append('email', document.getElementById('leader-email').value);
+            formData.append('biography', document.getElementById('leader-bio').value);
+            formData.append('sort_order', document.getElementById('leader-sort').value);
+            const imageFile = document.getElementById('leader-image').files[0];
+            if (imageFile) formData.append('image', imageFile);
+
+            const url = id ? `/leadership/${id}` : '/leadership';
+            const method = id ? 'PUT' : 'POST';
+            const result = await fetch(`/api/admin${url}`, {
+                method,
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+            if (result.ok) {
+                alert('Leader saved successfully!');
+                resetLeaderForm();
+                loadLeadership();
+            } else {
+                alert('Failed to save leader');
+            }
+        }
+
+        function resetLeaderForm() {
+            document.getElementById('leader-id').value = '';
+            document.getElementById('leader-name').value = '';
+            document.getElementById('leader-title').value = '';
+            document.getElementById('leader-role').value = 'Pastor';
+            document.getElementById('leader-phone').value = '';
+            document.getElementById('leader-email').value = '';
+            document.getElementById('leader-bio').value = '';
+            document.getElementById('leader-sort').value = '0';
+            document.getElementById('leader-image').value = '';
+        }
+
+        async function editLeader(id) {
+            const data = await fetchAPI(`/leadership`);
+            if (data && data.success) {
+                const leader = data.data.find(l => l.id === id);
+                if (leader) {
+                    document.getElementById('leader-id').value = leader.id;
+                    document.getElementById('leader-name').value = leader.name;
+                    document.getElementById('leader-title').value = leader.title || '';
+                    document.getElementById('leader-role').value = leader.role || '';
+                    document.getElementById('leader-phone').value = leader.phone || '';
+                    document.getElementById('leader-email').value = leader.email || '';
+                    document.getElementById('leader-bio').value = leader.biography || '';
+                    document.getElementById('leader-sort').value = leader.sort_order || '0';
+                }
+            }
+        }
+
+        async function deleteLeader(id) {
+            showModal('Delete Leader', 'Are you sure you want to delete this leader?', async () => {
+                await fetchAPI(`/leadership/${id}`, { method: 'DELETE' });
+                loadLeadership();
+            });
+        }
+
+        // --- Ministries ---
+        async function loadMinistries() {
+            const data = await fetchAPI('/ministries');
+            if (data && data.success) {
+                const container = document.getElementById('ministries-table');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No ministries found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Slug</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.map(ministry => `
+                                    <tr>
+                                        <td>${ministry.title}</td>
+                                        <td>${ministry.slug}</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="editMinistry(${ministry.id})">✏️ Edit</button>
+                                            <button class="btn btn-danger" onclick="deleteMinistry(${ministry.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function saveMinistry() {
+            const id = document.getElementById('ministry-id').value;
+            const formData = new FormData();
+            formData.append('title', document.getElementById('ministry-title').value);
+            formData.append('slug', document.getElementById('ministry-slug').value);
+            formData.append('description', document.getElementById('ministry-description').value);
+            formData.append('sort_order', document.getElementById('ministry-sort').value);
+            const imageFile = document.getElementById('ministry-image').files[0];
+            if (imageFile) formData.append('image', imageFile);
+
+            const url = id ? `/ministries/${id}` : '/ministries';
+            const method = id ? 'PUT' : 'POST';
+            const result = await fetch(`/api/admin${url}`, {
+                method,
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+            if (result.ok) {
+                alert('Ministry saved successfully!');
+                resetMinistryForm();
+                loadMinistries();
+            } else {
+                alert('Failed to save ministry');
+            }
+        }
+
+        function resetMinistryForm() {
+            document.getElementById('ministry-id').value = '';
+            document.getElementById('ministry-title').value = '';
+            document.getElementById('ministry-slug').value = '';
+            document.getElementById('ministry-description').value = '';
+            document.getElementById('ministry-sort').value = '0';
+            document.getElementById('ministry-image').value = '';
+        }
+
+        async function editMinistry(id) {
+            const data = await fetchAPI('/ministries');
+            if (data && data.success) {
+                const ministry = data.data.find(m => m.id === id);
+                if (ministry) {
+                    document.getElementById('ministry-id').value = ministry.id;
+                    document.getElementById('ministry-title').value = ministry.title;
+                    document.getElementById('ministry-slug').value = ministry.slug;
+                    document.getElementById('ministry-description').value = ministry.description || '';
+                    document.getElementById('ministry-sort').value = ministry.sort_order || '0';
+                }
+            }
+        }
+
+        async function deleteMinistry(id) {
+            showModal('Delete Ministry', 'Are you sure you want to delete this ministry?', async () => {
+                await fetchAPI(`/ministries/${id}`, { method: 'DELETE' });
+                loadMinistries();
+            });
+        }
+
+        // --- Media ---
+        async function loadMedia() {
+            const type = document.getElementById('media-type-filter')?.value || '';
+            let url = '/media';
+            if (type) url += `?type=${encodeURIComponent(type)}`;
+            const data = await fetchAPI(url);
+            if (data && data.success) {
+                const container = document.getElementById('media-table');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No media found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.map(item => `
+                                    <tr>
+                                        <td>${item.title || 'Untitled'}</td>
+                                        <td>${item.type}</td>
+                                        <td>${new Date(item.created_at).toLocaleDateString()}</td>
+                                        <td>
+                                            <a href="${item.file_path}" target="_blank" class="btn btn-primary">🔗 View</a>
+                                            <button class="btn btn-danger" onclick="deleteMedia(${item.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function uploadMedia() {
+            const type = document.getElementById('media-type').value;
+            const title = document.getElementById('media-title').value;
+            const description = document.getElementById('media-description').value;
+            const file = document.getElementById('media-file').files[0];
+            if (!file) {
+                alert('Please select a file');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('type', type);
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('file', file);
+
+            const result = await fetch('/api/admin/media', {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+            if (result.ok) {
+                alert('Media uploaded successfully!');
+                document.getElementById('media-title').value = '';
+                document.getElementById('media-description').value = '';
+                document.getElementById('media-file').value = '';
+                loadMedia();
+            } else {
+                alert('Failed to upload media');
+            }
+        }
+
+        async function deleteMedia(id) {
+            showModal('Delete Media', 'Are you sure you want to delete this media?', async () => {
+                await fetchAPI(`/media/${id}`, { method: 'DELETE' });
+                loadMedia();
+            });
+        }
+
+        // --- Page Sections ---
+        async function loadPageSections() {
+            const page = document.getElementById('page-filter')?.value || '';
+            let url = '/page-sections';
+            if (page) url += `?page=${encodeURIComponent(page)}`;
+            const data = await fetchAPI(url);
+            if (data && data.success) {
+                const container = document.getElementById('page-sections-table');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No sections found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>Section Key</th>
+                                    <th>Title</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.map(section => `
+                                    <tr>
+                                        <td>${section.page}</td>
+                                        <td>${section.section_key}</td>
+                                        <td>${section.title || ''}</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="editPageSection(${section.id})">✏️ Edit</button>
+                                            <button class="btn btn-danger" onclick="deletePageSection(${section.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function savePageSection() {
+            const id = document.getElementById('section-id').value;
+            const data = {
+                page: document.getElementById('section-page').value,
+                section_key: document.getElementById('section-key').value,
+                title: document.getElementById('section-title').value,
+                content: document.getElementById('section-content').value,
+                sort_order: document.getElementById('section-sort').value
+            };
+
+            const url = id ? `/page-sections/${id}` : '/page-sections';
+            const method = id ? 'PUT' : 'POST';
+            const result = await fetchAPI(url, {
+                method,
+                body: JSON.stringify(data)
+            });
+            if (result && result.success) {
+                alert('Section saved successfully!');
+                resetPageSectionForm();
+                loadPageSections();
+            } else {
+                alert('Failed to save section');
+            }
+        }
+
+        function resetPageSectionForm() {
+            document.getElementById('section-id').value = '';
+            document.getElementById('section-page').value = 'home';
+            document.getElementById('section-key').value = '';
+            document.getElementById('section-title').value = '';
+            document.getElementById('section-content').value = '';
+            document.getElementById('section-sort').value = '0';
+        }
+
+        async function editPageSection(id) {
+            const data = await fetchAPI('/page-sections');
+            if (data && data.success) {
+                const section = data.data.find(s => s.id === id);
+                if (section) {
+                    document.getElementById('section-id').value = section.id;
+                    document.getElementById('section-page').value = section.page;
+                    document.getElementById('section-key').value = section.section_key;
+                    document.getElementById('section-title').value = section.title || '';
+                    document.getElementById('section-content').value = section.content || '';
+                    document.getElementById('section-sort').value = section.sort_order || '0';
+                }
+            }
+        }
+
+        async function deletePageSection(id) {
+            showModal('Delete Section', 'Are you sure you want to delete this section?', async () => {
+                await fetchAPI(`/page-sections/${id}`, { method: 'DELETE' });
+                loadPageSections();
+            });
+        }
+
+        // --- SEO ---
+        async function loadSEO() {
+            const page = document.getElementById('seo-page').value;
+            const data = await fetchAPI(`/seo?page=${encodeURIComponent(page)}`);
+            if (data && data.success && data.data) {
+                const s = data.data;
+                document.getElementById('seo-title').value = s.page_title || '';
+                document.getElementById('seo-description').value = s.meta_description || '';
+                document.getElementById('seo-keywords').value = s.keywords || '';
+                document.getElementById('seo-favicon').value = s.favicon || '';
+                document.getElementById('seo-og-title').value = s.og_title || '';
+                document.getElementById('seo-og-description').value = s.og_description || '';
+                document.getElementById('seo-og-image').value = s.og_image || '';
+            }
+        }
+
+        async function saveSEO() {
+            const page = document.getElementById('seo-page').value;
+            const data = {
+                page_title: document.getElementById('seo-title').value,
+                meta_description: document.getElementById('seo-description').value,
+                keywords: document.getElementById('seo-keywords').value,
+                favicon: document.getElementById('seo-favicon').value,
+                og_title: document.getElementById('seo-og-title').value,
+                og_description: document.getElementById('seo-og-description').value,
+                og_image: document.getElementById('seo-og-image').value
+            };
+
+            const result = await fetchAPI(`/seo/${page}`, {
+                method: 'PUT',
+                body: JSON.stringify(data)
+            });
+            if (result && result.success) {
+                alert('SEO settings saved!');
+            } else {
+                alert('Failed to save SEO settings');
+            }
+        }
+
+        // --- Audit Logs ---
+        async function loadAuditLogs() {
+            const data = await fetchAPI('/audit-logs');
+            if (data && data.success) {
+                const container = document.getElementById('audit-logs-table');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No audit logs found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Admin</th>
+                                    <th>Action</th>
+                                    <th>Table</th>
+                                    <th>Record ID</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.map(log => `
+                                    <tr>
+                                        <td>${log.username || 'Unknown'}</td>
+                                        <td>${log.action}</td>
+                                        <td>${log.table_name || ''}</td>
+                                        <td>${log.record_id || ''}</td>
+                                        <td>${new Date(log.created_at).toLocaleString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadDashboard() {
+            const stats = await fetchAPI('/dashboard');
+            if (stats && stats.success) {
+                document.getElementById('stat-prayers').textContent = stats.data.prayerRequests;
+                document.getElementById('stat-contacts').textContent = stats.data.contactMessages;
+                document.getElementById('stat-donations').textContent = `KES ${Number(stats.data.totalDonations || 0).toLocaleString()}`;
+                document.getElementById('stat-subscribers').textContent = stats.data.totalSubscribers || 0;
+                
+                renderDonationsChart(stats.data.donationsPerMonth || []);
+                renderCategoryChart(stats.data.donationsByCategory || []);
+            }
+            
+            const activity = await fetchAPI('/recent-activity');
+            if (activity && activity.success) {
+                renderRecentActivity(activity.data);
+            }
+        }
+
+        function renderDonationsChart(data) {
+            const ctx = document.getElementById('donationsChart').getContext('2d');
+            if (window.donationsChart) window.donationsChart.destroy();
+            window.donationsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.reverse().map(d => d.month),
+                    datasets: [{
+                        label: 'Donations (KES)',
+                        data: data.map(d => d.total),
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99,102,241,0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#6366f1',
+                        pointBorderColor: '#1e293b',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { 
+                            labels: { 
+                                color: '#94a3b8',
+                                font: { weight: '600' }
+                            } 
+                        } 
+                    },
+                    scales: {
+                        x: { 
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(51,65,85,0.5)' }
+                        },
+                        y: { 
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(51,65,85,0.5)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderCategoryChart(data) {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            if (window.categoryChart) window.categoryChart.destroy();
+            window.categoryChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.map(d => d.category),
+                    datasets: [{
+                        data: data.map(d => d.total),
+                        backgroundColor: ['#6366f1', '#10b981', '#3b82f6', '#ef4444', '#8b5cf6'],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { 
+                            labels: { 
+                                color: '#94a3b8',
+                                font: { weight: '600' },
+                                padding: 20
+                            } 
+                        } 
+                    }
+                }
+            });
+        }
+
+        function renderRecentActivity(data) {
+            const container = document.getElementById('recent-activity');
+            container.innerHTML = data.slice(0, 10).map(item => `
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        ${item.type === 'prayer' ? '🙏' : item.type === 'donation' ? '💰' : item.type === 'contact' ? '📧' : '📋'}
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; color: #f8fafc;">${item.title}</div>
+                        <div style="font-size: 0.875rem; color: #94a3b8;">${new Date(item.created_at).toLocaleDateString()}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadPrayers() {
+            const search = document.getElementById('search-prayers')?.value || '';
+            const data = await fetchAPI(`/prayers?search=${encodeURIComponent(search)}`);
+            if (data && data.success) {
+                const container = document.getElementById('prayers-table');
+                if (data.data.requests.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No prayer requests found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Request</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.requests.map(prayer => `
+                                    <tr>
+                                        <td>${prayer.name}</td>
+                                        <td>${prayer.email}</td>
+                                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">${prayer.message}</td>
+                                        <td>${prayer.is_prayed_for ? '<span class="badge badge-approved">Prayed For</span>' : '<span class="badge badge-pending">Pending</span>'}</td>
+                                        <td>${new Date(prayer.created_at).toLocaleDateString()}</td>
+                                        <td>
+                                            ${!prayer.is_prayed_for ? `<button class="btn btn-success" onclick="markPrayed(${prayer.id})">✓ Mark Prayed</button>` : ''}
+                                            <button class="btn btn-danger" onclick="deletePrayer(${prayer.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function markPrayed(id) {
+            confirmModalData = {
+                title: 'Mark as Prayed For',
+                message: 'Are you sure you want to mark this as prayed for?',
+                callback: async () => {
+                    await fetchAPI(`/prayers/${id}/pray`, { method: 'PUT' });
+                    loadPrayers();
+                }
+            };
+            showModal('Mark as Prayed For', 'Are you sure you want to mark this as prayed for?', confirmModalData.callback);
+        }
+
+        async function deletePrayer(id) {
+            showModal('Delete Request', 'Are you sure you want to delete this?', async () => {
+                await fetchAPI(`/prayers/${id}`, { method: 'DELETE' });
+                loadPrayers();
+            });
+        }
+
+        async function loadContacts() {
+            const search = document.getElementById('search-contacts')?.value || '';
+            const data = await fetchAPI(`/contacts?search=${encodeURIComponent(search)}`);
+            if (data && data.success) {
+                const container = document.getElementById('contacts-table');
+                if (data.data.messages.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No messages found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.messages.map(msg => `
+                                    <tr>
+                                        <td>${msg.name}</td>
+                                        <td>${msg.email}</td>
+                                        <td>${msg.subject}</td>
+                                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">${msg.message}</td>
+                                        <td>${new Date(msg.created_at).toLocaleDateString()}</td>
+                                        <td>
+                                            <button class="btn btn-danger" onclick="deleteContact(${msg.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function deleteContact(id) {
+            showModal('Delete Message', 'Are you sure you want to delete this?', async () => {
+                await fetchAPI(`/contacts/${id}`, { method: 'DELETE' });
+                loadContacts();
+            });
+        }
+
+        async function loadTransfers() {
+            const search = document.getElementById('search-transfers')?.value || '';
+            const data = await fetchAPI(`/transfers?search=${encodeURIComponent(search)}`);
+            if (data && data.success) {
+                const container = document.getElementById('transfers-table');
+                if (data.data.transfers.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No transfer requests found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Current Church</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.transfers.map(tf => `
+                                    <tr>
+                                        <td>${tf.full_name}</td>
+                                        <td>${tf.phone}</td>
+                                        <td>${tf.email}</td>
+                                        <td>${tf.current_church}</td>
+                                        <td>
+                                            <span class="badge badge-${tf.status.toLowerCase()}">${tf.status}</span>
+                                        </td>
+                                        <td>${new Date(tf.created_at).toLocaleDateString()}</td>
+                                        <td>
+                                            ${tf.status === 'Pending' ? `
+                                                <button class="btn btn-success" onclick="updateTransferStatus(${tf.id}, 'Approved')">✓ Approve</button>
+                                                <button class="btn btn-danger" onclick="updateTransferStatus(${tf.id}, 'Rejected')">✗ Reject</button>
+                                            ` : ''}
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function updateTransferStatus(id, status) {
+            showModal('Update Status', `Are you sure you want to mark this as ${status}?`, async () => {
+                await fetchAPI(`/transfers/${id}/status`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ status })
+                });
+                loadTransfers();
+            });
+        }
+
+        async function loadDedications() {
+            const search = document.getElementById('search-dedications')?.value || '';
+            const data = await fetchAPI(`/dedications?search=${encodeURIComponent(search)}`);
+            if (data && data.success) {
+                const container = document.getElementById('dedications-table');
+                if (data.data.dedications.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No dedications found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Parent Name</th>
+                                    <th>Child Name</th>
+                                    <th>Phone</th>
+                                    <th>Date of Birth</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.dedications.map(ded => `
+                                    <tr>
+                                        <td>${ded.parent_guardian_name}</td>
+                                        <td>${ded.child_full_name}</td>
+                                        <td>${ded.phone}</td>
+                                        <td>${ded.child_date_of_birth || 'N/A'}</td>
+                                        <td>
+                                            <span class="badge badge-pending">${ded.status || 'Pending'}</span>
+                                        </td>
+                                        <td>${new Date(ded.created_at).toLocaleDateString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadVisits() {
+            const search = document.getElementById('search-visits')?.value || '';
+            const data = await fetchAPI(`/visits?search=${encodeURIComponent(search)}`);
+            if (data && data.success) {
+                const container = document.getElementById('visits-table');
+                if (data.data.visits.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No visits found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.visits.map(visit => `
+                                    <tr>
+                                        <td>${visit.full_name}</td>
+                                        <td>${visit.phone}</td>
+                                        <td>${visit.physical_address}</td>
+                                        <td>${visit.type_of_visit}</td>
+                                        <td>${visit.is_completed ? '<span class="badge badge-approved">Completed</span>' : '<span class="badge badge-pending">Pending</span>'}</td>
+                                        <td>${new Date(visit.created_at).toLocaleDateString()}</td>
+                                        <td>
+                                            ${!visit.is_completed ? `
+                                                <button class="btn btn-success" onclick="markVisitComplete(${visit.id})">✓ Mark Complete</button>
+                                            ` : ''}
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function markVisitComplete(id) {
+            showModal('Mark Complete', 'Are you sure you want to mark this as complete?', async () => {
+                await fetchAPI(`/visits/${id}/complete`, { method: 'PUT' });
+                loadVisits();
+            });
+        }
+
+        async function loadDonations() {
+            const search = document.getElementById('search-donations')?.value || '';
+            const category = document.getElementById('filter-donation-category')?.value || '';
+            const data = await fetchAPI(`/donations?search=${encodeURIComponent(search)}&donationType=${encodeURIComponent(category)}`);
+            if (data && data.success) {
+                const container = document.getElementById('donations-table');
+                if (data.data.donations.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No donations found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phone</th>
+                                    <th>Amount</th>
+                                    <th>Category</th>
+                                    <th>MPesa Receipt</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.donations.map(don => `
+                                    <tr>
+                                        <td>${don.phone}</td>
+                                        <td>KES ${Number(don.amount).toLocaleString()}</td>
+                                        <td>${don.category}</td>
+                                        <td>${don.mpesa_receipt || 'N/A'}</td>
+                                        <td>
+                                            <span class="badge badge-${don.status === 'Completed' ? 'approved' : 'pending'}">${don.status}</span>
+                                        </td>
+                                        <td>${new Date(don.created_at).toLocaleDateString()}</td>
+                                        <td>
+                                            <button class="btn btn-danger" onclick="deleteDonation(${don.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+            const summary = await fetchAPI('/donations/summary');
+            if (summary && summary.success) {
+                const sumContainer = document.getElementById('donations-summary');
+                sumContainer.innerHTML = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:20px; margin-bottom:20px;">
+                        <div style="padding:20px; border:1px solid #334155; border-radius:12px; background: linear-gradient(145deg, #1e293b 0%, #1a2332 100%);">
+                            <div style="font-size:0.875rem; color:#94a3b8; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">Total Donations</div>
+                            <div style="font-size:1.75rem; font-weight:800; color:#a5b4fc; margin-top:8px;">KES ${Number(summary.data.overall?.overallTotal || 0).toLocaleString()}</div>
+                        </div>
+                        ${(summary.data.summary || []).map(s => `
+                            <div style="padding:20px; border:1px solid #334155; border-radius:12px; background: linear-gradient(145deg, #1e293b 0%, #1a2332 100%);">
+                                <div style="font-size:0.875rem; color:#94a3b8; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">${s.category}</div>
+                                <div style="font-size:1.75rem; font-weight:800; color:#34d399; margin-top:8px;">KES ${Number(s.total).toLocaleString()}</div>
+                                <div style="font-size:0.875rem; color:#94a3b8; margin-top:4px; font-weight:500;">${s.count} transactions</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        async function deleteDonation(id) {
+            showModal('Delete Donation', 'Are you sure you want to delete this?', async () => {
+                await fetchAPI(`/donations/${id}`, { method: 'DELETE' });
+                loadDonations();
+            });
+        }
+
+        async function loadSubscribers() {
+            const data = await fetchAPI('/subscribers');
+            if (data && data.success) {
+                const container = document.getElementById('subscribers-table');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No subscribers found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Date Subscribed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.map(sub => `
+                                    <tr>
+                                        <td>${sub.email}</td>
+                                        <td>
+                                            <span class="badge badge-${sub.status === 'active' ? 'approved' : 'pending'}">${sub.status}</span>
+                                        </td>
+                                        <td>${new Date(sub.created_at).toLocaleDateString()}</td>
+                                        <td>
+                                            ${sub.status === 'unsubscribed' ? `
+                                                <button class="btn btn-success" onclick="reactivateSubscriber(${sub.id})">✓ Reactivate</button>
+                                            ` : ''}
+                                            <button class="btn btn-danger" onclick="deleteSubscriber(${sub.id})">🗑️ Delete</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function reactivateSubscriber(id) {
+            showModal('Reactivate', 'Are you sure you want to reactivate this subscriber?', async () => {
+                await fetchAPI(`/subscribers/${id}/reactivate`, { method: 'PUT' });
+                loadSubscribers();
+            });
+        }
+
+        async function deleteSubscriber(id) {
+            showModal('Delete', 'Are you sure you want to delete this subscriber?', async () => {
+                await fetchAPI(`/subscribers/${id}`, { method: 'DELETE' });
+                loadSubscribers();
+            });
+        }
+
+        async function loadEmailLogs() {
+            const data = await fetchAPI('/email-logs');
+            if (data && data.success) {
+                const container = document.getElementById('email-logs');
+                if (data.data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">No email logs found.</p>';
+                    return;
+                }
+                container.innerHTML = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>To</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.data.map(log => `
+                                    <tr>
+                                        <td>${log.subject}</td>
+                                        <td>${log.to_email}</td>
+                                        <td>${log.category}</td>
+                                        <td>
+                                            <span class="badge badge-${log.status === 'sent' ? 'approved' : 'pending'}">${log.status}</span>
+                                        </td>
+                                        <td>${new Date(log.created_at).toLocaleDateString()}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        async function sendNewsletter() {
+            const subject = document.getElementById('newsletter-subject').value;
+            const category = document.getElementById('newsletter-category').value;
+            const content = document.getElementById('newsletter-content').value;
+            
+            if (!subject || !content) {
+                alert('Please fill in all fields!');
+                return;
+            }
+            
+            showModal('Send Newsletter', 'Are you sure you want to send this newsletter?', async () => {
+                const result = await fetchAPI('/send-newsletter', {
+                    method: 'POST',
+                    body: JSON.stringify({ subject, content, category })
+                });
+                if (result && result.success) {
+                    alert('Newsletter sent!');
+                } else {
+                    alert('Failed to send newsletter');
+                }
+                document.getElementById('newsletter-subject').value = '';
+                document.getElementById('newsletter-content').value = '';
+                loadEmailLogs();
+            });
+        }
+
+        async function saveDraft() {
+            const subject = document.getElementById('newsletter-subject').value;
+            const category = document.getElementById('newsletter-category').value;
+            const content = document.getElementById('newsletter-content').value;
+            
+            if (!subject || !content) {
+                alert('Please fill in all fields!');
+                return;
+            }
+            
+            const result = await fetchAPI('/save-draft', {
+                method: 'POST',
+                body: JSON.stringify({ subject, content, category })
+            });
+            if (result && result.success) {
+                alert('Draft saved!');
+            } else {
+                alert('Failed to save draft');
+            }
+        }
+
+        async function exportData() {
+            const page = document.getElementById('pageTitle').textContent.toLowerCase().replace(' ', '-');
+            const endpoints = {
+                'prayer-requests': 'prayers',
+                'contact-messages': 'messages',
+                'donations': 'donations'
+            };
+            const endpoint = endpoints[page];
+            if (!endpoint) {
+                alert('No export available for this page');
+                return;
+            }
+            
+            window.location.href = `/api/admin/export/${endpoint}`;
+        }
+
+        function showModal(title, message, callback) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+            confirmCallback = callback;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        async function confirmModal() {
+            closeModal();
+            if (confirmCallback) await confirmCallback();
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (await checkAuth()) {
+                loadDashboard();
+            }
         });
-      }
-    }
-
-    async function loadPrayers(page = 1, search = '') {
-      const data = await apiRequest(`/admin/prayers?page=${page}&search=${search}`);
-      if (data.success) {
-        const tbody = document.getElementById('prayersTable');
-        tbody.innerHTML = data.data.requests.map(req => `
-          <tr>
-            <td>${req.name}</td>
-            <td>${req.email}</td>
-            <td>${req.message.substring(0, 100)}...</td>
-            <td>
-              <span class="badge ${req.is_prayed_for ? 'badge-approved' : 'badge-pending'}">
-                ${req.is_prayed_for ? 'Prayed' : 'Pending'}
-              </span>
-            </td>
-            <td>
-              <button class="btn btn-sm btn-outline-gold" onclick="markPrayed(${req.id})">Mark Prayed</button>
-              <button class="btn btn-sm btn-danger" onclick="deletePrayer(${req.id})">Delete</button>
-            </td>
-          </tr>
-        `).join('');
-        renderPagination('prayers', data.data.totalPages, data.data.currentPage);
-      }
-    }
-
-    async function markPrayed(id) {
-      await apiRequest(`/admin/prayers/${id}/pray`, { method: 'PUT' });
-      loadPrayers();
-    }
-
-    async function deletePrayer(id) {
-      if (confirm('Delete this prayer request?')) {
-        await apiRequest(`/admin/prayers/${id}`, { method: 'DELETE' });
-        loadPrayers();
-      }
-    }
-
-    async function loadContacts(page = 1, search = '') {
-      const data = await apiRequest(`/admin/contacts?page=${page}&search=${search}`);
-      if (data.success) {
-        const tbody = document.getElementById('contactsTable');
-        tbody.innerHTML = data.data.messages.map(msg => `
-          <tr>
-            <td>${msg.name}</td>
-            <td>${msg.email}</td>
-            <td>${msg.message.substring(0, 100)}...</td>
-            <td>
-              <button class="btn btn-sm btn-danger" onclick="deleteContact(${msg.id})">Delete</button>
-            </td>
-          </tr>
-        `).join('');
-        renderPagination('contacts', data.data.totalPages, data.data.currentPage);
-      }
-    }
-
-    async function deleteContact(id) {
-      if (confirm('Delete this contact message?')) {
-        await apiRequest(`/admin/contacts/${id}`, { method: 'DELETE' });
-        loadContacts();
-      }
-    }
-
-    async function loadTransfers(page = 1, search = '') {
-      const data = await apiRequest(`/admin/transfers?page=${page}&search=${search}`);
-      if (data.success) {
-        const tbody = document.getElementById('transfersTable');
-        tbody.innerHTML = data.data.transfers.map(req => `
-          <tr>
-            <td>${req.full_name}</td>
-            <td>${req.email}</td>
-            <td>${req.phone}</td>
-            <td>
-              <span class="badge badge-${req.status}">${req.status}</span>
-            </td>
-            <td>
-              <button class="btn btn-sm btn-outline-gold" onclick="updateTransferStatus(${req.id}, 'Approved')">Approve</button>
-              <button class="btn btn-sm btn-danger" onclick="updateTransferStatus(${req.id}, 'Rejected')">Reject</button>
-            </td>
-          </tr>
-        `).join('');
-        renderPagination('transfers', data.data.totalPages, data.data.currentPage);
-      }
-    }
-
-    async function updateTransferStatus(id, status) {
-      if (confirm(`Mark as ${status}?`)) {
-        await apiRequest(`/admin/transfers/${id}/status`, {
-          method: 'PUT',
-          body: JSON.stringify({ status })
-        });
-        loadTransfers();
-      }
-    }
-
-    async function loadDedications(page = 1, search = '') {
-      const data = await apiRequest(`/admin/dedications?page=${page}&search=${search}`);
-      if (data.success) {
-        const tbody = document.getElementById('dedicationsTable');
-        tbody.innerHTML = data.data.dedications.map(req => `
-          <tr>
-            <td>${req.parent_guardian_name}</td>
-            <td>${req.child_full_name}</td>
-            <td>${req.phone}</td>
-            <td>
-              <button class="btn btn-sm btn-outline-gold">View Details</button>
-            </td>
-          </tr>
-        `).join('');
-        renderPagination('dedications', data.data.totalPages, data.data.currentPage);
-      }
-    }
-
-    async function loadVisits(page = 1, search = '') {
-      const data = await apiRequest(`/admin/visits?page=${page}&search=${search}`);
-      if (data.success) {
-        const tbody = document.getElementById('visitsTable');
-        tbody.innerHTML = data.data.visits.map(req => `
-          <tr>
-            <td>${req.full_name}</td>
-            <td>${req.phone}</td>
-            <td>${req.assigned_to || '-'}</td>
-            <td>
-              <span class="badge ${req.is_completed ? 'badge-approved' : 'badge-pending'}">
-                ${req.is_completed ? 'Completed' : 'Pending'}
-              </span>
-            </td>
-            <td>
-              <button class="btn btn-sm btn-outline-gold" onclick="assignVisit(${req.id})">Assign</button>
-              <button class="btn btn-sm btn-outline-gold" onclick="completeVisit(${req.id})">Complete</button>
-            </td>
-          </tr>
-        `).join('');
-        renderPagination('visits', data.data.totalPages, data.data.currentPage);
-      }
-    }
-
-    async function assignVisit(id) {
-      const person = prompt('Assign to:');
-      if (person) {
-        await apiRequest(`/admin/visits/${id}/assign`, {
-          method: 'PUT',
-          body: JSON.stringify({ assignedTo: person })
-        });
-        loadVisits();
-      }
-    }
-
-    async function completeVisit(id) {
-      if (confirm('Mark as completed?')) {
-        await apiRequest(`/admin/visits/${id}/complete`, { method: 'PUT' });
-        loadVisits();
-      }
-    }
-
-    async function loadDonations(page = 1, search = '') {
-      const data = await apiRequest(`/admin/donations?page=${page}&search=${search}`);
-      if (data.success) {
-        const tbody = document.getElementById('donationsTable');
-        tbody.innerHTML = data.data.donations.map(d => `
-          <tr>
-            <td>${d.donor_name}</td>
-            <td>KSh ${d.amount.toLocaleString()}</td>
-            <td>${d.donation_type}</td>
-            <td>${d.payment_method}</td>
-            <td>
-              <span class="badge badge-pending">${d.status}</span>
-            </td>
-            <td>
-              <button class="btn btn-sm btn-outline-gold" onclick="editDonation(${d.id})">Edit</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteDonation(${d.id})">Delete</button>
-            </td>
-          </tr>
-        `).join('');
-        renderPagination('donations', data.data.totalPages, data.data.currentPage);
-      }
-    }
-
-    async function showAddDonationModal() {
-      const name = prompt('Donor Name:');
-      const phone = prompt('Phone:');
-      const email = prompt('Email:');
-      const amount = parseFloat(prompt('Amount:'));
-      const types = ['Tithe', 'Offering', 'Thanksgiving', 'Building Fund', 'Welfare Fund', 'Camp Meeting', 'Special Projects', 'Other'];
-      const typeSelect = prompt(`Type (${types.join(', ')}):`);
-      const methods = ['M-Pesa', 'Cash', 'Bank Transfer'];
-      const methodSelect = prompt(`Payment Method (${methods.join(', ')}):`);
-      const transactionCode = prompt('Transaction Code (optional):');
-      const status = prompt('Status (Completed, Pending, etc.):');
-
-      if (name && phone && amount && typeSelect) {
-        await apiRequest('/admin/donations', {
-          method: 'POST',
-          body: JSON.stringify({
-            donorName: name,
-            phone,
-            email,
-            amount,
-            donationType: typeSelect,
-            paymentMethod: methodSelect,
-            transactionCode,
-            status
-          })
-        });
-        loadDonations();
-      }
-    }
-
-    async function deleteDonation(id) {
-      if (confirm('Delete this donation?')) {
-        await apiRequest(`/admin/donations/${id}`, { method: 'DELETE' });
-        loadDonations();
-      }
-    }
-
-    function renderPagination(type, totalPages, currentPage) {
-      const container = document.getElementById(`${type}Pagination`);
-      container.innerHTML = '';
-      for (let i = 1; i <= totalPages; i++) {
-        const li = document.createElement('li');
-        li.className = 'page-item';
-        li.innerHTML = `<a class="page-link bg-transparent text-gold border-secondary" href="#">${i}</a>`;
-        container.appendChild(li);
-      }
-    }
-
-    // Search events
-    ['prayers', 'contacts', 'transfers', 'dedications', 'visits', 'donations'].forEach(type => {
-      const input = document.getElementById(`search${type.charAt(0).toUpperCase() + type.slice(1)}`);
-      if (input) {
-        input.addEventListener('input', () => {
-          window[`load${type.charAt(0).toUpperCase() + type.slice(1)}`](1, input.value);
-        });
-      }
-    });
-  </script>
+    </script>
 </body>
 </html>

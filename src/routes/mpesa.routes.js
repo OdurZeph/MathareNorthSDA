@@ -47,11 +47,18 @@ router.get('/status/:checkoutRequestID', async (req, res) => {
   try {
     const { checkoutRequestID } = req.params;
     const donation = await donationModel.findByCheckoutRequestID(checkoutRequestID);
-    
+
+    let publicStatus = null;
+    if (donation?.status) {
+      if (donation.status === 'Completed') publicStatus = 'Success';
+      else if (donation.status === 'Failed') publicStatus = 'Failed';
+      else publicStatus = 'Pending';
+    }
+
     return res.status(200).json({
       success: true,
       data: donation ? {
-        status: donation.status,
+        status: publicStatus,
         receipt: donation.mpesa_receipt ? { receiptNumber: donation.mpesa_receipt } : null
       } : null
     });

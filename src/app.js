@@ -100,6 +100,8 @@ const adminRoutes       = require('./routes/admin.routes');
 const mpesaRoutes       = require('./routes/mpesa.routes');
 const subscriptionRoutes = require('./routes/subscription.routes');
 const newsletterRoutes   = require('./routes/newsletter.routes');
+const cmsRoutes         = require('./routes/cms.routes');
+const publicRoutes      = require('./routes/public.routes');
 const { createTransferRequest } = require('./controllers/membership.controller');
 const { createPrayerRequest } = require('./controllers/prayer.controller');
 
@@ -113,6 +115,9 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/mpesa', mpesaRoutes);
 app.use('/api', subscriptionRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/admin/cms', cmsRoutes);
+app.use('/api/public', publicRoutes);
+app.use('/uploads', express.static('uploads'));
 
 // ── Route aliases (alternate paths) ───────────────────────────────────────────
 app.post('/api/prayer-request', validateTurnstile, require('./middleware/validatePrayer'), createPrayerRequest);

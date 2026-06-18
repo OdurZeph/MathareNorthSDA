@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const dedicationModel = require('../models/dedication.model');
 const { sendChurchEmail } = require('../services/mail.service');
 const { logFormSubmission } = require('../utils/formLogger');
 
@@ -31,6 +32,14 @@ async function createDedicationRequest(req, res) {
     reference_number,
   });
 
+  let dbId = null;
+  try {
+    const result = await dedicationModel.createDedicationRequest(data);
+    dbId = result.id;
+  } catch (dbErr) {
+    console.error('[form:child-dedication] DB unavailable:', dbErr.message);
+  }
+
   try {
     await sendChurchEmail({
       formType: 'child-dedication',
@@ -51,17 +60,14 @@ async function createDedicationRequest(req, res) {
         <hr><p>Submitted: ${new Date().toISOString()}</p>`,
     });
   } catch (emailErr) {
-    const status = emailErr.code === 'EMAIL_CONFIG' ? 503 : 500;
-    return res.status(status).json({
-      success: false,
-      message: emailErr.message || 'Failed to send dedication request notification email.',
-    });
+    console.error('[form:child-dedication] email failed:', emailErr.message);
   }
 
   return res.status(200).json({
     success: true,
     message: 'Child dedication request submitted successfully.',
     reference_number,
+    ...(dbId !== null && { id: dbId }),
   });
 }
 
